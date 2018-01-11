@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { View, Image, TextInput } from 'react-native';
 import { Button, Spinner } from './common';
-// import Login from '../requests';
+import Login from '../requests';
 
-class LoginForm extends Component {
-  state = { id: '', password: '', alert: '', loading: false };
+class Home extends Component {
+  state = { id: '', password: '', alert: '', loading: false }
+
 
   onButtonPress() {
-    this.setState({ loading: true });
+     //const loggedIn = Login(this.state.id, this.state.password);
+     // to be edited.
   }
 
   onLoginSuccess() {
@@ -35,29 +37,6 @@ class LoginForm extends Component {
         source={require('./images/logo.jpg')}
         />
 
-        <TextInput
-          placeholder={'الرقم الجامعي'}
-          autoCapitalize={'none'}
-          autoCorrect={false}
-          onChangeText={id => this.setState({ id })}
-          value={this.state.id}
-        />
-
-        <View style={styles.inputline} />
-
-        <TextInput
-          placeholder={'كلمة المرور'}
-          style={{ marginTop: 15 }}
-          onChangeText={pass => this.setState({ pass })}
-          value={this.state.pass}
-        />
-
-        <View style={styles.inputline} />
-
-        <View style={styles.button}>
-          {this.renderButtonOrSpinner()}
-        </View>
-
       </View>
 
     );
@@ -75,6 +54,7 @@ const styles = {
     flexDirection: 'row',
     marginTop: 20,
     justifyContent: 'flex-start',
+    height: 30
   },
   inputline: {
     width: '100%',
@@ -90,4 +70,4 @@ const styles = {
   }
 };
 
-export default LoginForm;
+export default Home;

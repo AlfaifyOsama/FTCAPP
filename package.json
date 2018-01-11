@@ -9,7 +9,9 @@
   "dependencies": {
     "axios": "^0.17.1",
     "react": "16.2.0",
-    "react-native": "0.52.0"
+    "react-native": "0.52.0",
+    "react-native-navigation": "^1.1.336",
+    "react-navigation": "^1.0.0-beta.23"
   },
   "devDependencies": {
     "babel-jest": "22.0.6",
