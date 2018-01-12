@@ -35,7 +35,7 @@ export default class LoginForm extends Component {
         let firstName = response.data["user"]["first_name"];
         let lastName = response.data["user"]["last_name"];
         let studentID = response.data["user"]["student_id"] +'';
-        
+
         AsyncStorage.setItem('token', token);
         AsyncStorage.setItem('userID', userID);
         AsyncStorage.setItem('firstName', firstName);
@@ -64,7 +64,7 @@ export default class LoginForm extends Component {
 
   loadInitialState = async () => {
    const value = await AsyncStorage.getItem('token');
- 
+
     if (value !== null && value !== '' ) { // user has loggen in
       this.props.navigation.navigate('Home');
     }
@@ -101,6 +101,7 @@ export default class LoginForm extends Component {
           placeholder={'كلمة المرور'}
           style={{ marginTop: 15 }}
           onChangeText={password => this.setState({ password })}
+          secureTextEntry
           value={this.state.password}
         />
 
