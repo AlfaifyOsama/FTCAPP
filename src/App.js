@@ -1,4 +1,3 @@
-// import React, { Component } from 'react';
 // import { AsyncStorage } from 'react-native';
 // import Home from './components/Home';
 // import LoginForm from './components/LoginForm';
@@ -32,12 +31,12 @@
 // }
 //
 // export default App;
-
+import React from 'react';
 import { StackNavigator } from 'react-navigation';
 import Home from './components/Home';
 import LoginForm from './components/LoginForm';
 
-const App = StackNavigator({
+const Screens = StackNavigator({
   Login: {
     screen: LoginForm,
     navigationOptions: {
@@ -45,11 +44,22 @@ const App = StackNavigator({
       style: { backgroundColor: '#fff' }
     }
   },
-  Home: { screen: Home }
+  Home: { screen: Home,  
+    navigationOptions: {
+    header: null,
+    style: { backgroundColor: '#fff' }
+  } }
 }, {
       headerMode: 'screen',
       cardStyle: { backgroundColor: '#fff'
    }
 });
 
-export default App;
+export default class App extends React.Component {
+
+  render() {
+    return (
+      <Screens />
+    );
+  }
+}

@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { View, Image, TextInput } from 'react-native';
 import { Button, Spinner } from './common';
-import Login from '../requests';
 
 class Home extends Component {
   state = { id: '', password: '', alert: '', loading: false }
-
 
   onButtonPress() {
      //const loggedIn = Login(this.state.id, this.state.password);

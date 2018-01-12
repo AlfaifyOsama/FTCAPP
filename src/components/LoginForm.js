@@ -1,15 +1,58 @@
+import axios from 'axios';
 import React, { Component } from 'react';
-import { View, Image, TextInput } from 'react-native';
+import { View, Image, TextInput, AsyncStorage } from 'react-native';
 import { Button, Spinner } from './common';
-// import Login from '../requests';
+import BaseURL from '../config';
 
-class LoginForm extends Component {
-  state = { id: '', password: '', alert: '', loading: false };
+
+export default class LoginForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      id: '',
+      password: '',
+      alert: '',
+      loading: false
+    };
+  }
+
+  componentDidMount() { // ran before render
+    this.loadInitialState();
+  }
 
   onButtonPress() {
     this.setState({ loading: true });
-  }
 
+    axios.post(BaseURL + '/users/login', {
+      student_id: this.state.id,
+      password: this.state.password
+    })
+      .then((response) => {
+        //console.log(response);
+
+        let token = response.data[0]['token'];
+        let userID = response.data["user"]["id"] +'';
+        let firstName = response.data["user"]["first_name"];
+        let lastName = response.data["user"]["last_name"];
+        let studentID = response.data["user"]["student_id"] +'';
+        
+        AsyncStorage.setItem('token', token);
+        AsyncStorage.setItem('userID', userID);
+        AsyncStorage.setItem('firstName', firstName);
+        AsyncStorage.setItem('lastName', lastName);
+        AsyncStorage.setItem('studentID', studentID);
+
+        this.setState({ loading: false });
+        this.renderButtonOrSpinner();
+        this.props.navigation.navigate('Home');
+      })
+      .catch((error) => {
+        //console.log(error);
+        alert('معلوماتك غلط يا كابتن');
+        this.setState({ loading: false });
+        this.renderButtonOrSpinner();
+      });
+  }
   onLoginSuccess() {
     this.setState({
       id: '',
@@ -19,20 +62,29 @@ class LoginForm extends Component {
     });
   }
 
+  loadInitialState = async () => {
+   const value = await AsyncStorage.getItem('token');
+ 
+    if (value !== null && value !== '' ) { // user has loggen in
+      this.props.navigation.navigate('Home');
+    }
+  }
+
   renderButtonOrSpinner() {
     if (this.state.loading) {
       return <Spinner size={'small'} />;
     }
-      return <Button text={'دخول'} onPress={this.onButtonPress.bind(this)} />;
+    return <Button text={'دخول'} onPress={this.onButtonPress.bind(this)} />;
   }
 
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
 
         <Image
-        style={styles.logo}
-        source={require('./images/logo.jpg')}
+          style={styles.logo}
+          source={require('./images/logo.jpg')}
         />
 
         <TextInput
@@ -48,8 +100,8 @@ class LoginForm extends Component {
         <TextInput
           placeholder={'كلمة المرور'}
           style={{ marginTop: 15 }}
-          onChangeText={pass => this.setState({ pass })}
-          value={this.state.pass}
+          onChangeText={password => this.setState({ password })}
+          value={this.state.password}
         />
 
         <View style={styles.inputline} />
@@ -89,5 +141,3 @@ const styles = {
     resizeMode: 'contain',
   }
 };
-
-export default LoginForm;
