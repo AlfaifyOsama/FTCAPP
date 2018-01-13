@@ -6,6 +6,8 @@ import Points from './Points';
 import Events from './Events';
 import More from './More';
 import LoginForm from './LoginForm';
+import ApprovePoints from './ApprovePoints';
+import SendNotifications from './SendNotifications';
 
 const HomeStack = StackNavigator({
   Login: {
@@ -48,12 +50,26 @@ const EventsStack = StackNavigator({
 });
 
 const MoreStack = StackNavigator({
+  
   More: {
     screen: More,
     navigationOptions: {
       title: 'اشياء اتوقع ما تهمك',
     }
-  }
+  }, 
+  ApprovePoints: {
+    screen: ApprovePoints,
+    navigationOptions: {
+      title: 'ارصد النقاط يالذيب',
+    }
+  },
+  SendNotifications: {
+    screen: SendNotifications,
+    navigationOptions: {
+      title: 'ارسل التنبيهات هنا يالذيب',
+    }
+  },
+  
 });
 
 const RootTabs = TabNavigator({
