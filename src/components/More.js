@@ -1,15 +1,43 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
+import { List, ListItem } from 'react-native-elements';
 
-class Home extends Component {
+
+export default class Home extends Component {
+  state = { options: [] } ;
+
+    componentDidMount() {
+      this.setState({
+        options: [
+          {
+            title: 'Appointments',
+            icon: 'av-timer'
+          },
+          {
+            title: 'Trips',
+            icon: 'flight-takeoff'
+          }
+         ]
+    });
+  }
+
+   
   render() {
     return (
-      <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-        <Text style={{ fontSize: 30 }}>More</Text>
+       <View >
+      <List>
+  {
+    this.state.options.map((item, i) => (
+      <ListItem
+        key={i}
+        title={item.title}
+        leftIcon={{name: item.icon}}
+      />
+    ))
+  }
+</List>
       </View>
       );
   }
-
 }
 
-export default Home;
