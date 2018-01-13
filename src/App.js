@@ -37,6 +37,7 @@ console.log('Device info: ', device);
 }
   render() {
     return (
+      // Root tabs is the navigator..
       <RootTabs />
     );
   }

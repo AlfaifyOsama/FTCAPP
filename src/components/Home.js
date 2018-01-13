@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ImageBackground, AsyncStorage, StatusBar } from 'react-native';
+import { Text, View, ImageBackground, AsyncStorage } from 'react-native';
 import axios from 'axios';
 import BaseURL from '../config';
 import { Spinner } from './common';
@@ -26,7 +26,6 @@ class Home extends Component {
    const lastName = await AsyncStorage.getItem('lastName');
 
    const instance = axios.create({
-
    timeout: 5000,
    headers: { 'Authorization':  token }
    });
@@ -63,13 +62,14 @@ class Home extends Component {
 
     const { pageStyle, sectionStyle, headerImage, nameStyle, cardContentStyle,
             statusStyle, cardStyle, shadowStyle, cardBackgroundStyle,
-            cardTitleStyle, qotdCardStyle, qotdContentStyle
+            cardTitleStyle, qotdCardStyle, qotdContentStyle,
+            statusBarBackground
           } = styles;
     return (
       <View style={pageStyle}>
-        <StatusBar barStyle="light-content" />
         <View>
-          <ImageBackground style={headerImage} source={{ uri: 'https://image.freepik.com/free-vector/dark-blue-watercolor-background-design_1034-737.jpg' }}>
+          <ImageBackground style={headerImage} source={require('./images/headerImage.jpg')}>
+            <View style={statusBarBackground} />
             <Text style={nameStyle}>{this.state.firstName} {this.state.lastName}</Text>
             <Text style={statusStyle}>{this.state.status}</Text>
           </ImageBackground>
@@ -152,7 +152,7 @@ const styles = {
   },
   cardContentStyle: {
     fontSize: 35,
-    color: '#4286f4',
+    color: '#0684B7',
     fontWeight: 'bold'
   },
   cardTitleStyle: {
@@ -171,6 +171,15 @@ const styles = {
     color: '#515151',
     padding: 5,
     textAlign: 'center'
+  },
+  statusBarBackground: {
+    width: '100%',
+    height: 21,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    backgroundColor: '#fff',
+    opacity: 0.3
   }
 };
 
