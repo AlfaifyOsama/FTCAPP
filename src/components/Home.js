@@ -26,7 +26,6 @@ class Home extends Component {
    const lastName = await AsyncStorage.getItem('lastName');
 
    const instance = axios.create({
-
    timeout: 5000,
    headers: { 'Authorization':  token }
    });
