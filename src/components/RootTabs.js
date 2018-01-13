@@ -5,14 +5,28 @@ import Home from './Home';
 import Points from './Points';
 import Events from './Events';
 import More from './More';
+import LoginForm from './LoginForm';
 
 const HomeStack = StackNavigator({
+  Login: {
+    screen: LoginForm,
+    navigationOptions: {
+      title: 'البيت',
+      tabBarVisible: false,
+      header: null,
+    }
+  },
   Home: {
     screen: Home,
     navigationOptions: {
       title: 'البيت',
+      header: null
     }
   }
+}, {
+      headerMode: 'screen',
+      cardStyle: { backgroundColor: '#fff'
+   }
 });
 
 const PointsStack = StackNavigator({
