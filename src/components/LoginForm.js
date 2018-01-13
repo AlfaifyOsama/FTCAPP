@@ -53,14 +53,6 @@ export default class LoginForm extends Component {
         this.renderButtonOrSpinner();
       });
   }
-  onLoginSuccess() {
-    this.setState({
-      id: '',
-      password: '',
-      alert: '',
-      loading: false
-    });
-  }
 
   loadInitialState = async () => {
    const value = await AsyncStorage.getItem('token');
