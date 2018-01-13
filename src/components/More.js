@@ -40,7 +40,7 @@ export default class Home extends Component {
       <List style={listStyle}>
   {
     this.state.options.map((item, i) => (
-      <ListItem   
+      <ListItem
         onPress={() => this.onPress(i)}
         style={listItem}
         key={i}
@@ -59,9 +59,7 @@ const styles = {
   pageStyle: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#ECF2F4',
-    marginBottom: 20,
- 
+    backgroundColor: '#ECF2F4', 
   },
   listStyle: {
     justifyContent: 'space-between',
