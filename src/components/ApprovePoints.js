@@ -1,25 +1,69 @@
 import React, { Component } from 'react';
-import { Text, View,  Image  } from 'react-native';
+import { Text, View,  Image, ScrollView  } from 'react-native';
 import { Card, ListItem, Button } from 'react-native-elements';
 
 class ApprovePoints extends Component {
+
+    state = { events: [] } ;
+
+    constructor(props) {
+      super(props);
+    }
+
+      componentDidMount() {
+        this.setState({
+          events: [
+            {
+              name: 'بينت بول',
+              description: 'رحنا ولعبنا واستانسنا وانبسرحنا ولعبنا واستانسنا وانبسطنرحنا ولعبنا و يلسطنوانبسطنطنا',
+              leader: 'ناصر العواجي',
+            },
+            {
+                name: 'استضافه المدرج ',
+                description: 'جبنا ياسر العصيفير',
+                leader: 'ناصر العواجي',
+            },
+            {
+                name: 'اfff ',
+                description: 'جبنا ياسر العصيفير',
+                leader: 'ناصر العواجي',
+            },
+            {
+                name: 'ffdfdf المدرج ',
+                description: 'جبنا ياسر العصيفير',
+                leader: 'ناصر العواجي',
+            },
+           ]
+      });
+    }
+
   render() {
     return (
-      <View style={styles.pageStyle}>
-        <Card
-          title='HELLO WORLD'
-        >
-        <Text style={{marginBottom: 10}}>
-         The idea with React Native Elements is more about component structure than actual design.
+      <ScrollView >
+          {
+    this.state.events.map((item, i) => (
+
+       <View style={{ marginBottom: i==this.state.events.length-1? 20:0 }} key={i} >
+        <Card   title={item.name} key={i}>
+
+        <Text style={{marginBottom: 25, textAlign: 'center'}}>
+        {item.description}
+        </Text>
+        <Text style={{marginBottom: 10,textAlign: 'center'}}>
+        قائد المشروع: {item.leader}
         </Text>
         <Button
-          backgroundColor='#03A9F4'
-          buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-          title='ارصدني'
-          rightIcon={{name: 'work'}}
+        backgroundColor='#03A9F4'
+         buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+         title='ارصدني'
+         rightIcon={{name: 'work'}}
          />
+
         </Card>
-      </View>
+        </View>
+    ))
+  }
+      </ScrollView>
       );
   }
 
