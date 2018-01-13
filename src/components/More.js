@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, StatusBar } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 
 
@@ -21,7 +21,7 @@ export default class Home extends Component {
     });
   }
 
-   
+
   render() {
     return (
        <View >
@@ -40,4 +40,3 @@ export default class Home extends Component {
       );
   }
 }
-
