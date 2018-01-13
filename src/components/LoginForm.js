@@ -56,8 +56,8 @@ export default class LoginForm extends Component {
 
   loadInitialState = async () => {
    const value = await AsyncStorage.getItem('token');
-
-    if (value !== null && value !=='') { // user has loggen in
+   // value !== null && value !==''
+    if (false) { // user has loggen in
       this.props.navigation.navigate('Home');
     } else {
       this.setState({ loading: false });
@@ -95,13 +95,14 @@ export default class LoginForm extends Component {
           autoCorrect={false}
           onChangeText={id => this.setState({ id })}
           value={this.state.id}
+          style={{ textAlign: 'right' }}
         />
 
         <View style={styles.inputline} />
 
         <TextInput
           placeholder={'كلمة المرور'}
-          style={{ marginTop: 15 }}
+          style={{ marginTop: 15, textAlign: 'right' }}
           onChangeText={password => this.setState({ password })}
           secureTextEntry
           value={this.state.password}
