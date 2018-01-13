@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { Text, View, StatusBar } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 
 
@@ -31,9 +31,7 @@ export default class Home extends Component {
     else if(x == 1)
       this.props.navigation.navigate('SendNotifications');
 
-
   }
-   
   render() {
 
     const { pageStyle, listStyle, listItem } = styles;

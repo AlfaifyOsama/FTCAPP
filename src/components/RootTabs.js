@@ -28,7 +28,7 @@ const HomeStack = StackNavigator({
 }, {
       headerMode: 'screen',
       cardStyle: { backgroundColor: '#fff'
-   }
+    }
 });
 
 const PointsStack = StackNavigator({
