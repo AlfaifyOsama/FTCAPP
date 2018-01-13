@@ -12,7 +12,7 @@ export default class LoginForm extends Component {
       id: '',
       password: '',
       alert: '',
-      loading: false
+      loading: true
     };
   }
 
@@ -57,8 +57,10 @@ export default class LoginForm extends Component {
   loadInitialState = async () => {
    const value = await AsyncStorage.getItem('token');
 
-    if (value !== null && value !== '' ) { // user has loggen in
+    if (false) { // user has loggen in
       this.props.navigation.navigate('Home');
+    } else {
+      this.setState({ loading: false });
     }
   }
 
@@ -69,7 +71,15 @@ export default class LoginForm extends Component {
     return <Button text={'دخول'} onPress={this.onButtonPress.bind(this)} />;
   }
 
+  renderSpinner() {
+    return <Spinner />;
+  }
+
   render() {
+    if (this.state.loading) {
+      return this.renderSpinner();
+    }
+
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ImageBackground, AsyncStorage } from 'react-native';
+import { Text, View, ImageBackground, AsyncStorage, StatusBar } from 'react-native';
 import axios from 'axios';
 import BaseURL from '../config';
 import { Spinner } from './common';
@@ -67,6 +67,7 @@ class Home extends Component {
           } = styles;
     return (
       <View style={pageStyle}>
+        <StatusBar barStyle="light-content" />
         <View>
           <ImageBackground style={headerImage} source={{ uri: 'https://image.freepik.com/free-vector/dark-blue-watercolor-background-design_1034-737.jpg' }}>
             <Text style={nameStyle}>{this.state.firstName} {this.state.lastName}</Text>
