@@ -100,7 +100,7 @@ class ApprovePointsSingle extends Component {
        return (<AnimatedHideView
         visible={this.state.isChildVisible[index]}
           >
-        <View style={[{ marginBottom: index === this.state.members.length - 1 ? 20 : 0 }, styles.pageStyle]} key={index} >
+        <View style={[{ paddingBottom: index === this.state.members.length - 1 ? 20 : 0 }, styles.pageStyle]} key={index} >
           <Card title={item.first_name + ' ' + item.last_name } key={index}>
             {
               item.points.map((work, indexWork) => {
