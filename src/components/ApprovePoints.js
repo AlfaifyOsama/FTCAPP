@@ -1,21 +1,16 @@
 import React, { Component } from 'react';
-import { Text, View,  Image, ScrollView  } from 'react-native';
-import { Card, ListItem, Button } from 'react-native-elements';
+import { Text, View, ScrollView } from 'react-native';
+import { Card, Button } from 'react-native-elements';
 
 class ApprovePoints extends Component {
-
     state = { events: [] } ;
-
-    constructor(props) {
-      super(props);
-    }
 
       componentDidMount() {
         this.setState({
           events: [
             {
               name: 'بينت بول',
-              description: 'رحنا ولعبنا واستانسنا وانبسرحنا ولعبنا واستانسنا وانبسطنرحنا ولعبنا و يلسطنوانبسطنطنا',
+              description: ' وانبسرحنا ولعبنا واستانسنا وانبسطنرحنا ولعبنا و يلسطنوانبسطنطنا',
               leader: 'ناصر العواجي',
             },
             {
@@ -43,22 +38,26 @@ class ApprovePoints extends Component {
           {
     this.state.events.map((item, i) => (
 
-       <View style={[{ marginBottom: i==this.state.events.length-1? 20:0 }, styles.pageStyle]} key={i} >
-        <Card   title={item.name} key={i}>
+       <View
+        style={[{ paddingBottom: i === this.state.events.length - 1 ? 20 : 0 }, styles.pageStyle]}
+        key={i}
+       >
 
-        <Text style={{marginBottom: 25, textAlign: 'center'}}>
+        <Card title={item.name} key={i}>
+
+        <Text style={{ marginBottom: 25, textAlign: 'center' }}>
         {item.description}
         </Text>
-        <Text style={{marginBottom: 10,textAlign: 'center'}}>
+        <Text style={{ marginBottom: 10, textAlign: 'center' }}>
         قائد المشروع: {item.leader}
         </Text>
         <Button
           backgroundColor='#03A9F4'
-          buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+          buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
           title='ارصدني'
-          rightIcon={{name: 'work'}}
+          rightIcon={{ name: 'checkbox-multiple-marked-outline', type: 'material-community' }}
           onPress={() => this.props.navigation.navigate('ApprovePointsSingle')}
-         />
+        />
 
         </Card>
         </View>

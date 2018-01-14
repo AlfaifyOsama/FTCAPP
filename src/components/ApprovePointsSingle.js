@@ -76,7 +76,7 @@ class ApprovePointsSingle extends Component {
   renderCards() {
     const { singleWorkStyle, workTextStyle, line } = styles;
     return this.state.members.map((item, index) => (
-      <View style={[{ marginBottom: index === this.state.members.length - 1 ? 20 : 0 }, styles.pageStyle]} key={index} >
+      <View style={[{ paddingBottom: index === this.state.members.length - 1 ? 20 : 0 }, styles.pageStyle]} key={index} >
         <Card title={item.first_name + ' ' + item.last_name } key={index}>
           {
             item.points.map((work, indexWork) => {
@@ -117,11 +117,11 @@ class ApprovePointsSingle extends Component {
   render() {
     if (this.state.loading) {
       return this.renderSpinner();
-    } else if(this.state.members.length ==0 ){ // nothing to approve 
+    } else if(this.state.members.length ==0 ){ // nothing to approve
          return (
             <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
             <Text style={{ fontSize: 30 }}>فارغة كحياتي بدونك :)</Text>
-           </View> 
+           </View>
                 );
         }
     return (

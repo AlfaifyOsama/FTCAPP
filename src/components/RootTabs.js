@@ -9,7 +9,9 @@ import LoginForm from './LoginForm';
 import ApprovePoints from './ApprovePoints';
 import SendNotifications from './SendNotifications';
 import ApprovePointsSingle from './ApprovePointsSingle';
-
+import ManageEvents from './ManageEvents';
+import ManageEventsSingle from './ManageEventsSingle';
+import AddEvent from './AddEvent';
 
 const HomeStack = StackNavigator({
   Login: {
@@ -41,14 +43,31 @@ const PointsStack = StackNavigator({
     }
   }
 });
-
 const EventsStack = StackNavigator({
   Events: {
     screen: Events,
     navigationOptions: {
       title: 'الفعاليات',
     }
-  }
+  },
+  AddEvent: {
+    screen: AddEvent,
+    navigationOptions: {
+      title: 'اضف مشروعك يا وحش',
+    }
+  },
+  ManageEvents: {
+    screen: ManageEvents,
+    navigationOptions: {
+      title: 'ادارة مشاريعك',
+    }
+  },
+  ManageEventsSingle: {
+    screen: ManageEventsSingle,
+    navigationOptions: {
+      title: 'عدل مشروعك القوي',
+    }
+  },
 });
 
 const MoreStack = StackNavigator({
