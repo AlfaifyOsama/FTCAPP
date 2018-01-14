@@ -8,12 +8,13 @@ import { Spinner } from './common';
 class ApprovePointsSingle extends Component {
     state = { members: [], inputs: [], event_ID: '' , loading: true };
 
+
     getInfo = async () => {
-     const token = 'Bearer ' + await AsyncStorage.getItem('token');
-     console.log(token);
+     const token = await AsyncStorage.getItem('token');
+     console.log('token',token);
      const instance = axios.create({
      timeout: 5000,
-     headers: { 'Authorization':  token }
+     headers: { 'Authorization': 'Bearer '+  token }
      });
      instance.get(BaseURL + '/events/8/getRecordedWork')
        .then((response) => {
@@ -41,7 +42,7 @@ class ApprovePointsSingle extends Component {
        this.getInfo();
     }
 
-    OnPress = (index) => {
+    OnPress = async (index) => {
       let RecordedWork = this.state.members[index]['points'];
       let values = [];
       RecordedWork.map((work,i) => (
@@ -51,14 +52,15 @@ class ApprovePointsSingle extends Component {
         }
       ));
 
-      const token = 'Bearer ' + AsyncStorage.getItem('token');
+      const token = await AsyncStorage.getItem('token');
       const instance = axios.create({
       timeout: 5000,
-      headers: { 'Authorization':  token }
+      headers: { 'Authorization': 'Bearer ' + token }
       });
-      instance.post(BaseURL + '/events/8/getRecordedWork', {
+      instance.put(BaseURL + '/points/approve', {
         data: values,
       }).then((response) => {
+        console.log(response);
         })
         .catch((error) => {
           console.log(error);
@@ -115,8 +117,13 @@ class ApprovePointsSingle extends Component {
   render() {
     if (this.state.loading) {
       return this.renderSpinner();
-    }
-
+    } else if(this.state.members.length ==0 ){ // nothing to approve 
+         return (
+            <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+            <Text style={{ fontSize: 30 }}>فارغة كحياتي بدونك :)</Text>
+           </View> 
+                );
+        }
     return (
       <ScrollView>
         { this.renderCards() }
