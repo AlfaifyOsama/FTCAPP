@@ -8,6 +8,8 @@ import More from './More';
 import LoginForm from './LoginForm';
 import ApprovePoints from './ApprovePoints';
 import SendNotifications from './SendNotifications';
+import ApprovePointsSingle from './ApprovePointsSingle';
+
 
 const HomeStack = StackNavigator({
   Login: {
@@ -50,26 +52,33 @@ const EventsStack = StackNavigator({
 });
 
 const MoreStack = StackNavigator({
-  
+
   More: {
     screen: More,
     navigationOptions: {
       title: 'اشياء اتوقع ما تهمك',
     }
-  }, 
+  },
   ApprovePoints: {
     screen: ApprovePoints,
     navigationOptions: {
       title: 'ارصد النقاط يالذيب',
     }
   },
+  ApprovePointsSingle: {
+    screen: ApprovePointsSingle,
+    navigationOptions: {
+      title: 'ارصد النقاط يالذيب',
+    }
+  },
+
   SendNotifications: {
     screen: SendNotifications,
     navigationOptions: {
       title: 'ارسل التنبيهات هنا يالذيب',
     }
   },
-  
+
 });
 
 const RootTabs = TabNavigator({

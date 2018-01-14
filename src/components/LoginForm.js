@@ -57,7 +57,7 @@ export default class LoginForm extends Component {
   loadInitialState = async () => {
    const value = await AsyncStorage.getItem('token');
    // value !== null && value !==''
-    if (false) { // user has loggen in
+    if (true) { // user has loggen in
       this.props.navigation.navigate('Home');
     } else {
       this.setState({ loading: false });

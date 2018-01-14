@@ -43,7 +43,7 @@ class ApprovePoints extends Component {
           {
     this.state.events.map((item, i) => (
 
-       <View style={{ marginBottom: i==this.state.events.length-1? 20:0 }} key={i} >
+       <View style={[{ marginBottom: i==this.state.events.length-1? 20:0 }, styles.pageStyle]} key={i} >
         <Card   title={item.name} key={i}>
 
         <Text style={{marginBottom: 25, textAlign: 'center'}}>
@@ -57,6 +57,7 @@ class ApprovePoints extends Component {
          buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
          title='ارصدني'
          rightIcon={{name: 'work'}}
+         onPress={() => this.props.navigation.navigate('ApprovePointsSingle')}
          />
 
         </Card>
@@ -68,13 +69,6 @@ class ApprovePoints extends Component {
   }
 
 }
-
-const users = [
- {
-    name: 'brynn',
-    avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
- },
-];
 
 const styles = {
   pageStyle: {
