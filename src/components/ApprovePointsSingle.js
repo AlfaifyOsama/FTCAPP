@@ -1,44 +1,83 @@
 import React, { Component } from 'react';
-import { View, Text, Image, ScrollView, TextInput } from 'react-native';
+import { View, Text, Image, ScrollView, TextInput, AsyncStorage } from 'react-native';
 import { Card, ListItem, Button } from 'react-native-elements';
+import axios from 'axios';
+import BaseURL from '../config';
+import { Spinner } from './common';
 
 class ApprovePointsSingle extends Component {
-    state = { members: [], inputs: [] };
+    state = { members: [], inputs: [], event_ID: '' , loading: true };
+
+    getInfo = async () => {
+     const token = 'Bearer ' + await AsyncStorage.getItem('token');
+     console.log(token);
+     const instance = axios.create({
+     timeout: 5000,
+     headers: { 'Authorization':  token }
+     });
+     instance.get(BaseURL + '/events/8/getRecordedWork')
+       .then((response) => {
+         //console.log(response.data.users);
+         this.state.event_ID = response.data.id;
+         response.data.users.map((item, i) => (
+           this.state.members[i] = item
+         ));
+
+         this.setState({
+          loading: false
+         });
+
+       })
+       .catch((error) => {
+         console.log(error);
+       });
+    }
+
+    renderSpinner() {
+      return <Spinner />;
+    }
 
     componentDidMount() {
-      this.setState({
-        members: [
-          {
-            name: 'اسامه المتوحش',
-            work: ['work1work1work1work1work1work1work1work1work1work1work1', 'work2', 'work3']
-          },
-          {
-            name: 'نواف الشرير',
-            work: ['worknnnn', 'worknnnn', 'worknnnn']
-          },
-          {
-            name: 'اسامه الفيفي الزبال',
-            work: ['workooooo', 'workoooo2', 'workoooo3']
-          },
-          {
-            name: ' ناصر مقر',
-            work: ['ناصر', 'ناصر', 'ناصر']
-          },
-          {
-            name: 'يوسفxx999',
-            work: ['yosif', 'yosif', 'yosif']
-          },
-         ]
-    });
+       this.getInfo();
+    }
+
+    OnPress = (index) => {
+      let RecordedWork = this.state.members[index]['points'];
+      let values = [];
+      RecordedWork.map((work,i) => (
+        values[i] = {
+          id: work.id,
+          value: this.state.inputs[index+''+i]
+        }
+      ));
+
+      const token = 'Bearer ' + AsyncStorage.getItem('token');
+      const instance = axios.create({
+      timeout: 5000,
+      headers: { 'Authorization':  token }
+      });
+      instance.post(BaseURL + '/events/8/getRecordedWork', {
+        data: values,
+      }).then((response) => {
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+
+
+
+      //console.log('aa',this.state.event_ID);
+
     }
 
   renderCards() {
     const { singleWorkStyle, workTextStyle, line } = styles;
     return this.state.members.map((item, index) => (
       <View style={[{ marginBottom: index === this.state.members.length - 1 ? 20 : 0 }, styles.pageStyle]} key={index} >
-        <Card title={item.name} key={index}>
+        <Card title={item.first_name + ' ' + item.last_name } key={index}>
           {
-            item.work.map((work, indexWork) => {
+            item.points.map((work, indexWork) => {
               return (
                 <View style={singleWorkStyle} key={indexWork}>
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
@@ -46,11 +85,14 @@ class ApprovePointsSingle extends Component {
                       placeholder={'00'}
                       autoCapitalize={'none'}
                       autoCorrect={false}
-                      onChangeText={id => this.setState({ id })}
-                      value={this.state.id}
+                      onChangeText={(text) => (this.state.inputs[index+''+indexWork] = text)}
+
+                      value={this.state.inputs[index+''+indexWork]}
                       style={{ textAlign: 'right' }}
+                      maxLength={2}
                     />
-                    <Text style={workTextStyle}>{work}</Text>
+
+                    <Text style={workTextStyle}>{work.description}</Text>
                   </View>
                   <View style={line} />
                 </View>
@@ -58,6 +100,7 @@ class ApprovePointsSingle extends Component {
             })
           }
           <Button
+          onPress={ () => this.OnPress(index)}
             title='ارصدها'
             rightIcon={{ name: 'done' }}
             backgroundColor='#9ccc65'
@@ -70,6 +113,10 @@ class ApprovePointsSingle extends Component {
   }
 
   render() {
+    if (this.state.loading) {
+      return this.renderSpinner();
+    }
+
     return (
       <ScrollView>
         { this.renderCards() }

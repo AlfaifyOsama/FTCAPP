@@ -20,7 +20,7 @@ class Home extends Component {
   }
 
   getInfo = async () => {
-   const token = 'Bearer' + await AsyncStorage.getItem('token');
+   const token = 'Bearer ' + await AsyncStorage.getItem('token');
    const id = await AsyncStorage.getItem('userID');
    const firstName = await AsyncStorage.getItem('firstName');
    const lastName = await AsyncStorage.getItem('lastName');

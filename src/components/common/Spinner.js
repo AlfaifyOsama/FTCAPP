@@ -12,7 +12,7 @@ const styles = {
     marginTop: 30,
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   }
 };
 

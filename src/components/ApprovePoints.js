@@ -53,11 +53,11 @@ class ApprovePoints extends Component {
         قائد المشروع: {item.leader}
         </Text>
         <Button
-        backgroundColor='#03A9F4'
-         buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-         title='ارصدني'
-         rightIcon={{name: 'work'}}
-         onPress={() => this.props.navigation.navigate('ApprovePointsSingle')}
+          backgroundColor='#03A9F4'
+          buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+          title='ارصدني'
+          rightIcon={{name: 'work'}}
+          onPress={() => this.props.navigation.navigate('ApprovePointsSingle')}
          />
 
         </Card>
