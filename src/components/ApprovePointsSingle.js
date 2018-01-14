@@ -11,7 +11,7 @@ class ApprovePointsSingle extends Component {
 
     getInfo = async () => {
      const token = await AsyncStorage.getItem('token');
-     console.log('token',token);
+    // console.log('token',token);
      const instance = axios.create({
      timeout: 5000,
      headers: { 'Authorization': 'Bearer '+  token }
@@ -65,10 +65,6 @@ class ApprovePointsSingle extends Component {
         .catch((error) => {
           console.log(error);
         });
-
-
-
-
       //console.log('aa',this.state.event_ID);
 
     }
