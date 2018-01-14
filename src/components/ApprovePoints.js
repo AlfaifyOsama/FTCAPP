@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
-import { Text, View,  Image, ScrollView  } from 'react-native';
+import { Text, View, Image, ScrollView  } from 'react-native';
 import { Card, ListItem, Button } from 'react-native-elements';
 
 class ApprovePoints extends Component {
 
+
     state = { events: [] } ;
-
-    constructor(props) {
-      super(props);
-    }
-
       componentDidMount() {
         this.setState({
           events: [
@@ -44,7 +40,7 @@ class ApprovePoints extends Component {
     this.state.events.map((item, i) => (
 
        <View style={[{ marginBottom: i==this.state.events.length-1? 20:0 }, styles.pageStyle]} key={i} >
-        <Card   title={item.name} key={i}>
+        <Card   title={item.name} style={{fontWeight: 'bold'}} key={i}>
 
         <Text style={{marginBottom: 25, textAlign: 'center'}}>
         {item.description}
