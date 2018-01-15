@@ -19,7 +19,7 @@ class Events extends Component {
 
               headerLeft:
                       <TouchableOpacity
-                        onPress={() => navigation.navigate('ManageEvents')}
+                        onPress={() => navigation.navigate('AddEvent')}
                         style={{ marginLeft: 20 }}
                       >
                           <Ionicons
@@ -40,6 +40,7 @@ class Events extends Component {
           name: 'بينت بول',
           description: 'واستانسنا وانبسرحنا ولعبنا واستانسنا وانبسطنرحنا ولعبنا و يلسطنوانبسطنطنا',
           leader: 'ناصر العواجي',
+          type: 'ORGANIZE'
         },
         {
             name: 'استضافه المدرج ',
@@ -50,6 +51,7 @@ class Events extends Component {
             name: 'اfff ',
             description: 'جبنا ياسر العصيفير',
             leader: 'ناصر العواجي',
+            type: 'ORGANIZE'
         },
         {
             name: 'ffdfdf المدرج ',
@@ -58,6 +60,30 @@ class Events extends Component {
         },
        ]
   });
+}
+
+renderAppropriateButton(type) {
+  if (type === 'ORGANIZE') {
+    return (
+      <Button
+        backgroundColor='#03A9F4'
+        buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
+        title='شارك في التنظيم'
+        rightIcon={{ name: 'handshake-o', type: 'font-awesome' }}
+        onPress={() => this.props.navigation.navigate('ApprovePointsSingle')}
+      />
+    );
+  }
+
+  return (
+    <Button
+      backgroundColor='#9ccc65'
+      buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
+      title='شارك في الفعالية'
+      rightIcon={{ name: 'smile-o', type: 'font-awesome' }}
+      onPress={() => this.props.navigation.navigate('ApprovePointsSingle')}
+    />
+  );
 }
 
 render() {
@@ -76,13 +102,7 @@ render() {
             <Text style={{ marginBottom: 10, textAlign: 'center' }}>
             قائد المشروع: {item.leader}
             </Text>
-            <Button
-              backgroundColor='#03A9F4'
-              buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
-              title='شارك في التنظيم'
-              rightIcon={{ name: 'handshake-o', type: 'font-awesome' }}
-              onPress={() => this.props.navigation.navigate('ApprovePointsSingle')}
-            />
+            {this.renderAppropriateButton(item.type)}
           </Card>
         </View>
     ))
