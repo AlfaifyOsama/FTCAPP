@@ -21,13 +21,11 @@ class ManageEvents extends Component {
    });
    instance.get(BaseURL + '/users/getAll')
      .then((response) => {
-       console.log(response.data);
        this.setState({
          members: response.data
        });
      })
      .catch((error) => {
-       console.log(error);
        alert('فيه غلط صار وما كان لي خلق اصلحه، جرب مره ثانيه :)');
      });
   }
@@ -43,11 +41,11 @@ class ManageEvents extends Component {
   }
 
   onNamePress = (data) => {
-    this.setState({ query: data, selected: this.state.selected.push(data.props.children)});
+    console.log(data);
+    this.setState({ query: '', selected: this.state.selected.push(data.props.children) });
   }
 
   renderSelectedNames = () => {
-    console.log('s',this.state.selected);
     if(this.state.selected.length > 0)
       return this.state.selected.map((member) => (<Text>{member}</Text>));
   }
@@ -55,16 +53,14 @@ class ManageEvents extends Component {
   render() {
     const { query } = this.state;
     const names = this.renderNames(query);
-    console.log(names);
     return (
       <Card>
         <Autocomplete
           data={names}
-          defaultValue={query}
+          defaultValue={query || ''}
           onChangeText={text => this.setState({ query: text })}
           renderItem={data => (
             <TouchableOpacity onPress={() => this.onNamePress(data)}>
-            {console.log(this.state.query)}
               <Text style={{ textAlign: 'right', marginTop: 10, paddingTop: 5, paddingBottom: 5, paddingRight: 10 }}>{data}</Text>
             </TouchableOpacity>
           )}
