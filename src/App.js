@@ -1,6 +1,9 @@
 import React from 'react';
 import OneSignal from 'react-native-onesignal'; // Import package from node modules
 import RootTabs from './components/RootTabs';
+import axios from 'axios';
+import BaseURL from './config';
+
 
 export default class App extends React.Component {
   componentWillMount() {

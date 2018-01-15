@@ -3,7 +3,7 @@ import { Text, TouchableOpacity } from 'react-native';
 import { Card } from 'react-native-elements';
 import Autocomplete from 'react-native-autocomplete-input';
 
-class ManageEvents extends Component {
+class ManageEventsSingle extends Component {
   render() {
     return (
       // <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
@@ -26,4 +26,4 @@ class ManageEvents extends Component {
 
 }
 
-export default ManageEvents;
+export default ManageEventsSingle;
