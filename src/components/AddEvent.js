@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, TouchableOpacity, AsyncStorage, View, Picker, ScrollView } from 'react-native';
-import { Card } from 'react-native-elements';
+import { Card, Button, Icon } from 'react-native-elements';
 import Autocomplete from 'react-native-autocomplete-input';
 import { TextField } from 'react-native-material-textfield';
 import { Dropdown } from 'react-native-material-dropdown';
@@ -9,7 +9,7 @@ import axios from 'axios';
 import BaseURL from '../config';
 
 class AddEvent extends Component {
-  state = { members: [],
+  state = { members: ['Osama Aloqaily', 'Nawaf Alquiad'],
             selected: [],
             query: '',
             projectName: '',
@@ -23,8 +23,6 @@ class AddEvent extends Component {
   }
 
   onNamePress = (data) => {
-    console.log(data);
-    console.log(this.state.selected);
     this.state.selected.push(data.props.children);
     this.setState({ query: '' });
   }
@@ -75,14 +73,15 @@ class AddEvent extends Component {
   }
 
   render() {
+    console.log(this.state);
     const radioProps = [
       { label: 'نحتاج منظمين', value: 'ORGANIZE', index: 0 },
-      { label: 'التسجيل للمشاركة', value: 'ATTEND', index: 1 }
+      { label: 'التسجيل للحضور فقط', value: 'ATTEND', index: 1 }
     ];
     const { query } = this.state;
     const names = this.renderNames(query);
     return (
-      <View>
+      <ScrollView>
       <View style={{ paddingBottom: 15 }}>
       <Card>
         <TextField
@@ -101,8 +100,20 @@ class AddEvent extends Component {
           titleTextStyle={{ textAlign: 'right' }}
           multiline
         />
-
-        <Text style={{ textAlign: 'right', marginBottom: 5, marginTop: 30 }}>المشاركين مبدئيا: </Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
+          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+            <Text style={{ opacity: 0.7 }}>حذف الكل</Text>
+              <Icon
+                size={10}
+                reverse
+                name='cross'
+                type='entypo'
+                color='red'
+                onPress={() => this.setState({ selected: [] })}
+              />
+          </View>
+          <Text style={{ textAlign: 'right', flex: 1 }}>المشاركين مبدئيا:</Text>
+        </View>
         <Autocomplete
           placeholder={'اكتب هنا المشاركين مبدئياً'}
           place
@@ -117,29 +128,31 @@ class AddEvent extends Component {
           inputContainerStyle={{ borderRadius: 10, alignItems: 'flex-end', paddingRight: 10 }}
 
         />
-        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 5 }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 5, flexWrap: 'wrap' }}>
           {
               this.renderSelectedNames()
           }
         </View>
-        <View style={{ alignItems: 'center', marginTop: 30 }}>
+        <View style={{ alignItems: 'center', marginTop: 30, marginRight: 20 }}>
         <RadioForm
           formHorizontal
           animation
         >
           {radioProps.map((obj, i) => {
             return (
-              <RadioButton labelHorizontal={true} key={i} style={{ marginLeft: 15 }}>
+              <RadioButton labelHorizontal key={i} style={{ marginLeft: 15 }}>
               <RadioButtonLabel
                 obj={obj}
                 index={i}
-                labelHorizontal={true}
+                onPress={() => this.setState({ type: obj.value })}
+                labelHorizontal
                 labelStyle={{ fontSize: 15, color: '#000' }}
                 labelWrapStyle={{}}
               />
               <RadioButtonInput
                 obj={obj}
                 index={i}
+                onPress={() => this.setState({ type: obj.value })}
                 isSelected={this.state.type === obj.value}
                 borderWidth={3}
                 buttonInnerColor={'#03A9F4'}
@@ -159,11 +172,21 @@ class AddEvent extends Component {
           label='الحد الاعلى للمشاركين'
           data={this.getNumbersTo60()}
           itemTextStyle={{ textAlign: 'right' }}
+          onChangeText={(value) => this.setState({ maxNumOfMembers: value })}
         />
+        </View>
+        <View>
+          <Button
+            backgroundColor='#03A9F4'
+            buttonStyle={{ borderRadius: 20, marginTop: 25 }}
+            title='اضف المشروع'
+            rightIcon={{ name: 'library-add' }}
+            onPress={() => alert('نقول ان شاء الله المشروع انضاف')}
+          />
         </View>
       </Card>
       </View>
-      </View>
+      </ScrollView>
       );
   }
   // <RadioForm

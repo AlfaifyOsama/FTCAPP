@@ -32,30 +32,6 @@ class ManageEvents extends Component {
   });
 }
 
-renderAppropriateButton(type) {
-  if (type === 'ORGANIZE') {
-    return (
-      <Button
-        backgroundColor='#03A9F4'
-        buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
-        title='شارك في التنظيم'
-        rightIcon={{ name: 'handshake-o', type: 'font-awesome' }}
-        onPress={() => this.props.navigation.navigate('ApprovePointsSingle')}
-      />
-    );
-  }
-
-  return (
-    <Button
-      backgroundColor='#9ccc65'
-      buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
-      title='شارك في الفعالية'
-      rightIcon={{ name: 'smile-o', type: 'font-awesome' }}
-      onPress={() => this.props.navigation.navigate('ApprovePointsSingle')}
-    />
-  );
-}
-
 render() {
   return (
     <ScrollView>
@@ -72,7 +48,13 @@ render() {
             <Text style={{ marginBottom: 10, textAlign: 'center' }}>
             قائد المشروع: {item.leader}
             </Text>
-            {this.renderAppropriateButton(item.type)}
+            <Button
+              backgroundColor='#03A9F4'
+              buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
+              title='ادارة المشروع'
+              rightIcon={{ name: 'account-settings-variant', type: 'material-community' }}
+              onPress={() => this.props.navigation.navigate('ManageEventsSingle')}
+            />
           </Card>
         </View>
     ))
