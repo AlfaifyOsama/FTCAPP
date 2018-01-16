@@ -8,16 +8,18 @@ import Toast, {DURATION} from 'react-native-easy-toast'
 import { Spinner } from './common';
 
 class ApprovePointsSingle extends Component {
-    state = { members: [], inputs: [], event_ID: '', loading: true, isChildVisible: [] };
-// define the view
+    state = { members: [], inputs: [], event_id: '', loading: true, isChildVisible: [] };
+// define the view 
     getInfo = async () => {
+      this.state.event_id = this.props.navigation.state.params.event_id;
+      //console.log('eventID', this.state.event_id);
      const token = await AsyncStorage.getItem('token');
     // console.log('token',token);
      const instance = axios.create({
      timeout: 5000,
      headers: { 'Authorization': 'Bearer '+  token }
      });
-     instance.get(BaseURL + '/events/8/getRecordedWork')
+     instance.get(BaseURL + '/events/'+ this.state.event_id +'/getRecordedWork')
        .then((response) => {
          //console.log(response.data.users);
          this.state.event_ID = response.data.id;
@@ -62,7 +64,7 @@ class ApprovePointsSingle extends Component {
         return;
       }
       RecordedWork.map((work, i) => (
-
+        
         values[i] = {
           id: work.id,
           value: this.state.inputs[index+''+i]
@@ -100,24 +102,24 @@ class ApprovePointsSingle extends Component {
        return (<AnimatedHideView
         visible={this.state.isChildVisible[index]}
           >
-        <View style={[{ paddingBottom: index === this.state.members.length - 1 ? 20 : 0 }, styles.pageStyle]} key={index} >
+        <View style={[{ marginBottom: index === this.state.members.length - 1 ? 20 : 0 }, styles.pageStyle]} key={index} >
           <Card title={item.first_name + ' ' + item.last_name } key={index}>
             {
               item.points.map((work, indexWork) => {
                 return (
                   <View style={singleWorkStyle} key={indexWork}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }} >
                       <TextInput
                         placeholder={'00'}
                         autoCapitalize={'none'}
                         autoCorrect={false}
                         onChangeText={(text) => (this.state.inputs[index+''+indexWork] = text)}
-
+                        key={index}
                         value={this.state.inputs[index+''+indexWork]}
                         style={{ textAlign: 'right' }}
                         maxLength={2}
                       />
-
+  
                       <Text style={workTextStyle}>{work.description}</Text>
                     </View>
                     <View style={line} />
@@ -135,35 +137,35 @@ class ApprovePointsSingle extends Component {
             />
           </Card>
         </View>
-
+      
         </AnimatedHideView>
-
+        
        );
     }
   renderCards() {
     return this.state.members.map((item, index) => (
       <View>
     { this.renderSingleCard(item, index) }
-
+    
       </View>
-
+      
     ));
   }
 
   render() {
     if (this.state.loading) {
       return this.renderSpinner();
-    } else if(this.state.members.length ==0 ){ // nothing to approve
+    } else if(this.state.members.length ==0 ){ // nothing to approve 
          return (
             <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
             <Text style={{ fontSize: 30 }}>فارغة كحياتي بدونك :)</Text>
-           </View>
+           </View> 
                 );
         }
     return (
       <ScrollView>
         { this.renderCards() }
-        <Toast position='center' ref="toast" />
+        <Toast position='center' ref="toast"/>
       </ScrollView>
       );
   }

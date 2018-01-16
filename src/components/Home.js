@@ -26,7 +26,7 @@ class Home extends Component {
    const lastName = await AsyncStorage.getItem('lastName');
 
    const instance = axios.create({
-   timeout: 5000,
+   timeout: 3000,
    headers: { 'Authorization':  token }
    });
    instance.get(BaseURL + '/users/' + id + '/points')
@@ -46,7 +46,7 @@ class Home extends Component {
      })
      .catch((error) => {
        console.log(error);
-       alert('Error');
+       alert('التطبيق ما اتصل بالسيرفر، شيك على الانترنت عندك');
      });
      this.setState({ loading: false });
   }
