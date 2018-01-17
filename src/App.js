@@ -44,6 +44,7 @@ export default class App extends React.Component {
       return;
     console.log('Device info: ', device);
     const token = await AsyncStorage.getItem('token');
+    console.log('token: ', token);
     if (token == undefined || token == '')
       return;
     const instance = axios.create({
@@ -55,6 +56,7 @@ export default class App extends React.Component {
     })
       .then((response) => {
         if (response.status == 200){
+          console.log('finished sending the request');
           AsyncStorage.setItem('device_id', device.userId);
           OneSignal.sendTag('device_id', 'true');
         }
