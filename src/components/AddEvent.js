@@ -7,15 +7,18 @@ import { Dropdown } from 'react-native-material-dropdown';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import axios from 'axios';
 import BaseURL from '../config';
+import { Spinner } from './common';
 
 class AddEvent extends Component {
-  state = { members: ['Osama Aloqaily', 'Nawaf Alquiad'],
+  state = { members: [],
             selected: [],
             query: '',
             projectName: '',
             projectDisc: '',
             type: 'ATTEND',
-            maxNumOfMembers: 0
+            maxNumOfMembers: 0,
+            loading: false,
+            selectedIDs: []
           }
 
   componentDidMount() {
@@ -23,8 +26,53 @@ class AddEvent extends Component {
   }
 
   onNamePress = (data) => {
-    this.state.selected.push(data.props.children);
+    console.log(data);
+    const { maxNumOfMembers, selected, selectedIDs } = this.state;
+    if (selected.includes(data.props.children)) {
+      alert('سبق واضفت هذا الشخص تستهبل انت');
+    } else if (selected.length >= maxNumOfMembers) {
+      alert('اما انك ما حددت الحد الاعلى للمشاركين او ان المشروع وصل للحد الاعلى للمشاركين')
+    } else {
+      selected.push(data.props.children);
+      selectedIDs.push(data.key);
+    }
     this.setState({ query: '' });
+  }
+
+  onSubmit = async () => {
+    console.log('a');
+    const {
+      projectName,
+      projectDisc,
+      maxNumOfMembers,
+      type,
+      selectedIDs
+    } = this.state;
+
+    this.setState({ loading: true });
+    const token = 'Bearer ' + await AsyncStorage.getItem('token');
+    const instance = axios.create({
+    timeout: 3000,
+    headers: { 'Authorization':  token }
+    });
+
+    const param = {
+      name: projectName,
+      description: projectDisc,
+      type,
+      user_limit: maxNumOfMembers,
+      users: selectedIDs,
+    }
+    instance.post(BaseURL + '/events/create', param)
+      .then((response) => {
+        this.setState({ loading: false });
+        alert('تمت اضافة المشروع بنجاح');
+        this.props.navigation.navigate('Events');
+      })
+      .catch((error) => {
+        this.setState({ loading: false });
+        alert('حصلت مشكلة، تأكد انك دخلت البيانات كاملة وجرب مرة ثانية');
+      });
   }
 
 
@@ -72,6 +120,19 @@ class AddEvent extends Component {
     return numbers;
   }
 
+  renderButtonOrSpinner() {
+    if (this.state.loading) {
+      return <Spinner size={'small'} />;
+    }
+    return (<Button
+      backgroundColor='#03A9F4'
+      buttonStyle={{ borderRadius: 20, marginTop: 25 }}
+      title='اضف المشروع'
+      rightIcon={{ name: 'library-add' }}
+      onPress={() => this.onSubmit()}
+    />);
+  }
+
   render() {
     console.log(this.state);
     const radioProps = [
@@ -81,7 +142,7 @@ class AddEvent extends Component {
     const { query } = this.state;
     const names = this.renderNames(query);
     return (
-      <ScrollView>
+      <ScrollView style={{ backgroundColor: '#ECF2F4' }}>
       <View style={{ paddingBottom: 15 }}>
       <Card>
         <TextField
@@ -92,7 +153,7 @@ class AddEvent extends Component {
         />
 
         <TextField
-          label='وصف المشروع'
+          label='وصف المشروع (متعدد الاسطر)'
           value={this.state.projectDisc}
           onChangeText={(projectDisc) => this.setState({ projectDisc })}
           inputContainerStyle={{ alignItems: 'flex-end' }}
@@ -100,6 +161,14 @@ class AddEvent extends Component {
           titleTextStyle={{ textAlign: 'right' }}
           multiline
         />
+        <View style={{ width: '60%', alignSelf: 'flex-end' }}>
+        <Dropdown
+          label='الحد الاعلى للمشاركين'
+          data={this.getNumbersTo60()}
+          itemTextStyle={{ textAlign: 'right' }}
+          onChangeText={(value) => this.setState({ maxNumOfMembers: value })}
+        />
+        </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
           <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
             <Text style={{ opacity: 0.7 }}>حذف الكل</Text>
@@ -167,22 +236,8 @@ class AddEvent extends Component {
 
           </RadioForm>
         </View>
-        <View style={{ width: '60%', alignSelf: 'flex-end' }}>
-        <Dropdown
-          label='الحد الاعلى للمشاركين'
-          data={this.getNumbersTo60()}
-          itemTextStyle={{ textAlign: 'right' }}
-          onChangeText={(value) => this.setState({ maxNumOfMembers: value })}
-        />
-        </View>
         <View>
-          <Button
-            backgroundColor='#03A9F4'
-            buttonStyle={{ borderRadius: 20, marginTop: 25 }}
-            title='اضف المشروع'
-            rightIcon={{ name: 'library-add' }}
-            onPress={() => alert('نقول ان شاء الله المشروع انضاف')}
-          />
+          {this.renderButtonOrSpinner()}
         </View>
       </Card>
       </View>

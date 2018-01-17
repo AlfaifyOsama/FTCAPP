@@ -5,7 +5,6 @@ import axios from 'axios';
 import { Spinner } from './common';
 import BaseURL from '../config';
 
-
 class ApprovePoints extends Component {
 
 
@@ -23,7 +22,7 @@ class ApprovePoints extends Component {
     });
     instance.get(BaseURL + '/events/PendingWorkEvents')
     .then((response) => {
-      this.setState({ events: response.data, loading: false }); 
+      this.setState({ events: response.data, loading: false });
     })
       .catch((error) => {
         console.log(error);
@@ -39,15 +38,15 @@ class ApprovePoints extends Component {
   render() {
     if(this.state.loading)
        return (<Spinner />);
-    if(this.state.events.length ==0 ){ // nothing to approve 
+    if(this.state.events.length ==0 ){ // nothing to approve
       return (
          <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
          <Text style={{ fontSize: 30 }}>فارغة كحياتي بدونك :)</Text>
-        </View> 
+        </View>
              );
      }
     return (
-      <ScrollView >
+      <ScrollView style={{ backgroundColor: '#ECF2F4' }}>
           {
     this.state.events.map((item, i) => (
 

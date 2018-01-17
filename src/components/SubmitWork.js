@@ -7,7 +7,7 @@ import BaseURL from '../config';
 import Toast, {DURATION} from 'react-native-easy-toast'
 import { Spinner } from './common';
 
-class ApprovePointsSingle extends Component {
+class SubmitWork extends Component {
     state = { members: [], inputs: [], event_id: '', loading: true, isChildVisible: [] };
 // define the view
     getInfo = async () => {
@@ -163,7 +163,7 @@ class ApprovePointsSingle extends Component {
                 );
         }
     return (
-      <ScrollView style={{ backgroundColor: '#ECF2F4' }}>
+      <ScrollView>
         { this.renderCards() }
         <Toast position='center' ref="toast"/>
       </ScrollView>
@@ -200,4 +200,4 @@ const styles = {
 };
 
 
-export default ApprovePointsSingle;
+export default SubmitWork;

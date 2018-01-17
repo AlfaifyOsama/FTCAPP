@@ -12,6 +12,8 @@ import ApprovePointsSingle from './ApprovePointsSingle';
 import ManageEvents from './ManageEvents';
 import ManageEventsSingle from './ManageEventsSingle';
 import AddEvent from './AddEvent';
+import SubmitWork from './SubmitWork';
+
 
 const HomeStack = StackNavigator({
   Login: {
@@ -68,6 +70,13 @@ const EventsStack = StackNavigator({
       title: 'عدل مشروعك القوي',
     }
   },
+  SubmitWork: {
+    screen: SubmitWork,
+    navigationOptions: {
+      title: 'رصد أعمال الأعضاء',
+    }
+  },
+
 });
 
 const MoreStack = StackNavigator({

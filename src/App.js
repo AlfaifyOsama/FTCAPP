@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native';
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import OneSignal from 'react-native-onesignal'; // Import package from node modules
