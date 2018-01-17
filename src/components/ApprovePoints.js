@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { Text, View, ScrollView, AsyncStorage } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import axios from 'axios';
+import { Spinner } from './common';
 import BaseURL from '../config';
 
 class ApprovePoints extends Component {
 
 
-  state = { events: [] };
+  state = { events: [], loading: true };
 
   componentDidMount() {
     this.getEvents();
@@ -21,7 +22,7 @@ class ApprovePoints extends Component {
     });
     instance.get(BaseURL + '/events/PendingWorkEvents')
     .then((response) => {
-      this.setState({ events: response.data});
+      this.setState({ events: response.data, loading: false });
     })
       .catch((error) => {
         console.log(error);
@@ -35,6 +36,15 @@ class ApprovePoints extends Component {
   }
 
   render() {
+    if(this.state.loading)
+       return (<Spinner />);
+    if(this.state.events.length ==0 ){ // nothing to approve
+      return (
+         <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+         <Text style={{ fontSize: 30 }}>فارغة كحياتي بدونك :)</Text>
+        </View>
+             );
+     }
     return (
       <ScrollView style={{ backgroundColor: '#ECF2F4' }}>
           {
