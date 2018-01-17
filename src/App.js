@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native';
 import OneSignal from 'react-native-onesignal'; // Import package from node modules
 import RootTabs from './components/RootTabs';
 import axios from 'axios';
