@@ -13,7 +13,7 @@ import ManageEvents from './ManageEvents';
 import ManageEventsSingle from './ManageEventsSingle';
 import AddEvent from './AddEvent';
 import SubmitWork from './SubmitWork';
-
+import MyProfile from './MyProfile';
 
 const HomeStack = StackNavigator({
   Login: {
@@ -99,13 +99,18 @@ const MoreStack = StackNavigator({
       title: 'ارصد النقاط يالذيب',
     }
   },
-
   SendNotifications: {
     screen: SendNotifications,
     navigationOptions: {
       title: 'ارسل التنبيهات هنا يالذيب',
     }
   },
+  MyProfile: {
+    screen: MyProfile,
+    navigationOptions: {
+      title: 'حسابي الزبال',
+    }
+  }
 
 });
 

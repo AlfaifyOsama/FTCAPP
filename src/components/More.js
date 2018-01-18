@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
-import { Text, View, StatusBar } from 'react-native';
+import { View } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 
 
-export default class Home extends Component {
+export default class More extends Component {
   state = { options: [] } ;
 
-  constructor(props) {
-    super(props);
-
-  }
 
     componentDidMount() {
       this.setState({
@@ -21,6 +17,10 @@ export default class Home extends Component {
           {
             title: 'ارسال التنبيهات',
             icon: 'send',
+          },
+          {
+            title: 'حسابي',
+            icon: 'account-circle',
           }
          ]
     });
@@ -30,10 +30,11 @@ export default class Home extends Component {
       this.props.navigation.navigate('ApprovePoints');
     else if(x == 1)
       this.props.navigation.navigate('SendNotifications');
+    else if(x == 2)
+     this.props.navigation.navigate('MyProfile');
 
   }
   render() {
-
     const { pageStyle, listStyle, listItem } = styles;
     return (
        <View style={pageStyle}>
