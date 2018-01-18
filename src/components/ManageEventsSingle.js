@@ -1,40 +1,88 @@
 import React, { Component } from 'react';
 import { Text, TouchableOpacity, AsyncStorage, View, Picker, ScrollView } from 'react-native';
-import { Card, Button, Icon } from 'react-native-elements';
+import { Card, Button, Icon, Divider } from 'react-native-elements';
 import Autocomplete from 'react-native-autocomplete-input';
 import { TextField } from 'react-native-material-textfield';
 import { Dropdown } from 'react-native-material-dropdown';
+import Toast, {DURATION} from 'react-native-easy-toast';
+import normalize from 'react-native-elements/src/helpers/normalizeText';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import axios from 'axios';
 import BaseURL from '../config';
 
 class ManageEventsSingle extends Component {
-  state = { members: ['Osama Aloqaily', 'Nawaf Alquiad'],
+  state = { members: [],
             selected: [],
             query: '',
             projectName: '',
             projectDisc: '',
             type: 'ATTEND',
-            maxNumOfMembers: 0
+            maxNumOfMembers: 0,
+            selectedIDs: [],
+            eventId: this.props.navigation.state.params.eventId,
+            newAddedMembersIDs: [],
+            newAddedMembers: [],
+            deletedMembersIDs: []
           }
 
   componentDidMount() {
-    this.getInfo();
+    this.getProjectInfo();
+    this.getAllMembers();
   }
 
   onNamePress = (data) => {
-    this.state.selected.push(data.props.children);
+    const { selectedIDs, newAddedMembersIDs, maxNumOfMembers } = this.state
+    const addedMembersNumber = selectedIDs.length + newAddedMembersIDs.length;
+
+    // data.key is the user id
+    if (selectedIDs.includes(parseInt(data.key)) || newAddedMembersIDs.includes(data.key + '')){
+      alert('العضو مضاف بالمشروع من قبل!');
+      return;
+    } else if (addedMembersNumber >= maxNumOfMembers) {
+      alert('عدد الاعضاء في المشروع وصل للحد الأعلى');
+      return;
+    }
+    this.state.newAddedMembers.push(data.props.children);
+    this.state.newAddedMembersIDs.push(data.key);
     this.setState({ query: '' });
   }
 
+  onSaveChangesPress = async () => {
+    console.log('1');
+    const token = 'Bearer ' + await AsyncStorage.getItem('token');
+    const instance = axios.create({
+    timeout: 5000,
+    headers: { 'Authorization': token }
+    });
 
-  getInfo = async () => {
+    const { newAddedMembersIDs, projectName, projectDisc, maxNumOfMembers, eventId, deletedMembersIDs } = this.state;
+    const updatedInfo = { users: newAddedMembersIDs,
+      name: projectName,
+      description: projectDisc,
+      user_limit: maxNumOfMembers,
+      event_id: eventId,
+      deletedMembersIDs,
+    };
+    instance.put(`${BaseURL}/events/updateEvent`, updatedInfo)
+      .then((response) => {
+        alert('a');
+        this.refs.toast.show('حفظنا لك التغييرات', 500);
+      })
+      .catch((error) => {
+      });
+      console.log('3');
+
+   }
+
+
+  getAllMembers = async () => {
    const token = 'Bearer ' + await AsyncStorage.getItem('token');
 
    const instance = axios.create({
    timeout: 5000,
    headers: { 'Authorization': token }
    });
+
    instance.get(BaseURL + '/users/getAll')
      .then((response) => {
        this.setState({
@@ -43,6 +91,33 @@ class ManageEventsSingle extends Component {
      })
      .catch((error) => {
        alert('فيه غلط صار وما كان لي خلق اصلحه، جرب مره ثانيه :)');
+     });
+  }
+
+  getProjectInfo = async () => {
+   const token = 'Bearer ' + await AsyncStorage.getItem('token');
+
+   const instance = axios.create({
+   timeout: 5000,
+   headers: { 'Authorization': token }
+   });
+   instance.get(`${BaseURL}/events/${this.state.eventId}/show`)
+     .then((response) => {
+       const { name, description, user_limit, type } = response.data.event;
+       const { IDs, names } = response.data.users;
+
+       // Add all project registered info
+       this.setState({
+         projectName: name,
+         projectDisc: description,
+         maxNumOfMembers: user_limit,
+         type,
+         selected: names,
+         selectedIDs: IDs
+       });
+     })
+     .catch((error) => {
+       alert('ERROR');
      });
   }
 
@@ -58,10 +133,44 @@ class ManageEventsSingle extends Component {
   }
 
   renderSelectedNames = () => {
-    if(this.state.selected.length > 0)
-      return this.state.selected.map((member, i) => (
+    if(this.state.newAddedMembers.length > 0)
+      return this.state.newAddedMembers.map((member, i) => (
         i === 0 ? <Text style={{ color: '#515151' }} key={i}> {member} </Text> : <Text style={{ color: '#515151' }} key={i}> {member}،</Text>
       ));
+  }
+
+  renderAllRegisteredMembers() {
+    return (
+      this.state.selected.map((member, index) =>
+      <View>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }} >
+          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+            <Text style={{ opacity: 0.7 }}>طيّره</Text>
+              <Icon
+                size={10}
+                reverse
+                name='cross'
+                type='entypo'
+                color='red'
+                onPress={() => (this.removeMember(index, member))}
+              />
+          </View>
+          <View style={{ justifyContent: 'center', flex: 1, alignItems: 'flex-end' }}>
+          <Text style={{ fontSize: 16, opacity: 0.7 }}>{member}</Text>
+          </View>
+        </View>
+        <View style={styles.line} />
+      </View>
+     )
+   );
+  }
+
+  removeMember(memberIndex, member) {
+    this.state.deletedMembersIDs.push(this.state.selectedIDs[memberIndex]);
+    this.state.selected.splice(memberIndex, 1);
+    this.state.selectedIDs.splice(memberIndex, 1);
+    this.setState({ });
+    // just to re-render
   }
 
   getNumbersTo60() {
@@ -72,8 +181,11 @@ class ManageEventsSingle extends Component {
     return numbers;
   }
 
+  onCancel() {
+    this.props.navigation.goBack();
+  }
+
   render() {
-    console.log(this.state);
     const radioProps = [
       { label: 'نحتاج منظمين', value: 'ORGANIZE', index: 0 },
       { label: 'التسجيل للحضور فقط', value: 'ATTEND', index: 1 }
@@ -83,7 +195,7 @@ class ManageEventsSingle extends Component {
     return (
       <ScrollView>
       <View style={{ paddingBottom: 15 }}>
-      <Card>
+      <Card title='المشروع'>
         <TextField
           label='اسم المشروع'
           value={this.state.projectName}
@@ -100,6 +212,15 @@ class ManageEventsSingle extends Component {
           titleTextStyle={{ textAlign: 'right' }}
           multiline
         />
+        <View style={{ width: '60%', alignSelf: 'flex-end' }}>
+        <Dropdown
+          label='الحد الاعلى للمشاركين'
+          data={this.getNumbersTo60()}
+          itemTextStyle={{ textAlign: 'right' }}
+          onChangeText={(value) => this.setState({ maxNumOfMembers: value })}
+          value={this.state.maxNumOfMembers}
+        />
+        </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
           <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
             <Text style={{ opacity: 0.7 }}>حذف الكل</Text>
@@ -109,10 +230,10 @@ class ManageEventsSingle extends Component {
                 name='cross'
                 type='entypo'
                 color='red'
-                onPress={() => this.setState({ selected: [] })}
+                onPress={() => this.setState({ newAddedMembers: [], newAddedMembersIDs: [] })}
               />
           </View>
-          <Text style={{ textAlign: 'right', flex: 1 }}>المشاركين في المشروع:</Text>
+          <Text style={{ textAlign: 'right', flex: 1 }}>اضافة مشاركين:</Text>
         </View>
         <Autocomplete
           placeholder={'اضافة مشاركين'}
@@ -167,39 +288,42 @@ class ManageEventsSingle extends Component {
 
           </RadioForm>
         </View>
-        <View style={{ width: '60%', alignSelf: 'flex-end' }}>
-        <Dropdown
-          label='الحد الاعلى للمشاركين'
-          data={this.getNumbersTo60()}
-          itemTextStyle={{ textAlign: 'right' }}
-          onChangeText={(value) => this.setState({ maxNumOfMembers: value })}
-        />
-        </View>
-        <View>
+        <Text style={{ fontSize: normalize(14), fontWeight: 'bold', marginBottom: 15, color: '#43484d', textAlign: 'center', marginTop: 50 }}>الاعضاء</Text>
+        <Divider style={{ marginBottom: 15 }} />
+        { this.renderAllRegisteredMembers() }
+        <View style={{ marginBottom: 10, flexDirection: 'row', justifyContent: 'space-around' }}>
+          <Button
+            backgroundColor='red'
+            buttonStyle={{ borderRadius: 20, marginTop: 25 }}
+            title='الغاء ورجوع'
+            rightIcon={{ name: 'cross', type: 'entypo' }}
+            onPress={this.onCancel.bind(this)}
+          />
           <Button
             backgroundColor='#03A9F4'
             buttonStyle={{ borderRadius: 20, marginTop: 25 }}
             title='حفظ التغييرات'
             rightIcon={{ name: 'done' }}
-            onPress={() => alert('حفظنا لك التغييرات')}
+            onPress={this.onSaveChangesPress.bind(this)}
           />
         </View>
       </Card>
       </View>
+      <Toast position='center' ref="toast" />
       </ScrollView>
       );
   }
-  // <RadioForm
-  //   buttonSize={15}
-  //   radio_props={radioProps}
-  //   initial={0}
-  //   formHorizontal
-  //   labelHorizontal={false}
-  //   buttonColor={'#2196f3'}
-  //   animation
-  //   onPress={(type) => this.setState({ type })}
-  // />
 
 }
+
+const styles = {
+  line: {
+    width: '100%',
+    marginTop: 10,
+    marginBottom: 10,
+    borderTopWidth: 1,
+    borderColor: '#e5e5e5'
+  },
+};
 
 export default ManageEventsSingle;
