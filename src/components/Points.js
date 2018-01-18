@@ -7,6 +7,7 @@ import BaseURL from '../config';
 
 class Points extends Component {
 
+<<<<<<< HEAD
   constructor(props) {
     super(props);
 
@@ -39,6 +40,11 @@ class Points extends Component {
   }
 
   
+=======
+
+  state = { data: [] };
+
+>>>>>>> b3958f4ae5cb2052541f471a335ea608e516839c
   componentDidMount() {
     this.getInfo();
   }

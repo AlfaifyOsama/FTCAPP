@@ -1,11 +1,18 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 import { Icon } from 'react-native-elements';
+<<<<<<< HEAD
 import { View, Image, TextInput, AsyncStorage, ImageBackground, NavigatorIOS } from 'react-native';
 import { Button, Spinner } from './common';
 import BaseURL from '../config';
 
 
+=======
+import { View, Image, TextInput, AsyncStorage, ImageBackground } from 'react-native';
+import { Button, Spinner } from './common';
+import BaseURL from '../config';
+
+>>>>>>> b3958f4ae5cb2052541f471a335ea608e516839c
 export default class LoginForm extends Component {
   constructor(props) {
     super(props);
