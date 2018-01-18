@@ -101,33 +101,35 @@ class ApprovePointsSingle extends Component {
 
        return (<AnimatedHideView
         visible={this.state.isChildVisible[index]}
+        key={'AnimatedView'+item.id}
           >
-        <View style={[{ marginBottom: index === this.state.members.length - 1 ? 20 : 0 }, styles.pageStyle]} key={index} >
-          <Card title={item.first_name + ' ' + item.last_name } key={index}>
+        <View  style={[{ marginBottom: index === this.state.members.length - 1 ? 20 : 0 }, styles.pageStyle]} key={'View' + item.id} >
+          <Card title={item.first_name + ' ' + item.last_name } key={'Card'+item.id}>
             {
               item.points.map((work, indexWork) => {
                 return (
-                  <View style={singleWorkStyle} key={indexWork}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }} >
+                  <View style={singleWorkStyle} key={'WorkView'+item.id+indexWork}>
+                    <View key={'InputView'+item.id+indexWork} style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }} >
                       <TextInput
                         placeholder={'00'}
                         autoCapitalize={'none'}
                         autoCorrect={false}
                         onChangeText={(text) => (this.state.inputs[index+''+indexWork] = text)}
-                        key={index}
+                        key={item.id+''+indexWork}
                         value={this.state.inputs[index+''+indexWork]}
                         style={{ textAlign: 'right' }}
                         maxLength={2}
                       />
 
-                      <Text style={workTextStyle}>{work.description}</Text>
+                      <Text key={'Description' + item.id+''+indexWork } style={workTextStyle}>{work.description}</Text>
                     </View>
-                    <View style={line} />
+                    <View key={'line'+item.id+''+indexWork} style={line} />
                   </View>
                 );
               })
             }
             <Button
+            key={'Button'+item.id}
             onPress={ () => this.OnPress(index)}
               title='ارصدها'
               rightIcon={{ name: 'done' }}
@@ -144,7 +146,7 @@ class ApprovePointsSingle extends Component {
     }
   renderCards() {
     return this.state.members.map((item, index) => (
-      <View>
+      <View key={'mainView' + item.id}>
     { this.renderSingleCard(item, index) }
 
       </View>
@@ -165,7 +167,7 @@ class ApprovePointsSingle extends Component {
     return (
       <ScrollView style={{ backgroundColor: '#ECF2F4' }}>
         { this.renderCards() }
-        <Toast position='center' ref="toast"/>
+        <Toast position='center' ref="toast" />
       </ScrollView>
       );
   }

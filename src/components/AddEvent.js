@@ -26,6 +26,7 @@ class AddEvent extends Component {
   }
 
   onNamePress = (data) => {
+    console.log('onNamePress');
     console.log(data);
     const { maxNumOfMembers, selected, selectedIDs } = this.state;
     if (selected.includes(data.props.children)) {
@@ -40,6 +41,8 @@ class AddEvent extends Component {
   }
 
   onSubmit = async () => {
+    console.log('a');
+
     console.log('a');
     const {
       projectName,
@@ -77,6 +80,8 @@ class AddEvent extends Component {
 
 
   getInfo = async () => {
+    console.log('getInfo');
+
    const token = 'Bearer ' + await AsyncStorage.getItem('token');
 
    const instance = axios.create({
@@ -95,6 +100,8 @@ class AddEvent extends Component {
   }
 
   renderNames(query) {
+    console.log('renderNames');
+
     if (query === '') {
       return [];
     }
@@ -106,6 +113,8 @@ class AddEvent extends Component {
   }
 
   renderSelectedNames = () => {
+    console.log('renderSelectedNames');
+
     if(this.state.selected.length > 0)
       return this.state.selected.map((member, i) => (
         i === 0 ? <Text style={{ color: '#515151' }} key={i}> {member} </Text> : <Text style={{ color: '#515151' }} key={i}> {member}،</Text>
@@ -113,6 +122,8 @@ class AddEvent extends Component {
   }
 
   getNumbersTo60() {
+    console.log('getNumbersTo60');
+
     const numbers = [];
     for (let i = 1; i <= 60; i++) {
       numbers.push({ value: i });
@@ -121,6 +132,8 @@ class AddEvent extends Component {
   }
 
   renderButtonOrSpinner() {
+    console.log('renderButtonOrSpinner');
+
     if (this.state.loading) {
       return <Spinner size={'small'} />;
     }
@@ -134,6 +147,8 @@ class AddEvent extends Component {
   }
 
   render() {
+    console.log('render');
+    
     console.log(this.state);
     const radioProps = [
       { label: 'نحتاج منظمين', value: 'ORGANIZE', index: 0 },
