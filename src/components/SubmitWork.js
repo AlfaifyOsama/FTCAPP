@@ -1,151 +1,145 @@
 import React, { Component } from 'react';
-import { View, Text, Image, ScrollView, TextInput, AsyncStorage } from 'react-native';
-import { Card, ListItem, Button } from 'react-native-elements';
-import AnimatedHideView from 'react-native-animated-hide-view';
+import { View, Text, ScrollView, TextInput, AsyncStorage } from 'react-native';
+import { Card, Button } from 'react-native-elements';
 import axios from 'axios';
 import BaseURL from '../config';
-import Toast, {DURATION} from 'react-native-easy-toast'
 import { Spinner } from './common';
 
 class SubmitWork extends Component {
-    state = { members: [], inputs: [], event_id: '', loading: true, isChildVisible: [] };
-// define the view
-    getInfo = async () => {
-      this.state.event_id = this.props.navigation.state.params.event_id;
-      //console.log('eventID', this.state.event_id);
-     const token = await AsyncStorage.getItem('token');
+  state = { members: [], event: {}, inputs: [], loading: true };
+
+  componentDidMount() {
+    console.log('ComponentDidMount');
+
+    this.getInfo();
+  }
+  getInfo = async () => {
+    console.log('getInfo');
+
+    this.state.event = this.props.navigation.state.params.event;
+    console.log('event', this.state.event);
+    const token = await AsyncStorage.getItem('token');
     // console.log('token',token);
-     const instance = axios.create({
-     timeout: 5000,
-     headers: { 'Authorization': 'Bearer '+  token }
-     });
-     instance.get(BaseURL + '/events/'+ this.state.event_id +'/getRecordedWork')
-       .then((response) => {
-         //console.log(response.data.users);
-         this.state.event_ID = response.data.id;
-         response.data.users.map((item, i) => (
-           this.state.members[i] = item,
-           this.state.isChildVisible[i] = true
-         ));
-
-         this.setState({
-          loading: false
-         });
-
-       })
-       .catch((error) => {
-         console.log(error);
-       });
-    }
-
-    renderSpinner() {
-      return <Spinner />;
-    }
-
-    componentDidMount() {
-       this.getInfo();
-    }
-    validate = (index,lengthOfRecodedWork) => {
-      for(i=0 ; i< lengthOfRecodedWork; i++){
-        const value = this.state.inputs[index+''+i];
-        if(value === undefined || value < 0 || value === '' || isNaN(value)){
-          return false;
-        }
-      }
-        return true;
-    }
-    OnPress = async (index) => {
-
-      let RecordedWork = this.state.members[index]['points'];
-      let values = [];
-
-      if (!this.validate(index, RecordedWork.length)) {
-        alert('عندك مشكلة، تأكد ان كل الارقام صحيحة وانك رصدت جميع الاشغال للعضو هذا');
-        return;
-      }
-      RecordedWork.map((work, i) => (
-
-        values[i] = {
-          id: work.id,
-          value: this.state.inputs[index+''+i]
-        }
-      ));
-
-      const token = await AsyncStorage.getItem('token');
-      const instance = axios.create({
-      timeout: 5000,
+    const instance = axios.create({
+      timeout: 1000,
       headers: { 'Authorization': 'Bearer ' + token }
-      });
-      instance.put(BaseURL + '/points/approve', {
-        data: values,
-      }).then((response) => {
-        console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      //console.log('aa',this.state.event_ID);
-      this.state.isChildVisible[index] = false;
+    });
+    instance.get(BaseURL + '/events/getUsersWithRecordedWork/' + this.state.event.id)
+      .then((response) => {
+        console.log(response.data);
+        console.log(response.data[1]);
+
+        response.data.map((item, i) => (
+          this.state.members[i] = response.data[i]
+        ));
+
         this.setState({
           loading: false
         });
-        this.refs.toast.show('تم :)',500);
+      })
+      .catch((error) => {
+        console.log(error);
+        alert('فيه مشكلااا صديق');
+        this.setState({
+          loading: false
+        });
+      });
+  }
+
+  OnPress = async (index) => {
+    const text = this.state.inputs[index];
+
+    if (text === undefined || text === '' || text == null || text.length < 10 ) {
+      alert('مب على كيفك، لازم تكتب 10 حروف على الاقل');
+      return;
     }
-    renderSingleCard = (item, index) => {
+    this.setState({
+      loading: true
+    });
+    const token = await AsyncStorage.getItem('token');
+    const instance = axios.create({
+    timeout: 5000,
+    headers: { 'Authorization': 'Bearer ' + token }
+    });
+    instance.post(BaseURL + '/points/recordWork', {
+      user_id: this.state.members[index].user_id,
+      event_id: this.state.event.id,
+      description: text
+    }).then((response) => {
+      console.log(response);
+     //
+      this.state.inputs = []; // erase the inputs
+      this.getInfo();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
-      if (this.state.isChildVisible[index] === false) {
-          return <View />;
-      }
-          const { singleWorkStyle, workTextStyle, line } = styles;
+  }
 
+  renderSpinner() {
+    return <Spinner />;
+  }
 
-       return (<AnimatedHideView
-        visible={this.state.isChildVisible[index]}
-          >
-        <View style={[{ marginBottom: index === this.state.members.length - 1 ? 20 : 0 }, styles.pageStyle]} key={index} >
-          <Card title={item.first_name + ' ' + item.last_name } key={index}>
-            {
-              item.points.map((work, indexWork) => {
-                return (
-                  <View style={singleWorkStyle} key={indexWork}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }} >
-                      <TextInput
-                        placeholder={'00'}
-                        autoCapitalize={'none'}
-                        autoCorrect={false}
-                        onChangeText={(text) => (this.state.inputs[index+''+indexWork] = text)}
-                        key={index}
-                        value={this.state.inputs[index+''+indexWork]}
-                        style={{ textAlign: 'right' }}
-                        maxLength={2}
-                      />
+  renderSingleCard = (item, index) => {
 
-                      <Text style={workTextStyle}>{work.description}</Text>
-                    </View>
-                    <View style={line} />
-                  </View>
-                );
-              })
-            }
-            <Button
-            onPress={ () => this.OnPress(index)}
-              title='ارصدها'
-              rightIcon={{ name: 'done' }}
-              backgroundColor='#9ccc65'
-              style={{ alignSelf: 'center' }}
-              rounded
+    const { singleWorkStyle, workTextStyle, line } = styles;
+
+    return (
+      <View key={'CardMainView' + item.user_id} style={[{ marginBottom: index === this.state.members.length - 1 ? 20 : 0 }, styles.pageStyle]}  >
+        <Card key={'Card' + item.user_id} title={item.name}>
+          {
+            item.work.map((work, indexWork) => {
+              return (
+                <View key={'workView' + item.user_id+indexWork} style={singleWorkStyle} >
+                  <TextInput
+                  key={'textInput' + item.user_id+indexWork}
+                    multiline
+                    numberOfLines={10}
+                    value={work.description}
+                    style={{ textAlign: 'center', width: '100%' }}
+                  />
+
+                  <View key={'line' + item.user_id+indexWork}style={line} />
+                </View>
+              );
+            })
+          }
+          {/* the line that he rights on */}
+          <View key={'writingLine' + item.user_id} style={singleWorkStyle} >
+            <TextInput
+              multiline
+              placeholder={'وش سوا؟'}
+              autoCapitalize={'none'}
+              numberOfLines={10}
+              autoCorrect={false}
+              onChangeText={(text) => (this.state.inputs[index] = text)}
+              value={this.state.inputs[index]}
+              style={{ textAlign: 'center', width: '100%' }}
             />
-          </Card>
-        </View>
 
-        </AnimatedHideView>
+            <View key={'lastLine' + item.user_id} style={line} />
+          </View>
+          <Button
+            key={'Submitbutton' + item.user_id}
+            onPress={() => this.OnPress(index)}
+            title='سجلها'
+            rightIcon={{ name: 'done' }}
+            backgroundColor='#9ccc65'
+            style={{ alignSelf: 'center' }}
+            rounded
+          />
+        </Card>
+      </View>
 
-       );
-    }
+    );
+  }
   renderCards() {
+    console.log('render cards');
+
     return this.state.members.map((item, index) => (
-      <View>
-    { this.renderSingleCard(item, index) }
+      <View key={'mainView'+item.user_id} >
+        {this.renderSingleCard(item, index)}
 
       </View>
 
@@ -155,19 +149,18 @@ class SubmitWork extends Component {
   render() {
     if (this.state.loading) {
       return this.renderSpinner();
-    } else if(this.state.members.length ==0 ){ // nothing to approve
-         return (
-            <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-            <Text style={{ fontSize: 30 }}>فارغة كحياتي بدونك :)</Text>
-           </View>
-                );
-        }
+    } else if (this.state.members.length == 0) { // nothing to approve
+      return (
+        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+          <Text style={{ fontSize: 30 }}>فارغة كحياتي بدونك :)</Text>
+        </View>
+      );
+    }
     return (
       <ScrollView>
-        { this.renderCards() }
-        <Toast position='center' ref="toast"/>
+        {this.renderCards()}
       </ScrollView>
-      );
+    );
   }
 }
 
@@ -180,8 +173,10 @@ const styles = {
   singleWorkStyle: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingRight: 20,
-    paddingLeft: 20
+    width: '100%'
+
+    // paddingRight: 20,
+    // paddingLeft: 20
   },
   workTextStyle: {
     fontSize: 14,

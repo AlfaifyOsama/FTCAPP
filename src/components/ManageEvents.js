@@ -14,7 +14,7 @@ class ManageEvents extends Component {
   getEvents = async () => {
     const token = await AsyncStorage.getItem('token');
     const userId = await AsyncStorage.getItem('userID');
-    console.log(userId);
+    console.log('id',userId);
     const instance = axios.create({
       timeout: 5000,
       headers: { 'Authorization': 'Bearer ' + token }
@@ -22,7 +22,7 @@ class ManageEvents extends Component {
     instance.get(BaseURL + '/events/getLeaderEvents/' + userId)
     .then((response) => {
       this.setState({ events: response.data });
-      console.log(response.data);
+      //console.log(response.data);
     })
       .catch((error) => {
         alert('التطبيق زعلان عليك.. جرب مره ثانيه');
@@ -31,7 +31,13 @@ class ManageEvents extends Component {
 
 
 render() {
-  console.log(this.state.events);
+  if(this.state.events.length <= 0){ // if user does not have events ti manage
+    return (
+      <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+      <Text style={{ fontSize: 30 }}>فارغة كحياتي بدونك :)</Text>
+     </View>
+          );
+  }
   return (
     <ScrollView style={{ backgroundColor: '#ECF2F4' }}>
       {
@@ -53,7 +59,10 @@ render() {
                 buttonStyle={{ borderRadius: 20 }}
                 title='رصد الأعمال'
                 rightIcon={{ name: 'checkbox-multiple-marked-outline', type: 'material-community' }}
-                onPress={() => this.props.navigation.navigate('SubmitWork')}
+                onPress={() => this.props.navigation.navigate('SubmitWork',{
+                  event: item
+                })
+              }
               />
               <Button
                 backgroundColor='#03A9F4'

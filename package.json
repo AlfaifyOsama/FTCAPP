@@ -9,7 +9,7 @@
   "dependencies": {
     "axios": "^0.17.1",
     "native-base": "^2.3.6",
-    "react": "16.2.0",
+    "react": "^16.2.0",
     "react-native": "0.52.0",
     "react-native-animated-hide-view": "^1.0.0",
     "react-native-autocomplete-input": "^3.4.0",
@@ -17,11 +17,11 @@
     "react-native-elements": "^0.19.0",
     "react-native-material-dropdown": "^0.6.1",
     "react-native-material-textfield": "^0.11.0",
-    "react-native-navigation": "^1.1.336",
+    "react-native-navigation": "^1.1.346",
     "react-native-onesignal": "^3.0.7",
     "react-native-simple-radio-button": "^2.7.1",
     "react-native-vector-icons": "^4.5.0",
-    "react-navigation": "^1.0.0-beta.26",
+    "react-navigation": "^1.0.0-beta.27",
     "tcomb-form-native": "^0.6.11"
   },
   "devDependencies": {
