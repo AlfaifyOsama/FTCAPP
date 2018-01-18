@@ -45,7 +45,7 @@ export default class LoginForm extends Component {
 
         this.setState({ loading: false });
         this.renderButtonOrSpinner();
-        this.props.navigation.navigate('Home'); // Hello
+        this.props.navigation.navigate('Home'); // Hellodasdasdasdsadsa
       })
       .catch((error) => {
         //console.log(error);
