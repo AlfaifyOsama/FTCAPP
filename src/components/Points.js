@@ -7,51 +7,16 @@ import BaseURL from '../config';
 
 class Points extends Component {
 
-<<<<<<< HEAD
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      index: '0',
-      data: [
-        // {
-        //   name: 'Dark Souls',
-        //   nickname: 'Best Game!',
-        //   points: '9000'
-        // },
-        // {
-        //   name: 'Demon Souls',
-        //   nickname: 'Best Game!',
-        //   points: '8000'
-        // },
-        // {
-        //   name: 'Borderlands',
-        //   nickname: 'Pretty good!',
-        //   points: '1100'
-        // },
-        // {
-        //   name: 'Monster Hunter',
-        //   nickname: 'Don\'t disappoint me please',
-        //   points: '100'
-        // },
-      ]
-    };
-
-  }
-
-  
-=======
 
   state = { data: [] };
 
->>>>>>> b3958f4ae5cb2052541f471a335ea608e516839c
   componentDidMount() {
     this.getInfo();
   }
 
   getInfo = async () => {
     const token = await AsyncStorage.getItem('token');
-    console.log('token: ',token);
+    // console.log('token: ',token);
     const instance = axios.create({
       timeout: 5000,
       headers: { 'Authorization': 'Bearer '+  token }
@@ -66,12 +31,11 @@ class Points extends Component {
         })
         .catch((error) => {
           console.log(error.response);
-          alert('فيه مشكلة، حاول مرة ثانية');
+         alert('فيه مشكلة، حاول مرة ثانية');
         });
   }
 
   render() {
-
     return (
       <ScrollView style={{ flex: 1 }}>
         <Leaderboards
