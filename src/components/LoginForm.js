@@ -29,6 +29,8 @@ export default class LoginForm extends Component {
     })
       .then((response) => {
         //console.log(response);
+        console.log("Yosif zbal")
+
 
         let token = response.data[0]['token'];
         let userID = response.data["user"]["id"] +'';
@@ -112,7 +114,6 @@ export default class LoginForm extends Component {
           </View>
 
           <View style={inputline} />
-          console.log("Yosif zbal")
 
           <View style={sectionStyle}>
             <TextInput
