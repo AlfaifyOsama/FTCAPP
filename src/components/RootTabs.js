@@ -13,6 +13,7 @@ import ManageEvents from './ManageEvents';
 import ManageEventsSingle from './ManageEventsSingle';
 import AddEvent from './AddEvent';
 import SubmitWork from './SubmitWork';
+import UsersList from './UsersList';
 
 
 const HomeStack = StackNavigator({
@@ -104,6 +105,12 @@ const MoreStack = StackNavigator({
     screen: SendNotifications,
     navigationOptions: {
       title: 'ارسل التنبيهات هنا يالذيب',
+    }
+  },
+  UsersList: {
+    screen: UsersList,
+    navigationOptions: {
+      title: 'Trash List',
     }
   },
 

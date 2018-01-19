@@ -7,44 +7,9 @@ import BaseURL from '../config';
 
 class Points extends Component {
 
-<<<<<<< HEAD
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      index: '0',
-      data: [
-        // {
-        //   name: 'Dark Souls',
-        //   nickname: 'Best Game!',
-        //   points: '9000'
-        // },
-        // {
-        //   name: 'Demon Souls',
-        //   nickname: 'Best Game!',
-        //   points: '8000'
-        // },
-        // {
-        //   name: 'Borderlands',
-        //   nickname: 'Pretty good!',
-        //   points: '1100'
-        // },
-        // {
-        //   name: 'Monster Hunter',
-        //   nickname: 'Don\'t disappoint me please',
-        //   points: '100'
-        // },
-      ]
-    };
-
-  }
-
-  
-=======
 
   state = { data: [] };
 
->>>>>>> b3958f4ae5cb2052541f471a335ea608e516839c
   componentDidMount() {
     this.getInfo();
   }

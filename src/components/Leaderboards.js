@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
+import PropTypes, { number } from "prop-types";
 import {
   View,
   Text,
@@ -70,15 +70,27 @@ export default class Leaderboards extends Component {
   };
 
   getDir(index) {
+    // 20% trash, 30% sleeping, 30% turtle, 20% weightlifting.
+
+    var numberOfUsers = Object.keys(this.props.data).length - 3;
+
+    var indexOfWeighlifters = numberOfUsers * 0.2;
+    var indexOfTurtles = numberOfUsers * 0.3 + indexOfWeighlifters;
+    var indexOfSleeping = numberOfUsers * 0.3 + indexOfTurtles;
+    var indexOfTrash = numberOfUsers * 0.2 + indexOfSleeping; // 20% of the users.
+
+
     if (index < 3) { // index < n, where n is the TOP n that you want to have this icon.
       return require('./images/fire.png');
     }
-    if (index < 11) {
-      return require('./images/weightlifting.png');
+    if (index - 3 < indexOfWeighlifters) { // -3 to ignore the top 3
+      return require('./images/strong.png');
     }
-    if(index < 40){
-      return require('./images/sea-turtle.png');
+    if (index - 3 < indexOfTurtles) {
+      return require('./images/turtle.png');
     }
+    if(index - 3 < indexOfSleeping)
+      return require('./images/sleeping.png')
     return require('./images/waste-bin.png')
   }
 
