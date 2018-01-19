@@ -34,13 +34,10 @@ export default class More extends Component {
       this.props.navigation.navigate('ApprovePoints');
     else if (x == 1)
       this.props.navigation.navigate('SendNotifications');
-<<<<<<< HEAD
     else if (x == 2)                      
       this.props.navigation.navigate('UsersList');
-=======
-    else if(x == 2)
+    else if(x == 3)
      this.props.navigation.navigate('MyProfile');
->>>>>>> f0868c0f3055b00239fc1e2791377167930bef0c
 
   }
   render() {
