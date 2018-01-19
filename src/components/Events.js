@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, TouchableOpacity, ScrollView, View, AsyncStorage } from 'react-native';
+import { Text, TouchableOpacity, ScrollView, View, AsyncStorage, RefreshControl } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Toast, {DURATION} from 'react-native-easy-toast';
@@ -36,7 +36,7 @@ class Events extends Component {
     };
   }
 
-  state = { events: [], showAlert: false } ;
+  state = { events: [], showAlert: false, refreshing: false, } ;
 
   componentDidMount() {
     this.getEvents();
@@ -132,11 +132,25 @@ class Events extends Component {
     );
   }
 
+  _onRefresh() {
+    this.setState({ refreshing: true });
+    this.getEvents();
+    this.setState({ refreshing: false });
+}
+
 render() {
   const { showAlert } = this.state;
   return (
     <View>
-    <ScrollView style={{ backgroundColor: '#ECF2F4' }}>
+    <ScrollView 
+    style={{ backgroundColor: '#ECF2F4' }}
+    refreshControl={
+      <RefreshControl
+          refreshing={this.state.refreshing}
+          onRefresh={this._onRefresh.bind(this)}
+      />
+  }
+    >
       {
         this.state.events.map((item, i) => (
         <View
