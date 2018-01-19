@@ -110,7 +110,7 @@ const MoreStack = StackNavigator({
   UsersList: {
     screen: UsersList,
     navigationOptions: {
-      title: 'Trash List',
+      title: 'الأعضاء',
     }
   },
   MyProfile: {

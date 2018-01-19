@@ -19,7 +19,7 @@ export default class More extends Component {
             icon: 'send',
           },
           {
-            title: 'Trash list',
+            title: 'الأعضاء',
             icon: 'work'
           },
           {
