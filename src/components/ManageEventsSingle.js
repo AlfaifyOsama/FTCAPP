@@ -4,6 +4,7 @@ import { Card, Button, Icon, Divider } from 'react-native-elements';
 import Autocomplete from 'react-native-autocomplete-input';
 import { TextField } from 'react-native-material-textfield';
 import { Dropdown } from 'react-native-material-dropdown';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 import Toast, {DURATION} from 'react-native-easy-toast';
 import normalize from 'react-native-elements/src/helpers/normalizeText';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
@@ -17,12 +18,15 @@ class ManageEventsSingle extends Component {
             projectName: '',
             projectDisc: '',
             type: 'ATTEND',
+            date: '',
             maxNumOfMembers: 0,
             selectedIDs: [],
             eventId: this.props.navigation.state.params.eventId,
             newAddedMembersIDs: [],
             newAddedMembers: [],
-            deletedMembersIDs: []
+            deletedMembersIDs: [],
+            isDateTimePickerVisible: false,
+            whatsapp: ''
           }
 
   componentDidMount() {
@@ -55,23 +59,26 @@ class ManageEventsSingle extends Component {
     headers: { 'Authorization': token }
     });
 
-    const { newAddedMembersIDs, projectName, projectDisc, maxNumOfMembers, eventId, deletedMembersIDs } = this.state;
+    const { newAddedMembersIDs, projectName, projectDisc, maxNumOfMembers,
+      eventId, deletedMembersIDs, date, whatsapp
+      } = this.state;
+
     const updatedInfo = { users: newAddedMembersIDs,
       name: projectName,
       description: projectDisc,
       user_limit: maxNumOfMembers,
       event_id: eventId,
       deletedMembersIDs,
+      date,
+      whatsapp
     };
+
     instance.put(`${BaseURL}/events/updateEvent`, updatedInfo)
       .then((response) => {
-        alert('a');
         this.refs.toast.show('حفظنا لك التغييرات', 500);
       })
       .catch((error) => {
       });
-      console.log('3');
-
    }
 
 
@@ -185,6 +192,19 @@ class ManageEventsSingle extends Component {
     this.props.navigation.goBack();
   }
 
+  showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+
+  hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+  handleDatePicked = (date) => {
+    const day = date.getDate();
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    this.setState({ date: `${day} / ${month + 1} / ${year}` });
+    this.hideDateTimePicker();
+  }
+
+
   render() {
     const radioProps = [
       { label: 'نحتاج منظمين', value: 'ORGANIZE', index: 0 },
@@ -201,6 +221,7 @@ class ManageEventsSingle extends Component {
           value={this.state.projectName}
           onChangeText={(projectName) => this.setState({ projectName })}
           inputContainerStyle={{ alignItems: 'flex-end' }}
+          style={{ textAlign: 'right' }}
         />
 
         <TextField
@@ -210,8 +231,28 @@ class ManageEventsSingle extends Component {
           inputContainerStyle={{ alignItems: 'flex-end' }}
           title='لا تسلك، الوصف: وصفك الشي‌ء بحليته (يَصِفُ) وَصْفًا ، ووُصوفًا'
           titleTextStyle={{ textAlign: 'right' }}
+          style={{ textAlign: 'right' }}
           multiline
         />
+
+        <TouchableOpacity onPress={this.showDateTimePicker}>
+          <View pointerEvents='none'>
+            <TextField
+              label='تاريخ المشروع'
+              value={this.state.date}
+              inputContainerStyle={{ alignItems: 'flex-end' }}
+              style={{ textAlign: 'right' }}
+            />
+          </View>
+        </TouchableOpacity>
+
+        <TextField
+          label='رابط قروب الواتساب'
+          value={this.state.whatsapp}
+          onChangeText={(whatsapp) => this.setState({ whatsapp })}
+          inputContainerStyle={{ alignItems: 'flex-end' }}
+        />
+
         <View style={{ width: '60%', alignSelf: 'flex-end' }}>
         <Dropdown
           label='الحد الاعلى للمشاركين'
@@ -305,6 +346,14 @@ class ManageEventsSingle extends Component {
             title='حفظ التغييرات'
             rightIcon={{ name: 'done' }}
             onPress={this.onSaveChangesPress.bind(this)}
+          />
+        </View>
+
+        <View style={{ flex: 1 }}>
+          <DateTimePicker
+            isVisible={this.state.isDateTimePickerVisible}
+            onConfirm={(date) => this.handleDatePicked(date)}
+            onCancel={this.hideDateTimePicker}
           />
         </View>
       </Card>

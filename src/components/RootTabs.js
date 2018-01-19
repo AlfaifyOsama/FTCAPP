@@ -30,7 +30,6 @@ const HomeStack = StackNavigator({
     screen: Home,
     navigationOptions: {
       title: 'البيت',
-      header: null
     }
   }
 }, {

@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { Text, TouchableOpacity, AsyncStorage, View, Picker, ScrollView } from 'react-native';
+import { Text, TouchableOpacity, AsyncStorage, View, ScrollView } from 'react-native';
 import { Card, Button, Icon } from 'react-native-elements';
 import Autocomplete from 'react-native-autocomplete-input';
 import { TextField } from 'react-native-material-textfield';
 import { Dropdown } from 'react-native-material-dropdown';
-import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
+import RadioForm,
+          { RadioButton, RadioButtonInput, RadioButtonLabel }
+          from 'react-native-simple-radio-button';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 import axios from 'axios';
 import BaseURL from '../config';
 import { Spinner } from './common';
@@ -16,9 +19,12 @@ class AddEvent extends Component {
             projectName: '',
             projectDisc: '',
             type: 'ATTEND',
+            date: '',
             maxNumOfMembers: 0,
             loading: false,
-            selectedIDs: []
+            selectedIDs: [],
+            isDateTimePickerVisible: false,
+            whatsapp: ''
           }
 
   componentDidMount() {
@@ -41,15 +47,14 @@ class AddEvent extends Component {
   }
 
   onSubmit = async () => {
-    console.log('a');
-
-    console.log('a');
     const {
       projectName,
       projectDisc,
       maxNumOfMembers,
       type,
-      selectedIDs
+      selectedIDs,
+      date,
+      whatsapp
     } = this.state;
 
     this.setState({ loading: true });
@@ -65,7 +70,10 @@ class AddEvent extends Component {
       type,
       user_limit: maxNumOfMembers,
       users: selectedIDs,
+      date,
+      whatsapp
     }
+
     instance.post(BaseURL + '/events/create', param)
       .then((response) => {
         this.setState({ loading: false });
@@ -146,10 +154,20 @@ class AddEvent extends Component {
     />);
   }
 
+  showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+
+  hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+  handleDatePicked = (date) => {
+    const day = date.getDate();
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    this.setState({ date: `${day} / ${month + 1} / ${year}` });
+    this.hideDateTimePicker();
+  }
+
+
   render() {
-    console.log('render');
-    
-    console.log(this.state);
     const radioProps = [
       { label: 'نحتاج منظمين', value: 'ORGANIZE', index: 0 },
       { label: 'التسجيل للحضور فقط', value: 'ATTEND', index: 1 }
@@ -165,6 +183,7 @@ class AddEvent extends Component {
           value={this.state.projectName}
           onChangeText={(projectName) => this.setState({ projectName })}
           inputContainerStyle={{ alignItems: 'flex-end' }}
+          style={{ textAlign: 'right' }}
         />
 
         <TextField
@@ -175,7 +194,29 @@ class AddEvent extends Component {
           title='لا تسلك، الوصف: وصفك الشي‌ء بحليته (يَصِفُ) وَصْفًا ، ووُصوفًا'
           titleTextStyle={{ textAlign: 'right' }}
           multiline
+          style={{ textAlign: 'right' }}
         />
+
+        <TouchableOpacity onPress={this.showDateTimePicker}>
+          <View pointerEvents='none'>
+            <TextField
+              label='تاريخ المشروع'
+              value={this.state.date}
+              inputContainerStyle={{ alignItems: 'flex-end' }}
+              style={{ textAlign: 'right' }}
+            />
+          </View>
+        </TouchableOpacity>
+
+        <TextField
+          label='رابط قروب الواتساب'
+          value={this.state.whatsapp}
+          onChangeText={(whatsapp) => this.setState({ whatsapp })}
+          inputContainerStyle={{ alignItems: 'flex-end' }}
+          style={{ textAlign: 'right' }}
+        />
+
+
         <View style={{ width: '60%', alignSelf: 'flex-end' }}>
         <Dropdown
           label='الحد الاعلى للمشاركين'
@@ -251,25 +292,23 @@ class AddEvent extends Component {
 
           </RadioForm>
         </View>
+
         <View>
           {this.renderButtonOrSpinner()}
+        </View>
+
+        <View style={{ flex: 1 }}>
+          <DateTimePicker
+            isVisible={this.state.isDateTimePickerVisible}
+            onConfirm={(date) => this.handleDatePicked(date)}
+            onCancel={this.hideDateTimePicker}
+          />
         </View>
       </Card>
       </View>
       </ScrollView>
       );
   }
-  // <RadioForm
-  //   buttonSize={15}
-  //   radio_props={radioProps}
-  //   initial={0}
-  //   formHorizontal
-  //   labelHorizontal={false}
-  //   buttonColor={'#2196f3'}
-  //   animation
-  //   onPress={(type) => this.setState({ type })}
-  // />
-
 }
 
 export default AddEvent;

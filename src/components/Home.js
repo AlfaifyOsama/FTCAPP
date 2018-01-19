@@ -85,10 +85,11 @@ class Home extends Component {
     const { pageStyle, sectionStyle, headerImage, nameStyle, cardContentStyle,
             statusStyle, cardStyle, shadowStyle, cardBackgroundStyle,
             cardTitleStyle, qotdCardStyle, qotdContentStyle,
-            statusBarBackground
           } = styles;
     return (
-      <ScrollView 
+      <View style={{ flex: 1 }}>
+      <ImageBackground style={headerImage} source={require('./images/headerImage.jpg')}>
+      <ScrollView
       style={pageStyle}
       refreshControl={
         <RefreshControl
@@ -98,11 +99,9 @@ class Home extends Component {
     }
       >
         <View>
-          <ImageBackground style={headerImage} source={require('./images/headerImage.jpg')}>
-            <View style={statusBarBackground} />
             <Text style={nameStyle}>{this.state.firstName} {this.state.lastName}</Text>
             <Text style={statusStyle}>{this.state.status}</Text>
-            <View style={[sectionStyle, {marginTop: 30}]}>
+            <View style={[sectionStyle, {marginTop: 40}]}>
               <View style={[cardStyle, shadowStyle, {marginRight: 5}]}>
                 <ImageBackground style={[cardStyle, cardBackgroundStyle]} source={require('./images/rank.png')}>
                 <Text style={cardContentStyle}>{this.state.rank}</Text>
@@ -117,9 +116,8 @@ class Home extends Component {
                 </ImageBackground>
               </View>
             </View>
-          </ImageBackground>
 
-          <View style={[sectionStyle, { marginTop: 50 }]}>
+          <View style={[sectionStyle, { marginTop: 10 }]}>
             <View style={[qotdCardStyle, shadowStyle]}>
               <Text style={{ fontSize: normalize(14), fontWeight: 'bold', color: '#43484d', textAlign: 'center', marginTop: 15 }}>كلام ما يهمك</Text>
               <View style={styles.line} />
@@ -136,6 +134,8 @@ class Home extends Component {
           </View>
         </View>
       </ScrollView>
+      </ImageBackground>
+      </View>
       );
   }
 }
@@ -143,7 +143,6 @@ const styles = {
   pageStyle: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#ECF2F4',
   },
   containerStyle: {
     marginTop: 40,
@@ -159,13 +158,12 @@ const styles = {
   },
   headerImage: {
     flex: 1,
-    height: 200,
   },
   nameStyle: {
-    fontSize: 30,
+    fontSize: normalize(30),
     color: '#fff',
     alignSelf: 'center',
-    marginTop: 55
+    marginTop: 40
   },
   statusStyle: {
     alignSelf: 'center',
