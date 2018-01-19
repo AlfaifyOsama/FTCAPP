@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, AsyncStorage } from 'react-native';
+import { StyleSheet, ScrollView, AsyncStorage, RefreshControl } from 'react-native';
 import axios from 'axios';
 import { Text, View } from 'native-base';
 import Leaderboards from './Leaderboards';
@@ -8,7 +8,7 @@ import BaseURL from '../config';
 class Points extends Component {
 
 
-  state = { data: [] };
+  state = { data: [], refreshing: false, };
 
   componentDidMount() {
     this.getInfo();
@@ -34,10 +34,24 @@ class Points extends Component {
          alert('فيه مشكلة، حاول مرة ثانية');
         });
   }
+  
+  _onRefresh() {
+    this.setState({ refreshing: true });
+    this.getInfo();
+    this.setState({ refreshing: false });
+}
 
   render() {
     return (
-      <ScrollView style={{ flex: 1 }}>
+      <ScrollView 
+      style={{ flex: 1 }}
+      refreshControl={
+        <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh.bind(this)}
+        />
+    }
+      >
         <Leaderboards
           data={this.state.data}
           sortBy='value'
