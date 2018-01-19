@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 import { Icon } from 'react-native-elements';
-import { View, Image, TextInput, AsyncStorage, ImageBackground } from 'react-native';
+import { View, Image, TextInput, AsyncStorage, ImageBackground, StatusBar } from 'react-native';
+import { NavigationActions } from 'react-navigation'
 import { Button, Spinner } from './common';
 import BaseURL from '../config';
 
@@ -22,7 +23,12 @@ export default class LoginForm extends Component {
 
   onButtonPress() {
     this.setState({ loading: true });
-
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'Home' })
+      ]
+    });
     axios.post(BaseURL + '/users/login', {
       student_id: this.state.id,
       password: this.state.password
@@ -46,7 +52,7 @@ export default class LoginForm extends Component {
 
         this.setState({ loading: false });
         this.renderButtonOrSpinner();
-        this.props.navigation.navigate('Home'); // AYYY
+        this.props.navigation.dispatch(resetAction); // AYYY
       })
       .catch((error) => {
         //console.log(error);
@@ -58,9 +64,16 @@ export default class LoginForm extends Component {
 
   loadInitialState = async () => {
    const value = await AsyncStorage.getItem('token');
+   const resetAction = NavigationActions.reset({
+     index: 0,
+     actions: [
+       NavigationActions.navigate({ routeName: 'Home' })
+     ]
+   });
+
    // value !== null && value !==''
-    if (value !== null && value !=='') { // user has loggen in
-      this.props.navigation.navigate('Home');
+    if (true) { // user has loggen in
+      this.props.navigation.dispatch(resetAction);
     } else {
       this.setState({ loading: false });
     }
@@ -86,14 +99,15 @@ export default class LoginForm extends Component {
       return this.renderSpinner();
     }
 
-    const { navigate } = this.props.navigation;
     return (
       <View style={pageStyle}>
+      <StatusBar
+         backgroundColor="grey"
+      />
         <ImageBackground
           style={{ height: '100%', width: '100%' }}
           source={require('./images/blurBg.png')}
         >
-        <View style={statusBarBackground} />
         <View style={container}>
           <Image
             style={logo}

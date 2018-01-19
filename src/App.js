@@ -1,7 +1,6 @@
 import React from 'react';
-import { View } from 'react-native';
-import axios from 'axios';
 import { AsyncStorage } from 'react-native';
+import axios from 'axios';
 import OneSignal from 'react-native-onesignal'; // Import package from node modules
 import RootTabs from './components/RootTabs';
 import BaseURL from './config';
