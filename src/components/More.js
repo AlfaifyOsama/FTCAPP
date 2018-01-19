@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, NavigationActions } from 'react-native';
+import { View } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 
 
