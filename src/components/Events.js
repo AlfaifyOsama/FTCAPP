@@ -126,7 +126,7 @@ class Events extends Component {
         buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
         title={title}
         rightIcon={{ name: iconName, type: 'font-awesome' }}
-        onPress={() => this.onJoinEventClick(project.id)}
+        onPress={() => this.onJoinEventClick(project.id) }
         disabled={isDisabled}
       />
     );
