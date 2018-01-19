@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ImageBackground, AsyncStorage, ScrollView } from 'react-native';
+import { Text, View, ImageBackground, AsyncStorage, ScrollView, RefreshControl } from 'react-native';
 import axios from 'axios';
 import BaseURL from '../config';
 import { Spinner } from './common';
@@ -15,7 +15,8 @@ class Home extends Component {
             avg: null,
             firstName: '',
             lastName: '',
-            userEvents: []
+            userEvents: [],
+            refreshing: false,
           }
 
   componentDidMount() {
@@ -70,6 +71,12 @@ class Home extends Component {
     );
   }
 
+  _onRefresh() {
+    this.setState({ refreshing: true });
+    this.getInfo();
+    this.setState({ refreshing: false });
+}
+
   render() {
     if (this.state.loading) {
       return this.renderSpinner();
@@ -82,7 +89,15 @@ class Home extends Component {
     return (
       <View style={{ flex: 1 }}>
       <ImageBackground style={headerImage} source={require('./images/headerImage.jpg')}>
-      <ScrollView style={pageStyle}>
+      <ScrollView
+      style={pageStyle}
+      refreshControl={
+        <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh.bind(this)}
+        />
+    }
+      >
         <View>
             <Text style={nameStyle}>{this.state.firstName} {this.state.lastName}</Text>
             <Text style={statusStyle}>{this.state.status}</Text>

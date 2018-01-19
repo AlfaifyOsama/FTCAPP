@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, TouchableOpacity, ScrollView, View, AsyncStorage } from 'react-native';
+import { Text, TouchableOpacity, ScrollView, View, AsyncStorage, RefreshControl } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Toast, {DURATION} from 'react-native-easy-toast';
@@ -9,33 +9,34 @@ import axios from 'axios';
 
 class Events extends Component {
   static navigationOptions = ({ navigation }) => {
-    return { headerRight:
-                    <TouchableOpacity
-                      onPress={() => navigation.navigate('ManageEvents')}
-                      style={{ marginRight: 20 }}
-                    >
-                        <Ionicons
-                          name={'ios-settings'}
-                          size={26}
-                          style={{ color: '#000' }}
-                        />
-                     </TouchableOpacity>,
+    return {
+      headerRight:
+        <TouchableOpacity
+          onPress={() => navigation.navigate('ManageEvents')}
+          style={{ marginRight: 20 }}
+        >
+          <Ionicons
+            name={'ios-settings'}
+            size={26}
+            style={{ color: '#000' }}
+          />
+        </TouchableOpacity>,
 
-              headerLeft:
-                      <TouchableOpacity
-                        onPress={() => navigation.navigate('AddEvent')}
-                        style={{ marginLeft: 20 }}
-                      >
-                          <Ionicons
-                            name={'md-add'}
-                            size={26}
-                            style={{ color: '#000' }}
-                          />
-                       </TouchableOpacity>
-            };
+      headerLeft:
+        <TouchableOpacity
+          onPress={() => navigation.navigate('AddEvent')}
+          style={{ marginLeft: 20 }}
+        >
+          <Ionicons
+            name={'md-add'}
+            size={26}
+            style={{ color: '#000' }}
+          />
+        </TouchableOpacity>
+    };
   }
 
-  state = { events: [], showAlert: false } ;
+  state = { events: [], showAlert: false, refreshing: false, } ;
 
   componentDidMount() {
     this.getEvents();
@@ -115,27 +116,41 @@ class Events extends Component {
     return 'smile-o';
   }
 
-renderAppropriateButton(project) {
-  const isDisabled = this.buttonIsDisabled(project);
-  const title = this.renderButtonTitle(project);
-  const iconName = this.renderButtonIconName(project);
-  return (
-    <Button
-      backgroundColor='#03A9F4'
-      buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
-      title={title}
-      rightIcon={{ name: iconName, type: 'font-awesome' }}
-      onPress={() => this.onJoinEventClick(project.id)}
-      disabled={isDisabled}
-    />
-  );
+  renderAppropriateButton(project) {
+    const isDisabled = this.buttonIsDisabled(project);
+    const title = this.renderButtonTitle(project);
+    const iconName = this.renderButtonIconName(project);
+    return (
+      <Button
+        backgroundColor='#03A9F4'
+        buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
+        title={title}
+        rightIcon={{ name: iconName, type: 'font-awesome' }}
+        onPress={() => this.onJoinEventClick(project.id) }
+        disabled={isDisabled}
+      />
+    );
+  }
+
+  _onRefresh() {
+    this.setState({ refreshing: true });
+    this.getEvents();
+    this.setState({ refreshing: false });
 }
 
 render() {
   const { showAlert } = this.state;
   return (
     <View>
-    <ScrollView style={{ backgroundColor: '#ECF2F4' }}>
+    <ScrollView 
+    style={{ backgroundColor: '#ECF2F4' }}
+    refreshControl={
+      <RefreshControl
+          refreshing={this.state.refreshing}
+          onRefresh={this._onRefresh.bind(this)}
+      />
+  }
+    >
       {
         this.state.events.map((item, i) => (
         <View
