@@ -69,7 +69,7 @@ render() {
                 buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
                 title='ادارة المشروع'
                 rightIcon={{ name: 'account-settings-variant', type: 'material-community' }}
-                onPress={() => this.props.navigation.navigate('ManageEventsSingle')}
+                onPress={() => this.props.navigation.navigate('ManageEventsSingle', { eventId: item.id })}
               />
             </View>
           </Card>

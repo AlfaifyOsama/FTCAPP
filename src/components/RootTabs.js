@@ -15,6 +15,7 @@ import AddEvent from './AddEvent';
 import SubmitWork from './SubmitWork';
 import UsersList from './UsersList';
 
+import MyProfile from './MyProfile';
 
 const HomeStack = StackNavigator({
   Login: {
@@ -100,7 +101,6 @@ const MoreStack = StackNavigator({
       title: 'ارصد النقاط يالذيب',
     }
   },
-
   SendNotifications: {
     screen: SendNotifications,
     navigationOptions: {
@@ -113,6 +113,12 @@ const MoreStack = StackNavigator({
       title: 'Trash List',
     }
   },
+  MyProfile: {
+    screen: MyProfile,
+    navigationOptions: {
+      title: 'حسابي الزبال',
+    }
+  }
 
 });
 

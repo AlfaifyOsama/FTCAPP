@@ -1,32 +1,32 @@
 import React, { Component } from 'react';
-import { Text, View, StatusBar } from 'react-native';
+import { View } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 
 
 export default class More extends Component {
   state = { options: [] };
 
-  constructor(props) {
-    super(props);
 
-  }
-
-  componentDidMount() {
-    this.setState({
-      options: [
-        {
-          title: 'رصد النقاط',
-          icon: 'work',
-        },
-        {
-          title: 'ارسال التنبيهات',
-          icon: 'send',
-        },
-        {
-          title: 'Trash List',
-          icon: 'work',
-        },
-      ]
+    componentDidMount() {
+      this.setState({
+        options: [
+          {
+            title: 'رصد النقاط',
+            icon: 'work'
+          },
+          {
+            title: 'ارسال التنبيهات',
+            icon: 'send',
+          },
+          {
+            title: 'Trash list',
+            icon: 'work'
+          },
+          {
+            title: 'حسابي',
+            icon: 'account-circle',
+          },
+         ]
     });
   }
   onPress = (x) => {
@@ -34,12 +34,16 @@ export default class More extends Component {
       this.props.navigation.navigate('ApprovePoints');
     else if (x == 1)
       this.props.navigation.navigate('SendNotifications');
+<<<<<<< HEAD
     else if (x == 2)                      
       this.props.navigation.navigate('UsersList');
+=======
+    else if(x == 2)
+     this.props.navigation.navigate('MyProfile');
+>>>>>>> f0868c0f3055b00239fc1e2791377167930bef0c
 
   }
   render() {
-
     const { pageStyle, listStyle, listItem } = styles;
     return (
       <View style={pageStyle}>

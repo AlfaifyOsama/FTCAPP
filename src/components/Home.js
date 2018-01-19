@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Text, View, ImageBackground, AsyncStorage } from 'react-native';
+import { Text, View, ImageBackground, AsyncStorage, ScrollView } from 'react-native';
 import axios from 'axios';
 import BaseURL from '../config';
 import { Spinner } from './common';
+import { Card, Divider } from 'react-native-elements';
+import normalize from 'react-native-elements/src/helpers/normalizeText';
 
 class Home extends Component {
   state = { loading: true,
@@ -13,6 +15,7 @@ class Home extends Component {
             avg: null,
             firstName: '',
             lastName: '',
+            userEvents: []
           }
 
   componentDidMount() {
@@ -32,8 +35,6 @@ class Home extends Component {
    instance.get(BaseURL + '/users/' + id + '/points')
      .then((response) => {
        console.log(response.data);
-
-
        this.setState({
          points: response.data.points,
          rank: response.data.rank,
@@ -42,6 +43,7 @@ class Home extends Component {
          qotd: response.data.QuoteOfTheDay,
          firstName,
          lastName,
+         userEvents: response.data.events
        });
      })
      .catch((error) => {
@@ -55,6 +57,19 @@ class Home extends Component {
     return <Spinner />;
   }
 
+  renderUserEvents() {
+    return this.state.userEvents.map((event) =>
+      <View style={{ width: '100%', alignItems: 'center' }}>
+        <View style={{ flexDirection: 'row', marginLeft: 20, marginRight: 20 }}>
+          <Text style={{ flex: 1 }}>....</Text>
+          <Text style={{ flex: 2, textAlign: 'right' }} >{event.name}</Text>
+        </View>
+        <View style={styles.line} />
+      </View>
+
+    );
+  }
+
   render() {
     if (this.state.loading) {
       return this.renderSpinner();
@@ -66,37 +81,46 @@ class Home extends Component {
             statusBarBackground
           } = styles;
     return (
-      <View style={pageStyle}>
+      <ScrollView style={pageStyle}>
         <View>
           <ImageBackground style={headerImage} source={require('./images/headerImage.jpg')}>
             <View style={statusBarBackground} />
             <Text style={nameStyle}>{this.state.firstName} {this.state.lastName}</Text>
             <Text style={statusStyle}>{this.state.status}</Text>
+            <View style={[sectionStyle, {marginTop: 30}]}>
+              <View style={[cardStyle, shadowStyle, {marginRight: 5}]}>
+                <ImageBackground style={[cardStyle, cardBackgroundStyle]} source={require('./images/rank.png')}>
+                <Text style={cardContentStyle}>{this.state.rank}</Text>
+                <Text style={cardTitleStyle}>ترتيبك</Text>
+                </ImageBackground>
+              </View>
+
+              <View style={[cardStyle, shadowStyle, {marginLeft: 5}]}>
+                <ImageBackground style={[cardStyle, cardBackgroundStyle]} source={require('./images/pts.png')}>
+                <Text style={cardContentStyle}>{this.state.points}</Text>
+                <Text style={cardTitleStyle}>نقاطك</Text>
+                </ImageBackground>
+              </View>
+            </View>
           </ImageBackground>
-          <View style={[sectionStyle, { marginTop: 150 }]}>
-            <View style={[cardStyle, shadowStyle]}>
-              <ImageBackground style={[cardStyle, cardBackgroundStyle]} source={require('./images/rank.png')}>
-              <Text style={cardContentStyle}>{this.state.rank}</Text>
-              <Text style={cardTitleStyle}>ترتيبك</Text>
-              </ImageBackground>
-            </View>
 
-            <View style={[cardStyle, shadowStyle]}>
-              <ImageBackground style={[cardStyle, cardBackgroundStyle]} source={require('./images/pts.png')}>
-              <Text style={cardContentStyle}>{this.state.points}</Text>
-              <Text style={cardTitleStyle}>نقاطك</Text>
-              </ImageBackground>
-            </View>
-          </View>
-
-          <View style={[sectionStyle, { marginTop: 10 }]}>
+          <View style={[sectionStyle, { marginTop: 50 }]}>
             <View style={[qotdCardStyle, shadowStyle]}>
+              <Text style={{ fontSize: normalize(14), fontWeight: 'bold', color: '#43484d', textAlign: 'center', marginTop: 15 }}>كلام ما يهمك</Text>
+              <View style={styles.line} />
               <Text style={qotdContentStyle}>{this.state.qotd}</Text>
             </View>
           </View>
 
+          <View style={[sectionStyle, { marginTop: 10, marginBottom: 10 }]}>
+            <View style={[qotdCardStyle, shadowStyle]}>
+              <Text style={{ fontSize: normalize(14), fontWeight: 'bold', color: '#43484d', textAlign: 'center', marginTop: 15 }}>المشاريع الي حضرتك سجلت فيها</Text>
+              <View style={styles.line} />
+              {this.renderUserEvents()}
+            </View>
+          </View>
         </View>
-      </View>
+      </ScrollView>
       );
   }
 }
@@ -134,7 +158,7 @@ const styles = {
     fontSize: 14
   },
   cardStyle: {
-    width: 150,
+    flex: 1,
     height: 100,
     backgroundColor: '#fff',
     alignItems: 'center',
@@ -180,7 +204,14 @@ const styles = {
     left: 0,
     backgroundColor: '#fff',
     opacity: 0.3
-  }
+  },
+  line: {
+    width: '90%',
+    marginTop: 10,
+    marginBottom: 10,
+    borderTopWidth: 1,
+    borderColor: '#e5e5e5',
+  },
 };
 
 export default Home;

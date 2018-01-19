@@ -13,6 +13,7 @@
 #import <React/RCTRootView.h>
 
 @implementation AppDelegate
+@synthesize oneSignal = _oneSignal;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -20,6 +21,16 @@
 
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 
+  self.oneSignal = [[RCTOneSignal alloc] initWithLaunchOptions:launchOptions
+                                                         appId:@"0968a50c-114a-41c8-b989-4aa1905dd7b9"];
+  // For requiring push notification permissions manually.
+  self.oneSignal = [[RCTOneSignal alloc] initWithLaunchOptions:launchOptions
+                                                         appId:@"0968a50c-114a-41c8-b989-4aa1905dd7b9"
+                                                      settings:@{kOSSettingsKeyAutoPrompt: @false}];
+  
+  
+  
+  
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"FTCAPP"
                                                initialProperties:nil

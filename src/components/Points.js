@@ -16,7 +16,7 @@ class Points extends Component {
 
   getInfo = async () => {
     const token = await AsyncStorage.getItem('token');
-    console.log('token: ',token);
+    // console.log('token: ',token);
     const instance = axios.create({
       timeout: 5000,
       headers: { 'Authorization': 'Bearer '+  token }
@@ -31,12 +31,11 @@ class Points extends Component {
         })
         .catch((error) => {
           console.log(error.response);
-          alert('فيه مشكلة، حاول مرة ثانية');
+         alert('فيه مشكلة، حاول مرة ثانية');
         });
   }
 
   render() {
-
     return (
       <ScrollView style={{ flex: 1 }}>
         <Leaderboards
