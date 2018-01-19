@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, NavigationActions } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 
 
@@ -20,11 +20,15 @@ export default class More extends Component {
           },
           {
             title: 'الأعضاء',
-            icon: 'work'
+            icon: 'face'
           },
           {
             title: 'حسابي',
             icon: 'account-circle',
+          },
+          {
+            title: 'خروج',
+            icon: 'cancel',
           },
          ]
     });
@@ -38,7 +42,15 @@ export default class More extends Component {
       this.props.navigation.navigate('UsersList');
     else if(x == 3)
      this.props.navigation.navigate('MyProfile');
+     else if(x == 4){
+      
+    }
 
+  }
+
+  changeColor(title){
+    if (title === 'خروج')
+      return ({ color: '#D50000' });
   }
   render() {
     const { pageStyle, listStyle, listItem } = styles;
@@ -51,7 +63,7 @@ export default class More extends Component {
             this.state.options.map((item, i) => (
               <ListItem
                 onPress={() => this.onPress(i)}
-                style={listItem}
+                titleStyle={ this.changeColor(item.title)}
                 key={i}
                 title={item.title}
                 leftIcon={{ name: item.icon }}
