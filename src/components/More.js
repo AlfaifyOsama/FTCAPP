@@ -27,6 +27,10 @@ export default class More extends Component {
           title: 'حسابي',
           icon: 'account-circle',
         },
+        {
+          title: 'تسجيل الخروج',
+          icon: 'cancel',
+        },
       ]
     });
   }
@@ -45,6 +49,10 @@ export default class More extends Component {
     }
     else if (x == 3){
       this.props.navigation.navigate('MyProfile');
+    }
+    else {
+      AsyncStorage.clear();
+      this.props.screenProps.rootNavigation.navigate('Login');
     }
   }
 
