@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Text, TouchableOpacity, ScrollView, View, AsyncStorage, RefreshControl } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Toast, {DURATION} from 'react-native-easy-toast';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import BaseURL from '../config';
 import axios from 'axios';

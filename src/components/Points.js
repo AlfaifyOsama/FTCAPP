@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, AsyncStorage, RefreshControl, Platform, BackAndroid, BackHandler } from 'react-native';
+import { StyleSheet, ScrollView, AsyncStorage, RefreshControl, } from 'react-native';
 import axios from 'axios';
-import { Text, View } from 'native-base';
 import Leaderboards from './Leaderboards';
 import BaseURL from '../config';
 
