@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, AsyncStorage, RefreshControl } from 'react-native';
+import { StyleSheet, ScrollView, AsyncStorage, RefreshControl, Platform, BackAndroid, BackHandler } from 'react-native';
 import axios from 'axios';
 import { Text, View } from 'native-base';
 import Leaderboards from './Leaderboards';
 import BaseURL from '../config';
 
-class Points extends Component {
 
+class Points extends Component {
 
   state = { data: [], refreshing: false, };
 
@@ -31,7 +31,7 @@ class Points extends Component {
         })
         .catch((error) => {
           console.log(error.response);
-         alert('فيه مشكلة، حاول مرة ثانية');
+        alert('فيه مشكلة، حاول مرة ثانية');
         });
   }
   

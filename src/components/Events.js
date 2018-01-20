@@ -42,6 +42,7 @@ class Events extends Component {
     this.getEvents();
   }
 
+
   onJoinEventClick = async (eventId) => {
     this.setState({ showAlert: true });
     const token = await AsyncStorage.getItem('token');
