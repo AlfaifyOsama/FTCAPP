@@ -17,8 +17,6 @@ import UsersList from './UsersList';
 
 import MyProfile from './MyProfile';
 
-
-
 const PointsStack = StackNavigator({
   Points: {
     screen: Points,
@@ -98,7 +96,7 @@ const MoreStack = StackNavigator({
     navigationOptions: {
       title: 'حسابي الزبال',
     }
-  }
+  },
 
 });
 
@@ -168,7 +166,7 @@ const MainStack = StackNavigator({
     }
   },
   Home: {
-    screen: ({ navigation }) => <RootTabs screenProps={{ rootNavigation: navigation }} />,    
+    screen: ({ navigation }) => <RootTabs screenProps={{ rootNavigation: navigation }} />, 
     navigationOptions: {
       header: null,
     }

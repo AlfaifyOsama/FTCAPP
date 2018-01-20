@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, AsyncStorage } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import RootTabs from './RootTabs';
 
 
 export default class More extends Component {
@@ -44,15 +45,14 @@ export default class More extends Component {
     else if (x == 1) {
       isAdmin == '1' ? this.props.navigation.navigate('SendNotifications') : this.showErrorAlert();
     }
-    else if (x == 2){
+    else if (x == 2) {
       this.props.navigation.navigate('UsersList');
     }
-    else if (x == 3){
+    else if (x == 3) {
       this.props.navigation.navigate('MyProfile');
     }
     else {
-      AsyncStorage.clear();
-      this.props.screenProps.rootNavigation.navigate('Login');
+      this.showSignOutAlert();
     }
   }
 
@@ -66,6 +66,24 @@ export default class More extends Component {
       showErrorAlert: false
     });
   }
+
+  showSignOutAlert = () => {
+    this.setState({
+      showSignOutAlert: true
+    });
+  }
+
+  hideSignOutAlert = () => {
+    this.setState({
+      showSignOutAlert: false
+    });
+  }
+
+  signOut = () => {
+    AsyncStorage.clear();
+    this.props.screenProps.rootNavigation.navigate('Login');
+  }
+
 
   render() {
     const { pageStyle, listStyle, listItem } = styles;
@@ -96,11 +114,21 @@ export default class More extends Component {
           cancelButtonColor={'red'}
           onCancelPressed={() => this.hideErrorAlert()}
         />
+        <AwesomeAlert
+          show={this.state.showSignOutAlert}
+          title="وين رايح؟"
+          message='متأكد ودك تروح وتتركنا؟'
+          closeOnHardwareBackPress={false}
+          showCancelButton
+          showConfirmButton
+          cancelText={'ما أقدر أتركم :)'}
+          onCancelPressed={() => this.hideSignOutAlert()}
+          confirmText={'انا سحبة'}
+          confirmButtonColor={'red'}
+          onConfirmPressed={() => this.signOut()}
+        />
 
       </View>
-
-
-
     );
   }
 }
