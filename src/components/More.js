@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { View, AsyncStorage, ScrollView } from 'react-native';
+import { View, AsyncStorage } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import AwesomeAlert from 'react-native-awesome-alerts';
-import {NavigationActions} from 'react-native-navigation';
 
 
 export default class More extends Component {
