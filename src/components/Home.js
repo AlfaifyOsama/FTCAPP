@@ -59,13 +59,13 @@ class Home extends Component {
   }
 
   renderUserEvents() {
-    return this.state.userEvents.map((event) =>
-      <View style={{ width: '100%', alignItems: 'center' }}>
-        <View style={{ flexDirection: 'row', marginLeft: 20, marginRight: 20 }}>
+    return this.state.userEvents.map((event,index) =>
+      <View key={'MainView' + index} style={{ width: '100%', alignItems: 'center' }}>
+        <View key={'SubView' + index} style={{ flexDirection: 'row', marginLeft: 20, marginRight: 20 }}>
           <Text style={{ flex: 1 }}>....</Text>
           <Text style={{ flex: 2, textAlign: 'right' }} >{event.name}</Text>
         </View>
-        <View style={styles.line} />
+        <View key={index} style={styles.line} />
       </View>
 
     );

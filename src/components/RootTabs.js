@@ -17,18 +17,7 @@ import UsersList from './UsersList';
 
 import MyProfile from './MyProfile';
 
-const HomeStack = StackNavigator({
-  Home: {
-    screen: Home,
-    navigationOptions: {
-      header: null,
-    }
-  }
-}, {
-      headerMode: 'screen',
-      cardStyle: { backgroundColor: '#fff'
-    }
-});
+
 
 const PointsStack = StackNavigator({
   Points: {
@@ -115,7 +104,7 @@ const MoreStack = StackNavigator({
 
 const RootTabs = TabNavigator({
   Home: {
-    screen: HomeStack,
+    screen: Home,
     navigationOptions: {
       tabBarLabel: 'البيت',
       tabBarIcon: ({ tintColor, focused }) => (
@@ -179,7 +168,7 @@ const MainStack = StackNavigator({
     }
   },
   Home: {
-    screen: RootTabs,    
+    screen: ({ navigation }) => <RootTabs screenProps={{ rootNavigation: navigation }} />,    
     navigationOptions: {
       header: null,
     }

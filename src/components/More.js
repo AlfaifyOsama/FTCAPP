@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, AsyncStorage } from 'react-native';
+import { View, AsyncStorage, ScrollView } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import {NavigationActions} from 'react-native-navigation';
@@ -9,30 +9,30 @@ export default class More extends Component {
   state = { options: [], showLoadingAlert: false };
 
 
-    componentDidMount() {
-      this.setState({
-        options: [
-          {
-            title: 'رصد النقاط',
-            icon: 'work'
-          },
-          {
-            title: 'ارسال التنبيهات',
-            icon: 'send',
-          },
-          {
-            title: 'الأعضاء',
-            icon: 'face'
-          },
-          {
-            title: 'حسابي',
-            icon: 'account-circle',
-          },
-          {
-            title: 'خروج',
-            icon: 'cancel',
-          },
-         ]
+  componentDidMount() {
+    this.setState({
+      options: [
+        {
+          title: 'رصد النقاط',
+          icon: 'work'
+        },
+        {
+          title: 'ارسال التنبيهات',
+          icon: 'send',
+        },
+        {
+          title: 'الأعضاء',
+          icon: 'work'
+        },
+        {
+          title: 'حسابي',
+          icon: 'account-circle',
+        },
+        {
+          title: 'تسجيل الخروج',
+          icon: 'cancel',
+        },
+      ]
     });
   }
 
@@ -51,6 +51,10 @@ export default class More extends Component {
     else if (x == 3){
       this.props.navigation.navigate('MyProfile');
     }
+    else {
+      AsyncStorage.clear();
+      this.props.screenProps.rootNavigation.navigate('Login');
+    }
   }
 
   showErrorAlert = () => {
@@ -67,6 +71,7 @@ export default class More extends Component {
   render() {
     const { pageStyle, listStyle, listItem } = styles;
     return (
+      // <ScrollView style={{ backgroundColor: '#ECF2F4'}} >
       <View style={pageStyle}>
         <List style={listStyle}
           containerStyle={{ marginBottom: 20, marginTop: 0 }}
@@ -92,7 +97,11 @@ export default class More extends Component {
           cancelButtonColor={'red'}
           onCancelPressed={() => this.hideErrorAlert()}
         />
+
       </View>
+
+
+
     );
   }
 }
@@ -101,14 +110,11 @@ const styles = {
   pageStyle: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#ECF2F4',
+    backgroundColor: '#ECF2F4'
   },
   listStyle: {
     justifyContent: 'space-between',
     height: 100,
-  },
-  listItem: {
-
   }
 
 };
