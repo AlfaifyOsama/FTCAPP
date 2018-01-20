@@ -18,18 +18,10 @@ import UsersList from './UsersList';
 import MyProfile from './MyProfile';
 
 const HomeStack = StackNavigator({
-  Login: {
-    screen: LoginForm,
-    navigationOptions: {
-      title: 'البيت',
-      tabBarVisible: false,
-      header: null,
-    }
-  },
   Home: {
     screen: Home,
     navigationOptions: {
-      title: 'البيت',
+      header: null,
     }
   }
 }, {
@@ -146,6 +138,7 @@ const RootTabs = TabNavigator({
           style={{ color: tintColor }}
         />
       ),
+    
     },
   },
   Events: {
@@ -176,4 +169,21 @@ const RootTabs = TabNavigator({
   },
 });
 
-export default RootTabs;
+
+const MainStack = StackNavigator({
+  Login: {
+    screen: LoginForm,
+    navigationOptions: {
+      title: 'البيت',
+      header: null,
+    }
+  },
+  Home: {
+    screen: RootTabs,    
+    navigationOptions: {
+      header: null,
+    }
+  }
+});
+
+export default MainStack;

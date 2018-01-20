@@ -2,7 +2,7 @@ import React from 'react';
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
 import OneSignal from 'react-native-onesignal'; // Import package from node modules
-import RootTabs from './components/RootTabs';
+import MainStack from './components/RootTabs';
 import BaseURL from './config';
 
 
@@ -69,7 +69,7 @@ export default class App extends React.Component {
   render() {
     return (
       // Root tabs is the navigator..
-      <RootTabs />
+      <MainStack />
     );
   }
 }
