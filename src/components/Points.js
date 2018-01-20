@@ -12,6 +12,7 @@ class Points extends Component {
 
   componentDidMount() {
     this.getInfo();
+    screen.
   }
 
   getInfo = async () => {
