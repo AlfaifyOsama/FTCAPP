@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, AsyncStorage } from 'react-native';
+import { View, AsyncStorage, ScrollView } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import AwesomeAlert from 'react-native-awesome-alerts';
 
@@ -62,6 +62,7 @@ export default class More extends Component {
   render() {
     const { pageStyle, listStyle, listItem } = styles;
     return (
+      // <ScrollView style={{ backgroundColor: '#ECF2F4'}} >
       <View style={pageStyle}>
         <List style={listStyle}
           containerStyle={{ marginBottom: 20, marginTop: 0 }}
@@ -88,7 +89,11 @@ export default class More extends Component {
           cancelButtonColor={'red'}
           onCancelPressed={() => this.hideErrorAlert()}
         />
+
       </View>
+
+
+
     );
   }
 }
@@ -97,14 +102,11 @@ const styles = {
   pageStyle: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#ECF2F4',
+    backgroundColor: '#ECF2F4'
   },
   listStyle: {
     justifyContent: 'space-between',
     height: 100,
-  },
-  listItem: {
-
   }
 
 };
