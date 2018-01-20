@@ -35,7 +35,7 @@ export default class LoginForm extends Component {
     })
       .then((response) => {
         //console.log(response);
-        console.log("Yosif zbal")
+        console.log("Yosif zbal");
 
 
         let token = response.data[0]['token'];
