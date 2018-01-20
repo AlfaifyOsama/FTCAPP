@@ -12,8 +12,7 @@ class Points extends Component {
 
   componentDidMount() {
     this.getInfo();
-    screen.
-  }
+    }
 
   getInfo = async () => {
     const token = await AsyncStorage.getItem('token');

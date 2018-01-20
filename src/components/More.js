@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, AsyncStorage } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import {NavigationActions} from 'react-native-navigation';
 
 
 export default class More extends Component {
@@ -26,6 +27,10 @@ export default class More extends Component {
           {
             title: 'حسابي',
             icon: 'account-circle',
+          },
+          {
+            title: 'خروج',
+            icon: 'cancel',
           },
          ]
     });
@@ -70,7 +75,6 @@ export default class More extends Component {
             this.state.options.map((item, i) => (
               <ListItem
                 onPress={() => this.onPress(i)}
-                titleStyle={ this.changeColor(item.title)}
                 key={i}
                 title={item.title}
                 leftIcon={{ name: item.icon }}
