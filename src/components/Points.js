@@ -1,56 +1,69 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, AsyncStorage, RefreshControl, } from 'react-native';
+import { StyleSheet, ScrollView, AsyncStorage, RefreshControl, Text, } from 'react-native';
 import axios from 'axios';
 import Leaderboards from './Leaderboards';
 import BaseURL from '../config';
+import normalize from 'react-native-elements/src/helpers/normalizeText';
 
 
 class Points extends Component {
 
-  state = { data: [], refreshing: false, };
+  state = { data: [], avg: 0.0, refreshing: false, };
 
   componentDidMount() {
     this.getInfo();
-    }
+  }
 
   getInfo = async () => {
     const token = await AsyncStorage.getItem('token');
+    const id = await AsyncStorage.getItem('userID');
     // console.log('token: ',token);
     const instance = axios.create({
       timeout: 5000,
-      headers: { 'Authorization': 'Bearer '+  token }
-      });
-      instance.get(BaseURL + '/points/getAllPoints')
-        .then((response) => {
-          console.log(response.data[0]);
-          if(response.status == 200){
-            this.setState({data: response.data[0] });
-          }
- 
-        })
-        .catch((error) => {
-          console.log(error.response);
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    instance.get(BaseURL + '/points/getAllPoints')
+      .then((response) => {
+        console.log(response.data[0]);
+        if (response.status == 200) {
+          this.setState({ data: response.data[0] });
+        }
+
+      })
+      .catch((error) => {
+        console.log(error.response);
         alert('فيه مشكلة، حاول مرة ثانية');
+      });
+    instance.get(BaseURL + '/users/' + id + '/points')
+      .then((response) => {
+        console.log(response.data);
+        this.setState({
+          avg: response.data.avgOfPoints,
         });
+      })
+      .catch((error) => {
+        console.log(error);
+        alert('التطبيق ما اتصل بالسيرفر، شيك على الانترنت عندك');
+      });
   }
-  
+
   _onRefresh() {
     this.setState({ refreshing: true });
     this.getInfo();
     this.setState({ refreshing: false });
-}
+  }
 
   render() {
     return (
-      <ScrollView 
-      style={{ flex: 1 }}
-      refreshControl={
-        <RefreshControl
+      <ScrollView
+        refreshControl={
+          <RefreshControl
             refreshing={this.state.refreshing}
             onRefresh={this._onRefresh.bind(this)}
-        />
-    }
+          />
+        }
       >
+        <Text style={styles.avg}>المتوسط: {this.state.avg}</Text>
         <Leaderboards
           data={this.state.data}
           sortBy='value'
@@ -87,7 +100,15 @@ let styles = StyleSheet.create({
     marginBottom: 3,
     height: 'auto',
     borderWidth: 0,
-  }
+  },
+  avg: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: normalize(30),
+    marginTop: 0,
+    width: 'auto',
+    backgroundColor: '#42A5F5',
+  },
 });
 
 export default Points;

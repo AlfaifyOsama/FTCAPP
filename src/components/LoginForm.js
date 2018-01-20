@@ -191,7 +191,7 @@ const styles = {
   sectionStyle: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    paddingTop: 20
+    paddingTop: 20,
   },
   iconStyle: {
     opacity: 0.5,
