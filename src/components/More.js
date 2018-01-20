@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, AsyncStorage } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 
 export default class More extends Component {
-  state = { options: [] };
+  state = { options: [], showLoadingAlert: false };
 
 
     componentDidMount() {
@@ -26,38 +27,44 @@ export default class More extends Component {
             title: 'حسابي',
             icon: 'account-circle',
           },
-          {
-            title: 'خروج',
-            icon: 'cancel',
-          },
          ]
     });
   }
-  onPress = (x) => {
-    if (x == 0)
-      this.props.navigation.navigate('ApprovePoints');
-    else if (x == 1)
-      this.props.navigation.navigate('SendNotifications');
-    else if (x == 2)                      
-      this.props.navigation.navigate('UsersList');
-    else if(x == 3)
-     this.props.navigation.navigate('MyProfile');
-     else if(x == 4){
-      
+
+
+  onPress = async (x) => {
+    const isAdmin = await AsyncStorage.getItem('isAdmin');
+    if (x == 0) {
+      isAdmin == '1' ? this.props.navigation.navigate('ApprovePoints') : this.showErrorAlert();
     }
-
+    else if (x == 1) {
+      isAdmin == '1' ? this.props.navigation.navigate('SendNotifications') : this.showErrorAlert();
+    }
+    else if (x == 2){
+      this.props.navigation.navigate('UsersList');
+    }
+    else if (x == 3){
+      this.props.navigation.navigate('MyProfile');
+    }
   }
 
-  changeColor(title){
-    if (title === 'خروج')
-      return ({ color: '#D50000' });
+  showErrorAlert = () => {
+    this.setState({
+      showErrorAlert: true
+    });
   }
+  hideErrorAlert = () => {
+    this.setState({
+      showErrorAlert: false
+    });
+  }
+
   render() {
     const { pageStyle, listStyle, listItem } = styles;
     return (
       <View style={pageStyle}>
         <List style={listStyle}
-        containerStyle={{ marginBottom: 20, marginTop: 0 }}
+          containerStyle={{ marginBottom: 20, marginTop: 0 }}
         >
           {
             this.state.options.map((item, i) => (
@@ -71,6 +78,16 @@ export default class More extends Component {
             ))
           }
         </List>
+        <AwesomeAlert
+          show={this.state.showErrorAlert}
+          title="بروبلم"
+          message='معليش هذي للادمن بس، تحسب الدنيا فوضى؟'
+          closeOnHardwareBackPress={false}
+          showCancelButton
+          cancelText={'طيب'}
+          cancelButtonColor={'red'}
+          onCancelPressed={() => this.hideErrorAlert()}
+        />
       </View>
     );
   }
