@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import { Icon } from 'react-native-elements';
 import { View, Image, TextInput, AsyncStorage, ImageBackground, StatusBar } from 'react-native';
-import { NavigationActions } from 'react-navigation'
+import { NavigationActions } from 'react-navigation';
 import { Button, Spinner } from './common';
 import BaseURL from '../config';
 
@@ -35,24 +35,28 @@ export default class LoginForm extends Component {
     })
       .then((response) => {
         //console.log(response);
-        console.log("Yosif zbal")
+        console.log("Yosif zbal");
 
 
-        let token = response.data[0]['token'];
-        let userID = response.data["user"]["id"] +'';
-        let firstName = response.data["user"]["first_name"];
-        let lastName = response.data["user"]["last_name"];
-        let studentID = response.data["user"]["student_id"] +'';
+        const token = response.data[0]['token'];
+        const userID = response.data["user"]["id"] +'';
+        const firstName = response.data["user"]["first_name"];
+        const lastName = response.data["user"]["last_name"];
+        const studentID = response.data["user"]["student_id"] +'';
+        const isAdmin = response.data["user"]["is_admin"]+'';
+
 
         AsyncStorage.setItem('token', token);
         AsyncStorage.setItem('userID', userID);
         AsyncStorage.setItem('firstName', firstName);
         AsyncStorage.setItem('lastName', lastName);
         AsyncStorage.setItem('studentID', studentID);
+        AsyncStorage.setItem('isAdmin', isAdmin);
 
         this.setState({ loading: false });
         this.renderButtonOrSpinner();
-        this.props.navigation.dispatch(resetAction); // AYYY
+       // this.props.navigation.dispatch(resetAction); // AYYY
+       this.props.navigation.navigate('Home');
       })
       .catch((error) => {
         //console.log(error);
@@ -72,7 +76,7 @@ export default class LoginForm extends Component {
    });
 
    // value !== null && value !==''
-    if (true) { // user has loggen in
+    if (value !== null && value !=='') { // user has loggen in
       this.props.navigation.dispatch(resetAction);
     } else {
       this.setState({ loading: false });
@@ -187,7 +191,7 @@ const styles = {
   sectionStyle: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    paddingTop: 20
+    paddingTop: 20,
   },
   iconStyle: {
     opacity: 0.5,

@@ -3,55 +3,55 @@ import { Text, View, ImageBackground, AsyncStorage, ScrollView, RefreshControl }
 import axios from 'axios';
 import BaseURL from '../config';
 import { Spinner } from './common';
-import { Card, Divider } from 'react-native-elements';
 import normalize from 'react-native-elements/src/helpers/normalizeText';
 
 class Home extends Component {
-  state = { loading: true,
-            points: null,
-            rank: null,
-            status: '',
-            qotd: '',
-            avg: null,
-            firstName: '',
-            lastName: '',
-            userEvents: [],
-            refreshing: false,
-          }
+  state = {
+    loading: true,
+    points: null,
+    rank: null,
+    status: '',
+    qotd: '',
+    avg: null,
+    firstName: '',
+    lastName: '',
+    userEvents: [],
+    refreshing: false,
+  }
 
   componentDidMount() {
     this.getInfo();
   }
 
   getInfo = async () => {
-   const token = 'Bearer ' + await AsyncStorage.getItem('token');
-   const id = await AsyncStorage.getItem('userID');
-   const firstName = await AsyncStorage.getItem('firstName');
-   const lastName = await AsyncStorage.getItem('lastName');
+    const token = 'Bearer ' + await AsyncStorage.getItem('token');
+    const id = await AsyncStorage.getItem('userID');
+    const firstName = await AsyncStorage.getItem('firstName');
+    const lastName = await AsyncStorage.getItem('lastName');
 
-   const instance = axios.create({
-   timeout: 3000,
-   headers: { 'Authorization':  token }
-   });
-   instance.get(BaseURL + '/users/' + id + '/points')
-     .then((response) => {
-       console.log(response.data);
-       this.setState({
-         points: response.data.points,
-         rank: response.data.rank,
-         status: response.data.status,
-         avg: response.data.avgOfPoints,
-         qotd: response.data.QuoteOfTheDay,
-         firstName,
-         lastName,
-         userEvents: response.data.events
-       });
-     })
-     .catch((error) => {
-       console.log(error);
-       alert('التطبيق ما اتصل بالسيرفر، شيك على الانترنت عندك');
-     });
-     this.setState({ loading: false });
+    const instance = axios.create({
+      timeout: 3000,
+      headers: { 'Authorization': token }
+    });
+    instance.get(BaseURL + '/users/' + id + '/points')
+      .then((response) => {
+        console.log(response.data);
+        this.setState({
+          points: response.data.points,
+          rank: response.data.rank,
+          status: response.data.status,
+          avg: response.data.avgOfPoints,
+          qotd: response.data.QuoteOfTheDay,
+          firstName,
+          lastName,
+          userEvents: response.data.events
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        alert('التطبيق ما اتصل بالسيرفر، شيك على الانترنت عندك');
+      });
+    this.setState({ loading: false });
   }
 
   renderSpinner() {
@@ -59,13 +59,13 @@ class Home extends Component {
   }
 
   renderUserEvents() {
-    return this.state.userEvents.map((event) =>
-      <View style={{ width: '100%', alignItems: 'center' }}>
-        <View style={{ flexDirection: 'row', marginLeft: 20, marginRight: 20 }}>
+    return this.state.userEvents.map((event,index) =>
+      <View key={'MainView' + index} style={{ width: '100%', alignItems: 'center' }}>
+        <View key={'SubView' + index} style={{ flexDirection: 'row', marginLeft: 20, marginRight: 20 }}>
           <Text style={{ flex: 1 }}>....</Text>
           <Text style={{ flex: 2, textAlign: 'right' }} >{event.name}</Text>
         </View>
-        <View style={styles.line} />
+        <View key={index} style={styles.line} />
       </View>
 
     );
@@ -75,7 +75,7 @@ class Home extends Component {
     this.setState({ refreshing: true });
     this.getInfo();
     this.setState({ refreshing: false });
-}
+  }
 
   render() {
     if (this.state.loading) {
@@ -83,60 +83,60 @@ class Home extends Component {
     }
 
     const { pageStyle, sectionStyle, headerImage, nameStyle, cardContentStyle,
-            statusStyle, cardStyle, shadowStyle, cardBackgroundStyle,
-            cardTitleStyle, qotdCardStyle, qotdContentStyle,
+      statusStyle, cardStyle, shadowStyle, cardBackgroundStyle,
+      cardTitleStyle, qotdCardStyle, qotdContentStyle,
           } = styles;
     return (
       <View style={{ flex: 1 }}>
-      <ImageBackground style={headerImage} source={require('./images/headerImage.jpg')}>
-      <ScrollView
-      style={pageStyle}
-      refreshControl={
-        <RefreshControl
-            refreshing={this.state.refreshing}
-            onRefresh={this._onRefresh.bind(this)}
-        />
-    }
-      >
-        <View>
-            <Text style={nameStyle}>{this.state.firstName} {this.state.lastName}</Text>
-            <Text style={statusStyle}>{this.state.status}</Text>
-            <View style={[sectionStyle, {marginTop: 40}]}>
-              <View style={[cardStyle, shadowStyle, {marginRight: 5}]}>
-                <ImageBackground style={[cardStyle, cardBackgroundStyle]} source={require('./images/rank.png')}>
-                <Text style={cardContentStyle}>{this.state.rank}</Text>
-                <Text style={cardTitleStyle}>ترتيبك</Text>
-                </ImageBackground>
+        <ImageBackground style={headerImage} source={require('./images/headerImage.jpg')}>
+          <ScrollView
+            style={pageStyle}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh.bind(this)}
+              />
+            }
+          >
+            <View>
+              <Text style={nameStyle}>{this.state.firstName} {this.state.lastName}</Text>
+              <Text style={statusStyle}>{this.state.status}</Text>
+              <View style={[sectionStyle, { marginTop: 40 }]}>
+                <View style={[cardStyle, shadowStyle, { marginRight: 5 }]}>
+                  <ImageBackground style={[cardStyle, cardBackgroundStyle]} source={require('./images/rank.png')}>
+                    <Text style={cardContentStyle}>{this.state.rank}</Text>
+                    <Text style={cardTitleStyle}>ترتيبك</Text>
+                  </ImageBackground>
+                </View>
+
+                <View style={[cardStyle, shadowStyle, { marginLeft: 5 }]}>
+                  <ImageBackground style={[cardStyle, cardBackgroundStyle]} source={require('./images/pts.png')}>
+                    <Text style={cardContentStyle}>{this.state.points}</Text>
+                    <Text style={cardTitleStyle}>نقاطك</Text>
+                  </ImageBackground>
+                </View>
               </View>
 
-              <View style={[cardStyle, shadowStyle, {marginLeft: 5}]}>
-                <ImageBackground style={[cardStyle, cardBackgroundStyle]} source={require('./images/pts.png')}>
-                <Text style={cardContentStyle}>{this.state.points}</Text>
-                <Text style={cardTitleStyle}>نقاطك</Text>
-                </ImageBackground>
+              <View style={[sectionStyle, { marginTop: 10 }]}>
+                <View style={[qotdCardStyle, shadowStyle]}>
+                  <Text style={{ fontSize: normalize(14), fontWeight: 'bold', color: '#43484d', textAlign: 'center', marginTop: 15 }}>كلام ما يهمك</Text>
+                  <View style={styles.line} />
+                  <Text style={qotdContentStyle}>{this.state.qotd}</Text>
+                </View>
+              </View>
+
+              <View style={[sectionStyle, { marginTop: 10, marginBottom: 10 }]}>
+                <View style={[qotdCardStyle, shadowStyle]}>
+                  <Text style={{ fontSize: normalize(14), fontWeight: 'bold', color: '#43484d', textAlign: 'center', marginTop: 15 }}>المشاريع الي حضرتك سجلت فيها</Text>
+                  <View style={styles.line} />
+                  {this.renderUserEvents()}
+                </View>
               </View>
             </View>
-
-          <View style={[sectionStyle, { marginTop: 10 }]}>
-            <View style={[qotdCardStyle, shadowStyle]}>
-              <Text style={{ fontSize: normalize(14), fontWeight: 'bold', color: '#43484d', textAlign: 'center', marginTop: 15 }}>كلام ما يهمك</Text>
-              <View style={styles.line} />
-              <Text style={qotdContentStyle}>{this.state.qotd}</Text>
-            </View>
-          </View>
-
-          <View style={[sectionStyle, { marginTop: 10, marginBottom: 10 }]}>
-            <View style={[qotdCardStyle, shadowStyle]}>
-              <Text style={{ fontSize: normalize(14), fontWeight: 'bold', color: '#43484d', textAlign: 'center', marginTop: 15 }}>المشاريع الي حضرتك سجلت فيها</Text>
-              <View style={styles.line} />
-              {this.renderUserEvents()}
-            </View>
-          </View>
-        </View>
-      </ScrollView>
-      </ImageBackground>
+          </ScrollView>
+        </ImageBackground>
       </View>
-      );
+    );
   }
 }
 const styles = {

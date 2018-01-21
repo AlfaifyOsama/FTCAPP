@@ -17,27 +17,6 @@ import UsersList from './UsersList';
 
 import MyProfile from './MyProfile';
 
-const HomeStack = StackNavigator({
-  Login: {
-    screen: LoginForm,
-    navigationOptions: {
-      title: 'البيت',
-      tabBarVisible: false,
-      header: null,
-    }
-  },
-  Home: {
-    screen: Home,
-    navigationOptions: {
-      title: 'البيت',
-    }
-  }
-}, {
-      headerMode: 'screen',
-      cardStyle: { backgroundColor: '#fff'
-    }
-});
-
 const PointsStack = StackNavigator({
   Points: {
     screen: Points,
@@ -117,13 +96,13 @@ const MoreStack = StackNavigator({
     navigationOptions: {
       title: 'حسابي الزبال',
     }
-  }
+  },
 
 });
 
 const RootTabs = TabNavigator({
   Home: {
-    screen: HomeStack,
+    screen: Home,
     navigationOptions: {
       tabBarLabel: 'البيت',
       tabBarIcon: ({ tintColor, focused }) => (
@@ -146,6 +125,7 @@ const RootTabs = TabNavigator({
           style={{ color: tintColor }}
         />
       ),
+    
     },
   },
   Events: {
@@ -176,4 +156,21 @@ const RootTabs = TabNavigator({
   },
 });
 
-export default RootTabs;
+
+const MainStack = StackNavigator({
+  Login: {
+    screen: LoginForm,
+    navigationOptions: {
+      title: 'البيت',
+      header: null,
+    }
+  },
+  Home: {
+    screen: ({ navigation }) => <RootTabs screenProps={{ rootNavigation: navigation }} />, 
+    navigationOptions: {
+      header: null,
+    }
+  }
+});
+
+export default MainStack;

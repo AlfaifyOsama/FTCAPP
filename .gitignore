@@ -2,7 +2,7 @@
 #
 .DS_Store
 
-# Xcode
+Xcode
 #
 build/
 *.pbxuser
@@ -21,7 +21,7 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
-
+ios/
 # Android/IntelliJ
 #
 build/

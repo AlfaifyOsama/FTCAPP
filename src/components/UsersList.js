@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Text, TouchableOpacity, ScrollView, View, AsyncStorage, WebView, Linking, refreshControl, RefreshControl } from 'react-native';
-import { List, ListItem, getIconType } from 'react-native-elements';
-import BaseURL from '../config';
+import { ScrollView, AsyncStorage, Linking, RefreshControl } from 'react-native';
+import { List, ListItem } from 'react-native-elements';
 import axios from 'axios';
+import BaseURL from '../config';
 
 
 export default class UsersList extends Component {
