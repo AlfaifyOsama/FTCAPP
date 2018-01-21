@@ -27,14 +27,14 @@ class Points extends Component {
           if(response.status == 200){
             this.setState({data: response.data[0] });
           }
- 
+
         })
         .catch((error) => {
           console.log(error.response);
          alert('فيه مشكلة، حاول مرة ثانية');
         });
   }
-  
+
   _onRefresh() {
     this.setState({ refreshing: true });
     this.getInfo();
@@ -43,8 +43,8 @@ class Points extends Component {
 
   render() {
     return (
-      <ScrollView 
-      style={{ flex: 1 }}
+      <ScrollView
+      style={{ flex: 1, backgroundColor: '#ECF2F4' }}
       refreshControl={
         <RefreshControl
             refreshing={this.state.refreshing}
