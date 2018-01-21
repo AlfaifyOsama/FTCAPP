@@ -56,8 +56,9 @@ class Points extends Component {
   render() {
     return (
       <ScrollView
-        refreshControl={
-          <RefreshControl
+      style={{ flex: 1, backgroundColor: '#ECF2F4' }}
+      refreshControl={
+        <RefreshControl
             refreshing={this.state.refreshing}
             onRefresh={this._onRefresh.bind(this)}
           />
