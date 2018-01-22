@@ -24,12 +24,10 @@ class Points extends Component {
     });
     instance.get(BaseURL + '/points/getAllPoints')
       .then((response) => {
-        console.log(response.data[0]);
+        // console.log(response.data[1]);
+        // console.log(response.data[0]);
         if (response.status == 200) {
-          this.setState({
-            data: response.data[0],
-            avg: response.averageOf
-          });
+          this.setState({ data: response.data[0], avg: response.data[1].avgOfPoints });
         }
 
       })
@@ -37,17 +35,7 @@ class Points extends Component {
         console.log(error.response);
         alert('فيه مشكلة، حاول مرة ثانية');
       });
-    instance.get(BaseURL + '/users/' + id + '/points')
-      .then((response) => {
-        console.log(response.data);
-        this.setState({
-          avg: response.data.avgOfPoints,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        alert('التطبيق ما اتصل بالسيرفر، شيك على الانترنت عندك');
-      });
+
   }
 
   _onRefresh() {

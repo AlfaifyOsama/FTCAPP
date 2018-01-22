@@ -30,9 +30,13 @@ class ApprovePoints extends Component {
   }
 
   onPress = (id) => {
-    this.props.navigation.navigate('ApprovePointsSingle',{
+    this.props.navigation.navigate('ApprovePointsSingle', {
       event_id: id
     });
+  }
+
+  goToAddPointsForNoReason = () => {
+    this.props.navigation.navigate('AddPoints');
   }
 
   render() {
@@ -51,10 +55,9 @@ class ApprovePoints extends Component {
     this.state.events.map((item, i) => (
 
        <View
-        style={[{ paddingBottom: i === this.state.events.length - 1 ? 20 : 0 }, styles.pageStyle]}
+        style={styles.pageStyle}
         key={i}
        >
-
         <Card title={item.name} key={i}>
 
         <Text style={{ marginBottom: 25, textAlign: 'center' }}>
@@ -75,6 +78,26 @@ class ApprovePoints extends Component {
         </View>
     ))
   }
+         <View
+        style={[{ paddingBottom: 20 }, styles.pageStyle]}
+        key={'FinalCard'}
+       >
+
+        <Card title='رصد النقاط بلاسبب' >
+
+        <Text style={{ marginBottom: 25, textAlign: 'center' }}>
+        {'ارصد بلاسبب'}
+        </Text>
+        <Button
+          backgroundColor='#03A9F4'
+          buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
+          title='ارصدني'
+          rightIcon={{ name: 'checkbox-multiple-marked-outline', type: 'material-community' }}
+         onPress={() => this.goToAddPointsForNoReason()}
+        />
+
+        </Card>
+        </View>
       </ScrollView>
       );
   }

@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 import { Icon } from 'react-native-elements';
-import { View, Image, TextInput, AsyncStorage, ImageBackground, StatusBar } from 'react-native';
+import { View, Image, TextInput, AsyncStorage, ImageBackground, StatusBar, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { TextField } from 'react-native-material-textfield';
 import { NavigationActions } from 'react-navigation';
 import { Button, Spinner } from './common';
 import BaseURL from '../config';
@@ -95,6 +96,7 @@ export default class LoginForm extends Component {
   }
 
   render() {
+
     const { iconStyle, container, logo, pageStyle,
             inputline, sectionStyle, button, statusBarBackground
           } = styles;
@@ -104,6 +106,7 @@ export default class LoginForm extends Component {
     }
 
     return (
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={pageStyle}>
       <StatusBar
          backgroundColor="grey"
@@ -117,43 +120,42 @@ export default class LoginForm extends Component {
             style={logo}
             source={require('./images/ftcLogoWhite.png')}
           />
-
-          <View style={[sectionStyle]}>
-            <TextInput
-              placeholder={'الرقم الجامعي'}
-              placeholderTextColor={'#fff'}
+          <View style={{ top: -60 }}>
+            <TextField
+              label='الرقم الجامعي'
+              value={this.state.id}
+              onChangeText={id => this.setState({ id })}
+              inputContainerStyle={{ alignItems: 'flex-end' }}
+              style={{ textAlign: 'right' }}
               autoCapitalize={'none'}
               autoCorrect={false}
-              onChangeText={id => this.setState({ id })}
-              value={this.state.id}
-              style={{ textAlign: 'right', color: '#fff', opacity: 1 }}
+              baseColor={'#dbdbdb'}
+              tintColor={'#fff'}
+              textColor={'#fff'}
             />
-            <Icon type='material-community' name='account-outline' color='#fff' iconStyle={iconStyle} />
-          </View>
 
-          <View style={inputline} />
-
-          <View style={sectionStyle}>
-            <TextInput
-              placeholder={'كلمة المرور'}
-              placeholderTextColor={'#fff'}
-              style={{ textAlign: 'right', color: '#fff', opacity: 1 }}
-              onChangeText={password => this.setState({ password })}
-              secureTextEntry
+            <TextField
+              label='كلمة المرور'
               value={this.state.password}
+              onChangeText={password => this.setState({ password })}
+              inputContainerStyle={{ alignItems: 'flex-end' }}
+              style={{ textAlign: 'right' }}
+              autoCapitalize={'none'}
+              autoCorrect={false}
+              secureTextEntry
+              baseColor={'#dbdbdb'}
+              tintColor={'#fff'}
+              textColor={'#fff'}
             />
-            <Icon type='material-community' name='lock-outline' color='#fff' iconStyle={iconStyle} />
-          </View>
-
-          <View style={inputline} />
-
           <View style={button}>
             {this.renderButtonOrSpinner()}
           </View>
+        </View>
 
         </View>
         </ImageBackground>
       </View>
+      </TouchableWithoutFeedback>
 
     );
   }
@@ -164,19 +166,12 @@ const styles = {
     flexDirection: 'column',
     marginRight: 40,
     marginLeft: 40,
-    marginTop: 20,
+    marginTop: 0,
   },
   button: {
     flexDirection: 'row',
     marginTop: 30,
     justifyContent: 'flex-start',
-  },
-  inputline: {
-    width: '100%',
-    borderTopWidth: 1,
-    borderColor: '#e5e5e5',
-    opacity: 0.5,
-    marginTop: 5
   },
   logo: {
     alignSelf: 'center',
@@ -190,8 +185,6 @@ const styles = {
   },
   sectionStyle: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
-    paddingTop: 20,
   },
   iconStyle: {
     opacity: 0.5,
