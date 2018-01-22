@@ -149,11 +149,12 @@ class ManageEventsSingle extends Component {
   renderAllRegisteredMembers() {
     return (
       this.state.selected.map((member, index) =>
-      <View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }} >
-          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={{ opacity: 0.7 }}>طيّره</Text>
+      <View key={'Main' + member.id}>
+        <View key={'Sub' + member.id} style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }} >
+          <View key={'Sub2' + member.id} style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+            <Text key={'Text'+member.id} style={{ opacity: 0.7 }}>طيّره</Text>
               <Icon
+                key={'Icon' + member.id}
                 size={10}
                 reverse
                 name='cross'
@@ -162,7 +163,7 @@ class ManageEventsSingle extends Component {
                 onPress={() => (this.removeMember(index, member))}
               />
           </View>
-          <View style={{ justifyContent: 'center', flex: 1, alignItems: 'flex-end' }}>
+          <View key={' View' + member.id} style={{ justifyContent: 'center', flex: 1, alignItems: 'flex-end' }}>
           <Text style={{ fontSize: 16, opacity: 0.7 }}>{member}</Text>
           </View>
         </View>

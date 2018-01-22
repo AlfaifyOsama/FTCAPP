@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 import { Icon } from 'react-native-elements';
-import { View, Image, TextInput, AsyncStorage, ImageBackground, StatusBar } from 'react-native';
+import { View, Image, TextInput, AsyncStorage, ImageBackground, StatusBar, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { Button, Spinner } from './common';
 import BaseURL from '../config';
@@ -95,6 +95,7 @@ export default class LoginForm extends Component {
   }
 
   render() {
+
     const { iconStyle, container, logo, pageStyle,
             inputline, sectionStyle, button, statusBarBackground
           } = styles;
@@ -104,6 +105,7 @@ export default class LoginForm extends Component {
     }
 
     return (
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={pageStyle}>
       <StatusBar
          backgroundColor="grey"
@@ -154,6 +156,7 @@ export default class LoginForm extends Component {
         </View>
         </ImageBackground>
       </View>
+      </TouchableWithoutFeedback>
 
     );
   }

@@ -1,4 +1,4 @@
 
-const BaseURL = 'https://ftcksu.com/v1';
+const BaseURL = 'https://www.ftcksu.com/v1';
 
 export default BaseURL;
