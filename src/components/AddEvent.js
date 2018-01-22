@@ -84,10 +84,6 @@ class AddEvent extends Component {
   }
 
   getInfo = async () => {
-<<<<<<< HEAD
-
-=======
->>>>>>> e721b6e21b75839fc2d859511a8f51a0011cddb5
    const token = 'Bearer ' + await AsyncStorage.getItem('token');
 
    const instance = axios.create({
@@ -106,10 +102,6 @@ class AddEvent extends Component {
   }
 
   renderNames(query) {
-<<<<<<< HEAD
-
-=======
->>>>>>> e721b6e21b75839fc2d859511a8f51a0011cddb5
     if (query === '') {
       return [];
     }
@@ -121,10 +113,6 @@ class AddEvent extends Component {
   }
 
   renderSelectedNames = () => {
-<<<<<<< HEAD
-
-=======
->>>>>>> e721b6e21b75839fc2d859511a8f51a0011cddb5
     if(this.state.selected.length > 0)
       return this.state.selected.map((member, i) => (
         i === 0 ? <Text style={{ color: '#515151' }} key={i}> {member} </Text> : <Text style={{ color: '#515151' }} key={i}> {member}،</Text>
@@ -132,10 +120,6 @@ class AddEvent extends Component {
   }
 
   getNumbersTo60() {
-<<<<<<< HEAD
-
-=======
->>>>>>> e721b6e21b75839fc2d859511a8f51a0011cddb5
     const numbers = [];
     for (let i = 1; i <= 60; i++) {
       numbers.push({ value: i });
