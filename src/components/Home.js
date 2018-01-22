@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ImageBackground, AsyncStorage, ScrollView, RefreshControl } from 'react-native';
+import { Text, View, ImageBackground, AsyncStorage, ScrollView, RefreshControl, TouchableOpacity, Image, Linking } from 'react-native';
 import axios from 'axios';
 import BaseURL from '../config';
 import { Spinner } from './common';
@@ -35,7 +35,6 @@ class Home extends Component {
     });
     instance.get(BaseURL + '/users/' + id + '/points')
       .then((response) => {
-        console.log(response.data);
         this.setState({
           points: response.data.points,
           rank: response.data.rank,
@@ -48,7 +47,6 @@ class Home extends Component {
         });
       })
       .catch((error) => {
-        console.log(error);
         alert('التطبيق ما اتصل بالسيرفر، شيك على الانترنت عندك');
       });
     this.setState({ loading: false });
@@ -62,13 +60,19 @@ class Home extends Component {
     return this.state.userEvents.map((event,index) =>
       <View key={'MainView' + index} style={{ width: '100%', alignItems: 'center' }}>
         <View key={'SubView' + index} style={{ flexDirection: 'row', marginLeft: 20, marginRight: 20 }}>
-          <Text style={{ flex: 1 }}>....</Text>
-          <Text style={{ flex: 2, textAlign: 'right' }} >{event.name}</Text>
+          <TouchableOpacity onPress={() => this.openWhatsappGroup(event.whatsapp_link)}>
+            <Image style={styles.whatsappImageStyle} source={require('./images/whatsapp.png')} />
+          </TouchableOpacity>
+          <Text style={styles.eventNameStyle} >{event.name}</Text>
         </View>
         <View key={index} style={styles.line} />
       </View>
 
     );
+  }
+
+  openWhatsappGroup(link) {
+    Linking.openURL(link).catch(err => console.error('An error occurred', err));
   }
 
   _onRefresh() {
@@ -207,7 +211,8 @@ const styles = {
     fontSize: 15,
     color: '#515151',
     padding: 5,
-    textAlign: 'center'
+    textAlign: 'center',
+    marginBottom: 10
   },
   statusBarBackground: {
     width: '100%',
@@ -225,6 +230,15 @@ const styles = {
     borderTopWidth: 1,
     borderColor: '#e5e5e5',
   },
+  whatsappImageStyle: {
+    width: 25,
+    height: 25
+  },
+  eventNameStyle: {
+    flex: 2,
+    textAlign: 'right',
+    alignSelf: 'center'
+  }
 };
 
 export default Home;
