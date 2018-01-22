@@ -5,29 +5,31 @@ import Autocomplete from 'react-native-autocomplete-input';
 import { TextField } from 'react-native-material-textfield';
 import { Dropdown } from 'react-native-material-dropdown';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import Toast, {DURATION} from 'react-native-easy-toast';
+import Toast, { DURATION } from 'react-native-easy-toast';
 import normalize from 'react-native-elements/src/helpers/normalizeText';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import axios from 'axios';
+import AwesomeAlert from 'react-native-awesome-alerts';
 import BaseURL from '../config';
 
 class ManageEventsSingle extends Component {
-  state = { members: [],
-            selected: [],
-            query: '',
-            projectName: '',
-            projectDisc: '',
-            type: 'ATTEND',
-            date: '',
-            maxNumOfMembers: 0,
-            selectedIDs: [],
-            eventId: this.props.navigation.state.params.eventId,
-            newAddedMembersIDs: [],
-            newAddedMembers: [],
-            deletedMembersIDs: [],
-            isDateTimePickerVisible: false,
-            whatsapp: ''
-          }
+  state = {
+    members: [],
+    selected: [],
+    query: '',
+    projectName: '',
+    projectDisc: '',
+    type: 'ATTEND',
+    date: '',
+    maxNumOfMembers: 0,
+    selectedIDs: [],
+    eventId: this.props.navigation.state.params.eventId,
+    newAddedMembersIDs: [],
+    newAddedMembers: [],
+    deletedMembersIDs: [],
+    isDateTimePickerVisible: false,
+    whatsapp: '',
+  }
 
   componentDidMount() {
     this.getProjectInfo();
@@ -35,11 +37,11 @@ class ManageEventsSingle extends Component {
   }
 
   onNamePress = (data) => {
-    const { selectedIDs, newAddedMembersIDs, maxNumOfMembers } = this.state
+    const { selectedIDs, newAddedMembersIDs, maxNumOfMembers } = this.state;
     const addedMembersNumber = selectedIDs.length + newAddedMembersIDs.length;
 
     // data.key is the user id
-    if (selectedIDs.includes(parseInt(data.key)) || newAddedMembersIDs.includes(data.key + '')){
+    if (selectedIDs.includes(parseInt(data.key)) || newAddedMembersIDs.includes(data.key + '')) {
       alert('العضو مضاف بالمشروع من قبل!');
       return;
     } else if (addedMembersNumber >= maxNumOfMembers) {
@@ -52,25 +54,25 @@ class ManageEventsSingle extends Component {
   }
 
   onSaveChangesPress = async () => {
-    console.log('1');
     const token = 'Bearer ' + await AsyncStorage.getItem('token');
     const instance = axios.create({
-    timeout: 5000,
-    headers: { 'Authorization': token }
+      timeout: 5000,
+      headers: { 'Authorization': token }
     });
 
     const { newAddedMembersIDs, projectName, projectDisc, maxNumOfMembers,
       eventId, deletedMembersIDs, date, whatsapp
       } = this.state;
 
-    const updatedInfo = { users: newAddedMembersIDs,
+    const updatedInfo = {
+      users: newAddedMembersIDs,
       name: projectName,
       description: projectDisc,
       user_limit: maxNumOfMembers,
       event_id: eventId,
       deletedMembersIDs,
       date,
-      whatsapp
+      whatsapp,
     };
 
     instance.put(`${BaseURL}/events/updateEvent`, updatedInfo)
@@ -79,53 +81,53 @@ class ManageEventsSingle extends Component {
       })
       .catch((error) => {
       });
-   }
+  }
 
 
   getAllMembers = async () => {
-   const token = 'Bearer ' + await AsyncStorage.getItem('token');
+    const token = 'Bearer ' + await AsyncStorage.getItem('token');
 
-   const instance = axios.create({
-   timeout: 5000,
-   headers: { 'Authorization': token }
-   });
+    const instance = axios.create({
+      timeout: 5000,
+      headers: { 'Authorization': token }
+    });
 
-   instance.get(BaseURL + '/users/getAll')
-     .then((response) => {
-       this.setState({
-         members: response.data
-       });
-     })
-     .catch((error) => {
-       alert('فيه غلط صار وما كان لي خلق اصلحه، جرب مره ثانيه :)');
-     });
+    instance.get(BaseURL + '/users/getAll')
+      .then((response) => {
+        this.setState({
+          members: response.data
+        });
+      })
+      .catch((error) => {
+        alert('فيه غلط صار وما كان لي خلق اصلحه، جرب مره ثانيه :)');
+      });
   }
 
   getProjectInfo = async () => {
-   const token = 'Bearer ' + await AsyncStorage.getItem('token');
+    const token = 'Bearer ' + await AsyncStorage.getItem('token');
 
-   const instance = axios.create({
-   timeout: 5000,
-   headers: { 'Authorization': token }
-   });
-   instance.get(`${BaseURL}/events/${this.state.eventId}/show`)
-     .then((response) => {
-       const { name, description, user_limit, type } = response.data.event;
-       const { IDs, names } = response.data.users;
+    const instance = axios.create({
+      timeout: 5000,
+      headers: { 'Authorization': token }
+    });
+    instance.get(`${BaseURL}/events/${this.state.eventId}/show`)
+      .then((response) => {
+        const { name, description, user_limit, type } = response.data.event;
+        const { IDs, names } = response.data.users;
 
-       // Add all project registered info
-       this.setState({
-         projectName: name,
-         projectDisc: description,
-         maxNumOfMembers: user_limit,
-         type,
-         selected: names,
-         selectedIDs: IDs
-       });
-     })
-     .catch((error) => {
-       alert('ERROR');
-     });
+        // Add all project registered info
+        this.setState({
+          projectName: name,
+          projectDisc: description,
+          maxNumOfMembers: user_limit,
+          type,
+          selected: names,
+          selectedIDs: IDs
+        });
+      })
+      .catch((error) => {
+        alert('ERROR');
+      });
   }
 
   renderNames(query) {
@@ -140,7 +142,7 @@ class ManageEventsSingle extends Component {
   }
 
   renderSelectedNames = () => {
-    if(this.state.newAddedMembers.length > 0)
+    if (this.state.newAddedMembers.length > 0)
       return this.state.newAddedMembers.map((member, i) => (
         i === 0 ? <Text style={{ color: '#515151' }} key={i}> {member} </Text> : <Text style={{ color: '#515151' }} key={i}> {member}،</Text>
       ));
@@ -149,10 +151,10 @@ class ManageEventsSingle extends Component {
   renderAllRegisteredMembers() {
     return (
       this.state.selected.map((member, index) =>
-      <View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }} >
-          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={{ opacity: 0.7 }}>طيّره</Text>
+        <View>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }} >
+            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={{ opacity: 0.7 }}>طيّره</Text>
               <Icon
                 size={10}
                 reverse
@@ -161,23 +163,27 @@ class ManageEventsSingle extends Component {
                 color='red'
                 onPress={() => (this.removeMember(index, member))}
               />
+            </View>
+            <View style={{ justifyContent: 'center', flex: 1, alignItems: 'flex-end' }}>
+              <Text style={{ fontSize: 16, opacity: 0.7 }}>{member}</Text>
+            </View>
           </View>
-          <View style={{ justifyContent: 'center', flex: 1, alignItems: 'flex-end' }}>
-          <Text style={{ fontSize: 16, opacity: 0.7 }}>{member}</Text>
-          </View>
+          <View style={styles.line} />
         </View>
-        <View style={styles.line} />
-      </View>
-     )
-   );
+      )
+    );
   }
 
   removeMember(memberIndex, member) {
     this.state.deletedMembersIDs.push(this.state.selectedIDs[memberIndex]);
     this.state.selected.splice(memberIndex, 1);
     this.state.selectedIDs.splice(memberIndex, 1);
-    this.setState({ });
+    this.setState({});
     // just to re-render
+  }
+
+  onCancel() {
+    this.props.navigation.goBack();
   }
 
   getNumbersTo60() {
@@ -188,8 +194,33 @@ class ManageEventsSingle extends Component {
     return numbers;
   }
 
-  onCancel() {
-    this.props.navigation.goBack();
+  showDeleteAlert = () => {
+    this.setState({ showDeleteAlert: true });
+  }
+
+  hideDeleteAlert = () => {
+    this.setState({ showDeleteAlert: false });
+  }
+
+  deleteEvent = async () => {
+    const token = 'Bearer ' + await AsyncStorage.getItem('token');
+    const instance = axios.create({
+      timeout: 5000,
+      headers: { 'Authorization': token }
+    });
+
+    const updatedInfo = {
+      event_id: this.state.eventId,
+      status: 'DONE',
+    };
+
+    instance.put(`${BaseURL}/events/updateEvent`, updatedInfo)
+      .then((response) => {
+        this.hideDeleteAlert();
+        this.props.navigation.navigate('ManageEvents');
+      })
+      .catch((error) => {
+      });
   }
 
   showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
@@ -213,154 +244,176 @@ class ManageEventsSingle extends Component {
     const { query } = this.state;
     const names = this.renderNames(query);
     return (
+      <View>
       <ScrollView>
-      <View style={{ paddingBottom: 15 }}>
-      <Card title='المشروع'>
-        <TextField
-          label='اسم المشروع'
-          value={this.state.projectName}
-          onChangeText={(projectName) => this.setState({ projectName })}
-          inputContainerStyle={{ alignItems: 'flex-end' }}
-          style={{ textAlign: 'right' }}
-        />
-
-        <TextField
-          label='وصف المشروع'
-          value={this.state.projectDisc}
-          onChangeText={(projectDisc) => this.setState({ projectDisc })}
-          inputContainerStyle={{ alignItems: 'flex-end' }}
-          title='لا تسلك، الوصف: وصفك الشي‌ء بحليته (يَصِفُ) وَصْفًا ، ووُصوفًا'
-          titleTextStyle={{ textAlign: 'right' }}
-          style={{ textAlign: 'right' }}
-          multiline
-        />
-
-        <TouchableOpacity onPress={this.showDateTimePicker}>
-          <View pointerEvents='none'>
+        <View style={{ paddingBottom: 15 }}>
+          <Card title='المشروع'>
             <TextField
-              label='تاريخ المشروع'
-              value={this.state.date}
+              label='اسم المشروع'
+              value={this.state.projectName}
+              onChangeText={(projectName) => this.setState({ projectName })}
               inputContainerStyle={{ alignItems: 'flex-end' }}
               style={{ textAlign: 'right' }}
             />
-          </View>
-        </TouchableOpacity>
 
-        <TextField
-          label='رابط قروب الواتساب'
-          value={this.state.whatsapp}
-          onChangeText={(whatsapp) => this.setState({ whatsapp })}
-          inputContainerStyle={{ alignItems: 'flex-end' }}
-        />
+            <TextField
+              label='وصف المشروع'
+              value={this.state.projectDisc}
+              onChangeText={(projectDisc) => this.setState({ projectDisc })}
+              inputContainerStyle={{ alignItems: 'flex-end' }}
+              title='لا تسلك، الوصف: وصفك الشي‌ء بحليته (يَصِفُ) وَصْفًا ، ووُصوفًا'
+              titleTextStyle={{ textAlign: 'right' }}
+              style={{ textAlign: 'right' }}
+              multiline
+            />
 
-        <View style={{ width: '60%', alignSelf: 'flex-end' }}>
-        <Dropdown
-          label='الحد الاعلى للمشاركين'
-          data={this.getNumbersTo60()}
-          itemTextStyle={{ textAlign: 'right' }}
-          onChangeText={(value) => this.setState({ maxNumOfMembers: value })}
-          value={this.state.maxNumOfMembers}
-        />
-        </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
-          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={{ opacity: 0.7 }}>حذف الكل</Text>
-              <Icon
-                size={10}
-                reverse
-                name='cross'
-                type='entypo'
-                color='red'
-                onPress={() => this.setState({ newAddedMembers: [], newAddedMembersIDs: [] })}
-              />
-          </View>
-          <Text style={{ textAlign: 'right', flex: 1 }}>اضافة مشاركين:</Text>
-        </View>
-        <Autocomplete
-          placeholder={'اضافة مشاركين'}
-          place
-          data={names}
-          defaultValue={query}
-          onChangeText={text => this.setState({ query: text })}
-          renderItem={data => (
-            <TouchableOpacity onPress={this.onNamePress.bind(this, data)}>
-              <Text style={{ textAlign: 'right', marginTop: 10, paddingTop: 5, paddingBottom: 5, paddingRight: 10 }}>{data}</Text>
+            <TouchableOpacity onPress={this.showDateTimePicker}>
+              <View pointerEvents='none'>
+                <TextField
+                  label='تاريخ المشروع'
+                  value={this.state.date}
+                  inputContainerStyle={{ alignItems: 'flex-end' }}
+                  style={{ textAlign: 'right' }}
+                />
+              </View>
             </TouchableOpacity>
-          )}
-          inputContainerStyle={{ borderRadius: 10, alignItems: 'flex-end', paddingRight: 10 }}
 
-        />
-        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 5, flexWrap: 'wrap' }}>
-          {
-              this.renderSelectedNames()
-          }
-        </View>
-        <View style={{ alignItems: 'center', marginTop: 30, marginRight: 20 }}>
-        <RadioForm
-          formHorizontal
-          animation
-        >
-          {radioProps.map((obj, i) => {
-            return (
-              <RadioButton labelHorizontal key={i} style={{ marginLeft: 15 }}>
-              <RadioButtonLabel
-                obj={obj}
-                index={i}
-                onPress={() => this.setState({ type: obj.value })}
-                labelHorizontal
-                labelStyle={{ fontSize: 15, color: '#000' }}
-                labelWrapStyle={{}}
+            <TextField
+              label='رابط قروب الواتساب'
+              value={this.state.whatsapp}
+              onChangeText={(whatsapp) => this.setState({ whatsapp })}
+              inputContainerStyle={{ alignItems: 'flex-end' }}
+            />
+
+            <View style={{ width: '60%', alignSelf: 'flex-end' }}>
+              <Dropdown
+                label='الحد الاعلى للمشاركين'
+                data={this.getNumbersTo60()}
+                itemTextStyle={{ textAlign: 'right' }}
+                onChangeText={(value) => this.setState({ maxNumOfMembers: value })}
+                value={this.state.maxNumOfMembers}
               />
-              <RadioButtonInput
-                obj={obj}
-                index={i}
-                onPress={() => this.setState({ type: obj.value })}
-                isSelected={this.state.type === obj.value}
-                borderWidth={3}
-                buttonInnerColor={'#03A9F4'}
-                buttonOuterColor={this.state.type === obj.value ? '#03A9F4' : '#03A9F4'}
-                buttonSize={15}
-                buttonOuterSize={25}
-                buttonStyle={{ }}
-                buttonWrapStyle={{ marginLeft: 10 }}
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
+              <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={{ opacity: 0.7 }}>حذف الكل</Text>
+                <Icon
+                  size={10}
+                  reverse
+                  name='cross'
+                  type='entypo'
+                  color='red'
+                  onPress={() => this.setState({ newAddedMembers: [], newAddedMembersIDs: [] })}
+                />
+              </View>
+              <Text style={{ textAlign: 'right', flex: 1 }}>اضافة مشاركين:</Text>
+            </View>
+            <Autocomplete
+              placeholder={'اضافة مشاركين'}
+              place
+              data={names}
+              defaultValue={query}
+              onChangeText={text => this.setState({ query: text })}
+              renderItem={data => (
+                <TouchableOpacity onPress={this.onNamePress.bind(this, data)}>
+                  <Text style={{ textAlign: 'right', marginTop: 10, paddingTop: 5, paddingBottom: 5, paddingRight: 10 }}>{data}</Text>
+                </TouchableOpacity>
+              )}
+              inputContainerStyle={{ borderRadius: 10, alignItems: 'flex-end', paddingRight: 10 }}
+
+            />
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 5, flexWrap: 'wrap' }}>
+              {
+                this.renderSelectedNames()
+              }
+            </View>
+            <View style={{ alignItems: 'center', marginTop: 30, marginRight: 20 }}>
+              <RadioForm
+                formHorizontal
+                animation
+              >
+                {radioProps.map((obj, i) => {
+                  return (
+                    <RadioButton labelHorizontal key={i} style={{ marginLeft: 15 }}>
+                      <RadioButtonLabel
+                        obj={obj}
+                        index={i}
+                        onPress={() => this.setState({ type: obj.value })}
+                        labelHorizontal
+                        labelStyle={{ fontSize: 15, color: '#000' }}
+                        labelWrapStyle={{}}
+                      />
+                      <RadioButtonInput
+                        obj={obj}
+                        index={i}
+                        onPress={() => this.setState({ type: obj.value })}
+                        isSelected={this.state.type === obj.value}
+                        borderWidth={3}
+                        buttonInnerColor={'#03A9F4'}
+                        buttonOuterColor={this.state.type === obj.value ? '#03A9F4' : '#03A9F4'}
+                        buttonSize={15}
+                        buttonOuterSize={25}
+                        buttonStyle={{}}
+                        buttonWrapStyle={{ marginLeft: 10 }}
+                      />
+                    </RadioButton>);
+                })}
+
+              </RadioForm>
+            </View>
+            <Text style={{ fontSize: normalize(14), fontWeight: 'bold', marginBottom: 15, color: '#43484d', textAlign: 'center', marginTop: 50 }}>الاعضاء</Text>
+            <Divider style={{ marginBottom: 15 }} />
+            { this.renderAllRegisteredMembers() }
+            <View style={{ marginBottom: 10, flexDirection: 'row', justifyContent: 'space-around' }}>
+              <Button
+                backgroundColor='#03A9F4'
+                buttonStyle={{ borderRadius: 20, marginTop: 25 }}
+                title='الغاء ورجوع'
+                rightIcon={{ name: 'cross', type: 'entypo' }}
+                onPress={this.onCancel.bind(this)}
               />
-              </RadioButton>);
-          })}
-
-          </RadioForm>
+              <Button
+                backgroundColor='green'
+                buttonStyle={{ borderRadius: 20, marginTop: 25 }}
+                title='حفظ التغييرات'
+                rightIcon={{ name: 'done' }}
+                onPress={this.onSaveChangesPress.bind(this)}
+              />
+            </View>
+            <View>
+              <Button
+                backgroundColor='red'
+                buttonStyle={{ borderRadius: 20, marginTop: 25 }}
+                title='إنهاء المشروع'
+                rightIcon={{ name: 'highlight-off' }}
+                onPress={() => this.showDeleteAlert() }
+              />
+            </View>
+            <View style={{ flex: 1 }}>
+              <DateTimePicker
+                isVisible={this.state.isDateTimePickerVisible}
+                onConfirm={(date) => this.handleDatePicked(date)}
+                onCancel={this.hideDateTimePicker}
+              />
+            </View>
+          </Card>
         </View>
-        <Text style={{ fontSize: normalize(14), fontWeight: 'bold', marginBottom: 15, color: '#43484d', textAlign: 'center', marginTop: 50 }}>الاعضاء</Text>
-        <Divider style={{ marginBottom: 15 }} />
-        { this.renderAllRegisteredMembers() }
-        <View style={{ marginBottom: 10, flexDirection: 'row', justifyContent: 'space-around' }}>
-          <Button
-            backgroundColor='red'
-            buttonStyle={{ borderRadius: 20, marginTop: 25 }}
-            title='الغاء ورجوع'
-            rightIcon={{ name: 'cross', type: 'entypo' }}
-            onPress={this.onCancel.bind(this)}
-          />
-          <Button
-            backgroundColor='#03A9F4'
-            buttonStyle={{ borderRadius: 20, marginTop: 25 }}
-            title='حفظ التغييرات'
-            rightIcon={{ name: 'done' }}
-            onPress={this.onSaveChangesPress.bind(this)}
-          />
-        </View>
-
-        <View style={{ flex: 1 }}>
-          <DateTimePicker
-            isVisible={this.state.isDateTimePickerVisible}
-            onConfirm={(date) => this.handleDatePicked(date)}
-            onCancel={this.hideDateTimePicker}
-          />
-        </View>
-      </Card>
-      </View>
-      <Toast position='center' ref="toast" />
       </ScrollView>
-      );
+      <AwesomeAlert
+        show={this.state.showDeleteAlert}
+        title="أكيد ودك تنهي الفعالية؟"
+        message='تأكد أنك رصدت النقاط لجميع المشاركين!'
+        closeOnHardwareBackPress={false}
+        showCancelButton
+        showConfirmButton
+        cancelText={'بغيت أجيب العيد'}
+        confirmButtonColor={'red'}
+        onCancelPressed={() => this.hideDeleteAlert()}
+        confirmText={'أكيد'}
+        onConfirmPressed={() => this.deleteEvent()}
+      />
+      </View>
+    );
   }
 
 }

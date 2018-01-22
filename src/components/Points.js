@@ -26,7 +26,10 @@ class Points extends Component {
       .then((response) => {
         console.log(response.data[0]);
         if (response.status == 200) {
-          this.setState({ data: response.data[0] });
+          this.setState({
+            data: response.data[0],
+            avg: response.averageOf
+          });
         }
 
       })

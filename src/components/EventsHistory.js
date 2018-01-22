@@ -1,166 +1,143 @@
 import React, { Component } from 'react';
-import { View, Text, Image, ScrollView, TextInput, AsyncStorage } from 'react-native';
+import { View, Text, Image, ScrollView, TextInput, AsyncStorage, RefreshControl } from 'react-native';
 import { Card, ListItem, Button } from 'react-native-elements';
 import AnimatedHideView from 'react-native-animated-hide-view';
 import axios from 'axios';
 import BaseURL from '../config';
-import Toast, {DURATION} from 'react-native-easy-toast'
+import Toast, { DURATION } from 'react-native-easy-toast'
 import { Spinner } from './common';
 
 class EventsHistory extends Component {
-    state = { members: [], inputs: [], event_id: '', loading: true, isChildVisible: [] };
-// define the view
-    getInfo = async () => {
-      this.state.event_id = this.props.navigation.state.params.event_id;
-      //console.log('eventID', this.state.event_id);
-     const token = await AsyncStorage.getItem('token');
+  state = { data: [], loading: true, user_id: '', refreshing: false };
+  // define the view
+
+  componentDidMount() {
+    this.getInfo();
+  }
+
+
+  getInfo = async () => {
+    this.state.user_id = await AsyncStorage.getItem('userID');
+    //console.log('eventID', this.state.user_id);
+    const token = await AsyncStorage.getItem('token');
     // console.log('token',token);
-     const instance = axios.create({
-     timeout: 5000,
-     headers: { 'Authorization': 'Bearer '+  token }
-     });
-     instance.get(BaseURL + '/events/'+ this.state.event_id +'/getRecordedWork')
-       .then((response) => {
-         //console.log(response.data.users);
-         this.state.event_ID = response.data.id;
-         response.data.users.map((item, i) => (
-           this.state.members[i] = item,
-           this.state.isChildVisible[i] = true
-         ));
-
-         this.setState({
-          loading: false
-         });
-
-       })
-       .catch((error) => {
-         console.log(error);
-       });
-    }
-
-    renderSpinner() {
-      return <Spinner />;
-    }
-
-    componentDidMount() {
-       this.getInfo();
-    }
-    validate = (index,lengthOfRecodedWork) => {
-      for(i=0 ; i< lengthOfRecodedWork; i++){
-        const value = this.state.inputs[index+''+i];
-        if(value === undefined || value < 0 || value === '' || isNaN(value)){
-          return false;
-        }
-      }
-        return true;
-    }
-    OnPress = async (index) => {
-
-      let RecordedWork = this.state.members[index]['points'];
-      let values = [];
-
-      if (!this.validate(index, RecordedWork.length)) {
-        alert('عندك مشكلة، تأكد ان كل الارقام صحيحة وانك رصدت جميع الاشغال للعضو هذا');
-        return;
-      }
-      RecordedWork.map((work, i) => (
-
-        values[i] = {
-          id: work.id,
-          value: this.state.inputs[index+''+i]
-        }
-      ));
-
-      const token = await AsyncStorage.getItem('token');
-      const instance = axios.create({
+    const instance = axios.create({
       timeout: 5000,
       headers: { 'Authorization': 'Bearer ' + token }
-      });
-      instance.put(BaseURL + '/points/approve', {
-        data: values,
-      }).then((response) => {
-        console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      //console.log('aa',this.state.event_ID);
-      this.state.isChildVisible[index] = false;
+    });
+    instance.get(BaseURL + '/events/getUserEventsWithWork/' + this.state.user_id)
+      .then((response) => {
+        //console.log(response.data.users);
+        this.state.data = response.data;
         this.setState({
           loading: false
         });
-        this.refs.toast.show('تم :)',500);
-    }
-    renderSingleCard = (item, index) => {
 
-      if (this.state.isChildVisible[index] === false) {
-          return <View />;
-      }
-          const { singleWorkStyle, workTextStyle, line } = styles;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  renderSpinner() {
+    return <Spinner />;
+  }
+
+  renderSingleCard = (item, index) => {
+    const { singleWorkStyle, workTextStyle, line } = styles;
+
+    if (item.work.length === 0) {
+      return (
+
+        <View style={[{ marginBottom: index === this.state.data.length - 1 ? 20 : 0 }, styles.pageStyle]} key={'View' + item.id} >
+          <Card title={item.name} key={'Card' + item.id}>
+            <View style={singleWorkStyle} key={'WorkView' + item.id}>
+              <View key={'InputView' + item.id} style={{ flexDirection: 'row', justifyContent: 'flex-end', width: '100%' }} >
+                <Text key={'Description' + item.id} style={workTextStyle}>ما تم توثيق شغلك حتى الأن</Text>
+              </View>
+              <View key={'line' + item.id} style={line} />
+            </View>
 
 
-       return (<AnimatedHideView
-        visible={this.state.isChildVisible[index]}
-        key={'AnimatedView'+item.id}
-          >
-        <View  style={[{ marginBottom: index === this.state.members.length - 1 ? 20 : 0 }, styles.pageStyle]} key={'View' + item.id} >
-          <Card title={item.first_name + ' ' + item.last_name } key={'Card'+item.id}>
-            {
-              item.points.map((work, indexWork) => {
-                return (
-                  <View style={singleWorkStyle} key={'WorkView'+item.id+indexWork}>
-                    <View key={'InputView'+item.id+indexWork} style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }} >
-                      <TextInput
-                        placeholder={'00'}
-                        autoCapitalize={'none'}
-                        autoCorrect={false}
-                        onChangeText={(text) => (this.state.inputs[index+''+indexWork] = text)}
-                        key={item.id+''+indexWork}
-                        value={this.state.inputs[index+''+indexWork]}
-                        style={{ textAlign: 'right' }}
-                        maxLength={2}
-                      />
-
-                      <Text key={'Description' + item.id+''+indexWork } style={workTextStyle}>{work.description}</Text>
-                    </View>
-                    <View key={'line'+item.id+''+indexWork} style={line} />
-                  </View>
-                );
-              })
-            }
           </Card>
         </View>
 
-        </AnimatedHideView>
 
-       );
+
+      );
     }
+    return (
+      <View style={[{ marginBottom: index === this.state.data.length - 1 ? 20 : 0 }, styles.pageStyle]} key={'View' + item.id} >
+        <Card title={item.name} key={'Card' + item.id}>
+          {
+            item.work.map((singleWork, indexWork) => {
+              return (
+                <View style={singleWorkStyle} key={'WorkView' + item.id + indexWork}>
+                  <View key={'InputView' + item.id + indexWork} style={{ flexDirection: 'row', justifyContent: 'flex-end', width: '100%' }} >
+                    <Text key={'Description' + item.id + '' + indexWork} style={workTextStyle}>{singleWork.description}</Text>
+                  </View>
+                  <View key={'line' + item.id + '' + indexWork} style={line} />
+                </View>
+              );
+            })
+          }
+        </Card>
+      </View>
+    );
+  }
   renderCards() {
-    return this.state.members.map((item, index) => (
+    return this.state.data.map((item, index) => (
       <View key={'mainView' + item.id}>
-    { this.renderSingleCard(item, index) }
+        {this.renderSingleCard(item, index)}
 
       </View>
 
     ));
   }
 
+  _onRefresh() {
+    this.setState({ refreshing: true });
+    this.getInfo();
+    this.setState({ refreshing: false });
+  }
+
   render() {
     if (this.state.loading) {
       return this.renderSpinner();
-    } else if(this.state.members.length ==0 ){ // nothing to approve
-         return (
-            <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+    } else if (this.state.data.length === 0) { // nothing to approve
+      return (
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1 }}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this._onRefresh.bind(this)}
+            />
+          }
+        >
+          <View
+            style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
+          >
+
             <Text style={{ fontSize: 30 }}>فارغة كحياتي بدونك :)</Text>
-           </View>
-                );
-        }
+          </View>
+        </ScrollView>
+      );
+    }
     return (
-      <ScrollView style={{ backgroundColor: '#ECF2F4' }}>
-        { this.renderCards() }
+      <ScrollView
+        style={{ backgroundColor: '#ECF2F4' }}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh.bind(this)}
+          />
+        }
+      >
+        {this.renderCards()}
         <Toast position='center' ref="toast" />
       </ScrollView>
-      );
+    );
   }
 }
 
@@ -179,8 +156,8 @@ const styles = {
   workTextStyle: {
     fontSize: 14,
     textAlign: 'right',
-    marginLeft: 40,
-    marginRight: 15,
+    marginLeft: 0,
+    marginRight: 0,
     color: '#515151'
   },
   line: {

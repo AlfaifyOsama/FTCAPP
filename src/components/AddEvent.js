@@ -32,8 +32,6 @@ class AddEvent extends Component {
   }
 
   onNamePress = (data) => {
-    console.log('onNamePress');
-    console.log(data);
     const { maxNumOfMembers, selected, selectedIDs } = this.state;
     if (selected.includes(data.props.children)) {
       alert('سبق واضفت هذا الشخص تستهبل انت');
@@ -88,7 +86,6 @@ class AddEvent extends Component {
 
 
   getInfo = async () => {
-    console.log('getInfo');
 
    const token = 'Bearer ' + await AsyncStorage.getItem('token');
 
@@ -108,7 +105,6 @@ class AddEvent extends Component {
   }
 
   renderNames(query) {
-    console.log('renderNames');
 
     if (query === '') {
       return [];
@@ -121,7 +117,6 @@ class AddEvent extends Component {
   }
 
   renderSelectedNames = () => {
-    console.log('renderSelectedNames');
 
     if(this.state.selected.length > 0)
       return this.state.selected.map((member, i) => (
@@ -130,7 +125,6 @@ class AddEvent extends Component {
   }
 
   getNumbersTo60() {
-    console.log('getNumbersTo60');
 
     const numbers = [];
     for (let i = 1; i <= 60; i++) {
@@ -140,8 +134,6 @@ class AddEvent extends Component {
   }
 
   renderButtonOrSpinner() {
-    console.log('renderButtonOrSpinner');
-
     if (this.state.loading) {
       return <Spinner size={'small'} />;
     }

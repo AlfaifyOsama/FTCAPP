@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, TouchableOpacity, ScrollView, View, AsyncStorage, RefreshControl } from 'react-native';
+import { Text, TouchableOpacity, ScrollView, View, AsyncStorage, RefreshControl, Linking } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AwesomeAlert from 'react-native-awesome-alerts';
