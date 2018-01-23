@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, Image, ScrollView, TextInput, AsyncStorage, RefreshControl } from 'react-native';
-import { Card, ListItem, Button } from 'react-native-elements';
-import AnimatedHideView from 'react-native-animated-hide-view';
+import { View, Text, ScrollView, AsyncStorage, RefreshControl } from 'react-native';
+import { Card } from 'react-native-elements';
 import axios from 'axios';
 import BaseURL from '../config';
-import Toast, { DURATION } from 'react-native-easy-toast'
 import { Spinner } from './common';
 
 class EventsHistory extends Component {
@@ -135,7 +133,6 @@ class EventsHistory extends Component {
         }
       >
         {this.renderCards()}
-        <Toast position='center' ref="toast" />
       </ScrollView>
     );
   }

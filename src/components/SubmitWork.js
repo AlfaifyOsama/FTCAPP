@@ -155,7 +155,11 @@ class SubmitWork extends Component {
       );
     }
     return (
+<<<<<<< HEAD
       <ScrollView>
+=======
+      <ScrollView keyboardDismissMode={'on-drag'} keyboardShouldPersistTaps='always'>
+>>>>>>> 3be7ab0f521ea473aea74a83a9f32f08dc88a1c5
         {this.renderCards()}
       </ScrollView>
     );

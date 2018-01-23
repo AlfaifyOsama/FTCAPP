@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, TextInput, AsyncStorage, TouchableOpacity } from 'react-native';
 import Autocomplete from 'react-native-autocomplete-input';
+import AwesomeAlert from 'react-native-awesome-alerts';
 import { Card, Button, Divider } from 'react-native-elements';
 import axios from 'axios';
 import BaseURL from '../config';
@@ -8,52 +9,57 @@ import BaseURL from '../config';
 class AddPoints extends Component {
 
 
-  state = { userId: '', value: '2', members: [], selected: [], query: '', selectedIDs: [] };
+  state = { userId: '', value: '', members: [], selected: [], query: '', selectedIDs: [], showLoading: false };
 
   componentDidMount() {
     this.getInfo();
   }
 
-  // onPress = async () => {
-  //   const value = this.state.message;
-  //   if (value === undefined || value.length <= 0) {
-  //     alert('عندك مشكلة ياريس، تأكد انك كتبت شي');
-  //     return;
-  //   }
+  onPress = async () => {
+    const value = this.state.value;
+    if (value === undefined || value === '' || isNaN(value)) {
+      alert(' عندك مشكلة ياريس، تأكد انك كتبت شي وان الارقام انكليزية');
+      return;
+    }
+    if(value < 0){
+      alert('انتبه تراك حطيت رقم سالب ونقصت الرجال');
+    }
+    if(this.state.selected.length == 0){
+      alert('اختار احد اول يالطقطوقي');
+      return;
+    }
+    this.setState({ showLoading: true });
 
-  //   const token = await AsyncStorage.getItem('token');
-  //   const instance = axios.create({
-  //     timeout: 5000,
-  //     headers: { 'Authorization': 'Bearer '+  token }
-  //     });
-  //     instance.post(BaseURL + '/users/send', {
-  //       msg: this.state.message
-  //     })
-  //       .then((response) => {
-  //         //console.log(response.data.users);
-  //         if(response.status == 200){
-  //           this.setState({ message: '' });
-  //         }
-
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //         alert('فيه مشكلة، حاول مرة ثانية');
-  //         this.setState({ message: '' });
-  //       });
-
-  // }
+    const token = await AsyncStorage.getItem('token');
+    const instance = axios.create({
+      timeout: 5000,
+      headers: { 'Authorization': 'Bearer '+  token }
+      });
+      instance.put(BaseURL + '/points/addPoints', {
+        value: this.state.value,
+        user_id: this.state.selectedIDs[0]
+      })
+        .then((response) => {
+          //console.log(response.data.users);
+          if (response.status == 200) {
+            this.setState({ showLoading: false });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          alert('فيه مشكلة، حاول مرة ثانية');
+          this.setState({ showLoading: true });
+        });
+  }
 
 
 
   onNamePress = (data) => {
-
-    const { selected, selectedIDs } = this.state;
-    if (selected.includes(data.props.children)) {
-      alert('سبق واضفت هذا الشخص تستهبل انت');
+    if (this.state.selected.length == 1) {
+      alert('سبق واضفت واحد تستهبل انت');
     } else {
-      selected.push(data.props.children);
-      selectedIDs.push(data.key);
+      this.state.selected.push(data.props.children);
+      this.state.selectedIDs.push(data.key);
     }
     this.setState({ query: '' });
   }
@@ -124,15 +130,15 @@ class AddPoints extends Component {
           </View>
           <View style={{ marginBottom: 15, marginTop: 15 }} />
           <Text style={{ textAlign: 'center', fontSize: 20 }} >كم؟</Text>
-
+          <View style={{ marginBottom: 15, marginTop: 5 }} />            
           <TextInput
-            placeholder={'0000'}
+            placeholder={'00'}
             autoCapitalize={'none'}
             autoCorrect={false}
-            
+            style={{ textAlign: 'center' }}
             onChangeText={(text) => this.setState({ value: text })}
             value={this.state.value}
-            maxLength={4}
+            maxLength={2}
           />
           <Button
             backgroundColor='#03A9F4'
@@ -143,10 +149,19 @@ class AddPoints extends Component {
           />
 
         </Card>
+        <AwesomeAlert
+      show={this.state.showLoading}
+      showProgress={true}
+      title="لودنق.."
+      message="اصبر"
+      closeOnTouchOutside={true}
+      closeOnHardwareBackPress={false}
+      showCancelButton={false}
+      showConfirmButton={false}
+    />
+
       </View>
     );
-
-
   }
 }
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, TouchableOpacity, AsyncStorage, View, Picker, ScrollView } from 'react-native';
+import { Text, TouchableOpacity, AsyncStorage, View, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { Card, Button, Icon, Divider } from 'react-native-elements';
 import Autocomplete from 'react-native-autocomplete-input';
 import { TextField } from 'react-native-material-textfield';
@@ -8,6 +8,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import normalize from 'react-native-elements/src/helpers/normalizeText';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import axios from 'axios';
+import Toast from 'react-native-root-toast';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import BaseURL from '../config';
 
@@ -76,8 +77,15 @@ class ManageEventsSingle extends Component {
 
     instance.put(`${BaseURL}/events/updateEvent`, updatedInfo)
       .then((response) => {
-        this.refs.toast.show('حفظنا لك التغييرات', 500);
-      })
+        Toast.show('حفظنا لك التغييرات :) ', {
+          duration: 500,
+          position: Toast.positions.CENTER,
+          shadow: true,
+          animation: true,
+          hideOnPress: true,
+          delay: 0,
+      });  
+          })
       .catch((error) => {
       });
   }
@@ -150,12 +158,12 @@ class ManageEventsSingle extends Component {
   renderAllRegisteredMembers() {
     return (
       this.state.selected.map((member, index) =>
-      <View key={'Main' + member.id}>
-        <View key={'Sub' + member.id} style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }} >
-          <View key={'Sub2' + member.id} style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-            <Text key={'Text'+member.id} style={{ opacity: 0.7 }}>طيّره</Text>
+      <View key={'Main'+ index}>
+        <View key={'Sub' + index} style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }} >
+          <View key={'Sub2' + index} style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+            <Text key={'Text'+ index} style={{ opacity: 0.7 }}>طيّره</Text>
               <Icon
-                key={'Icon' + member.id}
+                key={'Icon' + index }
                 size={10}
                 reverse
                 name='cross'
@@ -164,7 +172,7 @@ class ManageEventsSingle extends Component {
                 onPress={() => (this.removeMember(index, member))}
               />
             </View>
-            <View key={' View' + member.id} style={{ justifyContent: 'center', flex: 1, alignItems: 'flex-end' }}>
+            <View key={' View' + index} style={{ justifyContent: 'center', flex: 1, alignItems: 'flex-end' }}>
             <Text style={{ fontSize: 16, opacity: 0.7 }}>{member}</Text>
             </View>
           </View>
@@ -244,6 +252,7 @@ class ManageEventsSingle extends Component {
     const { query } = this.state;
     const names = this.renderNames(query);
     return (
+      <KeyboardAvoidingView keyboardVerticalOffset={70} behavior="padding" >
       <View>
       <ScrollView>
         <View style={{ paddingBottom: 15 }}>
@@ -413,6 +422,8 @@ class ManageEventsSingle extends Component {
         onConfirmPressed={() => this.deleteEvent()}
       />
       </View>
+      </KeyboardAvoidingView>
+
     );
   }
 

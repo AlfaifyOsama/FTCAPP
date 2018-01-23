@@ -3,9 +3,10 @@ import { Text, ScrollView, View, AsyncStorage, RefreshControl } from 'react-nati
 import { Card, Button } from 'react-native-elements';
 import axios from 'axios';
 import BaseURL from '../config';
+import { Spinner } from './common';
 
 class ManageEvents extends Component {
-  state = { events: [], refreshing: false, };
+  state = { events: [], refreshing: false, loading: true };
 
   componentDidMount() {
     this.getEvents();
@@ -27,6 +28,7 @@ class ManageEvents extends Component {
       .catch((error) => {
         alert('التطبيق زعلان عليك.. جرب مره ثانيه');
       });
+      this.setState({ loading: false });
   }
 
   _onRefresh() {
@@ -36,7 +38,10 @@ class ManageEvents extends Component {
   }
 
   render() {
-    if (this.state.events.length <= 0) { // if user does not have events to manage
+    if (this.state.loading){
+      return (<Spinner />);
+      }
+    else if (this.state.loading == false && this.state.events.length == 0) { // if user does not have events to manage
       return (
         <ScrollView
           contentContainerStyle={{ flexGrow: 1 }}
@@ -56,7 +61,7 @@ class ManageEvents extends Component {
         </ScrollView>
       );
     }
-    return (
+    else {return (
       <ScrollView
         style={{ backgroundColor: '#ECF2F4' }}
         refreshControl={
@@ -104,6 +109,7 @@ class ManageEvents extends Component {
         }
       </ScrollView>
     );
+  }
   }
 
 }
