@@ -17,14 +17,14 @@ class Events extends Component {
           <Ionicons
             name={'ios-settings'}
             size={26}
-            style={{ color: '#000' }}
+            style={{ color: '#000', paddingLeft: 50, }}
           />
         </TouchableOpacity>,
 
       headerLeft:
         <TouchableOpacity
           onPress={() => navigation.navigate('AddEvent')}
-          style={{ marginLeft: 20 }}
+          style={{ marginLeft: 20, paddingRight: 50, }}
         >
           <Ionicons
             name={'md-add'}
@@ -168,7 +168,7 @@ render() {
           style={[{ paddingBottom: i === this.state.events.length - 1 ? 20 : 0 }, styles.pageStyle]}
           key={i}
         >
-          <Card title={item.name} key={i}>
+          <Card title={item.name} key={i} containerStyle={{borderRadius: 10 }}>
             <Text style={{ marginBottom: 25, textAlign: 'center' }}>
             {item.description}
             </Text>

@@ -59,8 +59,6 @@ class AddPoints extends Component {
   }
 
   getInfo = async () => {
-    //console.log('getInfo');
-
     const token = 'Bearer ' + await AsyncStorage.getItem('token');
 
     const instance = axios.create({
@@ -79,8 +77,6 @@ class AddPoints extends Component {
   }
 
   renderSelectedNames = () => {
-    console.log('renderSelectedNames');
-
     if (this.state.selected.length > 0)
       return this.state.selected.map((member, i) => (
         i === 0 ? <Text style={{ color: '#515151' }} key={i}> {member} </Text> : <Text style={{ color: '#515151' }} key={i}> {member}،</Text>
@@ -88,8 +84,6 @@ class AddPoints extends Component {
   }
 
   renderNames(query) {
-    console.log('renderNames');
-
     if (query === '') {
       return [];
     }

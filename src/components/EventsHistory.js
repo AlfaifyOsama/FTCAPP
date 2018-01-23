@@ -50,7 +50,7 @@ class EventsHistory extends Component {
       return (
 
         <View style={[{ marginBottom: index === this.state.data.length - 1 ? 20 : 0 }, styles.pageStyle]} key={'View' + item.id} >
-          <Card title={item.name} key={'Card' + item.id}>
+          <Card title={item.name} key={'Card' + item.id} containerStyle={{ borderRadius: 10 }}>
             <View style={singleWorkStyle} key={'WorkView' + item.id}>
               <View key={'InputView' + item.id} style={{ flexDirection: 'row', justifyContent: 'flex-end', width: '100%' }} >
                 <Text key={'Description' + item.id} style={workTextStyle}>ما تم توثيق شغلك حتى الأن</Text>

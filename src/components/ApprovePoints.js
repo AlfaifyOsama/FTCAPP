@@ -51,7 +51,7 @@ class ApprovePoints extends Component {
     }
     return (
       <ScrollView style={{ backgroundColor: '#ECF2F4' }}>
-        <Card title='رصد النقاط بلاسبب' >
+        <Card title='رصد النقاط بلاسبب' containerStyle={{ borderRadius: 10 }} >
           <Button
             backgroundColor='#03A9F4'
             buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
@@ -68,7 +68,7 @@ class ApprovePoints extends Component {
               style={styles.pageStyle}
               key={i}
             >
-              <Card title={item.name} key={i}>
+              <Card title={item.name} key={i} containerStyle={{ borderRadius: 10 }}>
 
                 <Text style={{ marginBottom: 25, textAlign: 'center' }}>
                   {item.description}
