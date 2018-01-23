@@ -14,7 +14,7 @@ import ManageEventsSingle from './ManageEventsSingle';
 import AddEvent from './AddEvent';
 import SubmitWork from './SubmitWork';
 import UsersList from './UsersList';
-
+import AddPoints from './AddPoints';
 import MyProfile from './MyProfile';
 
 const PointsStack = StackNavigator({
@@ -95,6 +95,12 @@ const MoreStack = StackNavigator({
     screen: MyProfile,
     navigationOptions: {
       title: 'حسابي الزبال',
+    }
+  },
+  AddPoints: {
+    screen: AddPoints,
+    navigationOptions: {
+      title: 'ارصد ياعم',
     }
   },
 

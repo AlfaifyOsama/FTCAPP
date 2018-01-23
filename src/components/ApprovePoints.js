@@ -21,9 +21,9 @@ class ApprovePoints extends Component {
       headers: { 'Authorization': 'Bearer ' + token }
     });
     instance.get(BaseURL + '/events/PendingWorkEvents')
-    .then((response) => {
-      this.setState({ events: response.data, loading: false });
-    })
+      .then((response) => {
+        this.setState({ events: response.data, loading: false });
+      })
       .catch((error) => {
         console.log(error);
       });
@@ -40,66 +40,61 @@ class ApprovePoints extends Component {
   }
 
   render() {
-    if(this.state.loading)
-       return (<Spinner />);
-    if(this.state.events.length ==0 ){ // nothing to approve
+    if (this.state.loading)
+      return (<Spinner />);
+    if (this.state.events.length == 0) { // nothing to approve
       return (
-         <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-         <Text style={{ fontSize: 30 }}>فارغة كحياتي بدونك :)</Text>
+        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+          <Text style={{ fontSize: 30 }}>فارغة كحياتي بدونك :)</Text>
         </View>
-             );
-     }
+      );
+    }
     return (
       <ScrollView style={{ backgroundColor: '#ECF2F4' }}>
-          {
-    this.state.events.map((item, i) => (
-
-       <View
-        style={styles.pageStyle}
-        key={i}
-       >
-        <Card title={item.name} key={i}>
-
-        <Text style={{ marginBottom: 25, textAlign: 'center' }}>
-        {item.description}
-        </Text>
-        <Text style={{ marginBottom: 10, textAlign: 'center' }}>
-        قائد المشروع: {item.first_name + ' ' + item.last_name}
-        </Text>
-        <Button
-          backgroundColor='#03A9F4'
-          buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
-          title='ارصدني'
-          rightIcon={{ name: 'checkbox-multiple-marked-outline', type: 'material-community' }}
-          onPress={() => this.onPress(item.id)}
-        />
-
-        </Card>
-        </View>
-    ))
-  }
-         <View
-        style={[{ paddingBottom: 20 }, styles.pageStyle]}
-        key={'FinalCard'}
-       >
-
         <Card title='رصد النقاط بلاسبب' >
-
-        <Text style={{ marginBottom: 25, textAlign: 'center' }}>
-        {'ارصد بلاسبب'}
-        </Text>
-        <Button
-          backgroundColor='#03A9F4'
-          buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
-          title='ارصدني'
-          rightIcon={{ name: 'checkbox-multiple-marked-outline', type: 'material-community' }}
-         onPress={() => this.goToAddPointsForNoReason()}
-        />
+          <Button
+            backgroundColor='#03A9F4'
+            buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
+            title='ارصدني'
+            rightIcon={{ name: 'checkbox-multiple-marked-outline', type: 'material-community' }}
+            onPress={() => this.goToAddPointsForNoReason()}
+          />
 
         </Card>
+        {
+          this.state.events.map((item, i) => (
+
+            <View
+              style={styles.pageStyle}
+              key={i}
+            >
+              <Card title={item.name} key={i}>
+
+                <Text style={{ marginBottom: 25, textAlign: 'center' }}>
+                  {item.description}
+                </Text>
+                <Text style={{ marginBottom: 10, textAlign: 'center' }}>
+                  قائد المشروع: {item.first_name + ' ' + item.last_name}
+                </Text>
+                <Button
+                  backgroundColor='#03A9F4'
+                  buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
+                  title='ارصدني'
+                  rightIcon={{ name: 'checkbox-multiple-marked-outline', type: 'material-community' }}
+                  onPress={() => this.onPress(item.id)}
+                />
+
+              </Card>
+            </View>
+          ))
+        }
+        <View
+          style={[{ paddingBottom: 20 }, styles.pageStyle]}
+          key={'FinalCard'}
+        >
         </View>
       </ScrollView>
-      );
+    );
   }
 
 }

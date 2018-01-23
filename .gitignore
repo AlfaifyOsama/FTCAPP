@@ -2,7 +2,7 @@
 #
 .DS_Store
 
-Xcode
+# Xcode
 #
 build/
 *.pbxuser
@@ -21,7 +21,7 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
-ios/
+
 # Android/IntelliJ
 #
 build/
@@ -51,5 +51,3 @@ buck-out/
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
-ios/FTCAPP.xcodeproj/project.pbxproj
-ios/FTCAPP.xcodeproj/project.pbxproj

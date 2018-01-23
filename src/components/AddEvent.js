@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Text, TouchableOpacity, AsyncStorage, View, ScrollView } from 'react-native';
+import { Text, TouchableOpacity, AsyncStorage, View, 
+  ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Card, Button, Icon } from 'react-native-elements';
 import Autocomplete from 'react-native-autocomplete-input';
 import { TextField } from 'react-native-material-textfield';
@@ -32,8 +33,7 @@ class AddEvent extends Component {
   }
 
   onNamePress = (data) => {
-    console.log('onNamePress');
-    console.log(data);
+
     const { maxNumOfMembers, selected, selectedIDs } = this.state;
     if (selected.includes(data.props.children)) {
       alert('سبق واضفت هذا الشخص تستهبل انت');
@@ -175,6 +175,7 @@ class AddEvent extends Component {
     const { query } = this.state;
     const names = this.renderNames(query);
     return (
+      <KeyboardAvoidingView>
       <ScrollView style={{ backgroundColor: '#ECF2F4' }}>
       <View style={{ paddingBottom: 15 }}>
       <Card>
@@ -307,6 +308,7 @@ class AddEvent extends Component {
       </Card>
       </View>
       </ScrollView>
+      </KeyboardAvoidingView>
       );
   }
 }
