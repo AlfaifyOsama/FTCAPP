@@ -112,7 +112,8 @@ class MyProfile extends Component {
                         onPress={() => this.onPress('BIO')}
                     />
                 </Card>
-                <AwesomeAlert
+            </View>
+            <AwesomeAlert
                     show={this.state.showLoadingAlert}
                     showProgress
                     title="Loading"
@@ -122,7 +123,7 @@ class MyProfile extends Component {
                     showCancelButton={false}
                     showConfirmButton={false}
                 />
-                <AwesomeAlert
+            <AwesomeAlert
                     show={this.state.showErrorAlert}
                     title="بروبلم"
                     message="عندك مشكلة يافندم، اذا عبيت حقل الباسوورد تأكد انهم نفس الشي وانهم يتجاوزون 6 احرف او ارقام، واذا عبيت حقل البايو تأكد انه مايتجاوز 30 حرف. الصراحه كان يمديني احط تنبيه مختلف لكل واحد بس متعيجز"
@@ -132,7 +133,6 @@ class MyProfile extends Component {
                     cancelButtonColor={'red'}
                     onCancelPressed={() => this.hideErrorAlert()}
                 />
-            </View>
             </ScrollView>
         );
     }

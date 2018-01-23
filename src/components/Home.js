@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Text, View, ImageBackground, AsyncStorage, ScrollView, RefreshControl, TouchableOpacity, Image, Linking } from 'react-native';
+import normalize from 'react-native-elements/src/helpers/normalizeText';
+import AwesomeAlert from 'react-native-awesome-alerts';
 import axios from 'axios';
 import BaseURL from '../config';
 import { Spinner } from './common';
-import normalize from 'react-native-elements/src/helpers/normalizeText';
 
 class Home extends Component {
   state = {
@@ -72,6 +73,11 @@ class Home extends Component {
   }
 
   openWhatsappGroup(link) {
+    if (link == null) {
+      this.setState({ showNoWhatsappAlert: true });
+      return;
+    }
+
     Linking.openURL(link).catch(err => console.error('An error occurred', err));
   }
 
@@ -80,6 +86,13 @@ class Home extends Component {
     this.getInfo();
     this.setState({ refreshing: false });
   }
+
+  hideAlert = () => {
+    this.setState({
+      showNoWhatsappAlert: false
+    });
+  };
+
 
   render() {
     if (this.state.loading) {
@@ -131,13 +144,27 @@ class Home extends Component {
 
               <View style={[sectionStyle, { marginTop: 10, marginBottom: 10 }]}>
                 <View style={[qotdCardStyle, shadowStyle]}>
-                  <Text style={{ fontSize: normalize(14), fontWeight: 'bold', color: '#43484d', textAlign: 'center', marginTop: 15 }}>المشاريع الي حضرتك سجلت فيها</Text>
+                  <Text style={{ fontSize: normalize(14), fontWeight: 'bold', color: '#43484d', textAlign: 'center', marginTop: 15 }}>المشاريع الي سجلت فيها</Text>
                   <View style={styles.line} />
                   {this.renderUserEvents()}
                 </View>
               </View>
             </View>
           </ScrollView>
+          <AwesomeAlert
+          show={this.state.showNoWhatsappAlert}
+          showProgress={false}
+          title="نعتذر منك"
+          message="رئيس مشروعك زبال ما سوى قروب واتساب"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={true}
+          showCancelButton={false}
+          showConfirmButton={true}
+          confirmText="طيب"
+          onConfirmPressed={() => {
+            this.hideAlert();
+          }}
+        />
         </ImageBackground>
       </View>
     );

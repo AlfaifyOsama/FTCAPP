@@ -28,6 +28,10 @@ export default class More extends Component {
           icon: 'account-circle',
         },
         {
+          title: 'تاريخ فعالياتي',
+          icon: 'history',
+        },
+        {
           title: 'تسجيل الخروج',
           icon: 'cancel',
         },
@@ -38,19 +42,22 @@ export default class More extends Component {
 
   onPress = async (x) => {
     const isAdmin = await AsyncStorage.getItem('isAdmin');
-    if (x == 0) {
-      isAdmin == '1' ? this.props.navigation.navigate('ApprovePoints') : this.showErrorAlert();
+    if (x === 0) {
+      isAdmin === '1' ? this.props.navigation.navigate('ApprovePoints') : this.showErrorAlert();
     }
-    else if (x == 1) {
-      isAdmin == '1' ? this.props.navigation.navigate('SendNotifications') : this.showErrorAlert();
+    else if (x === 1) {
+      isAdmin === '1' ? this.props.navigation.navigate('SendNotifications') : this.showErrorAlert();
     }
-    else if (x == 2) {
+    else if (x === 2) {
       this.props.navigation.navigate('UsersList');
     }
-    else if (x == 3) {
+    else if (x === 3) {
       this.props.navigation.navigate('MyProfile');
     }
-    else {
+    else if (x === 4) {
+      this.props.navigation.navigate('EventsHistory');
+    }
+    else if (x === 5) {
       this.showSignOutAlert();
     }
   }

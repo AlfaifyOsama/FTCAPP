@@ -16,6 +16,7 @@ import SubmitWork from './SubmitWork';
 import UsersList from './UsersList';
 import AddPoints from './AddPoints';
 import MyProfile from './MyProfile';
+import EventsHistory from './EventsHistory';
 
 const PointsStack = StackNavigator({
   Points: {
@@ -103,6 +104,12 @@ const MoreStack = StackNavigator({
       title: 'ارصد ياعم',
     }
   },
+  EventsHistory: {
+    screen: EventsHistory,
+    navigationOptions: {
+      title: 'تاريخ فعالياتي'
+    },
+  }
 
 });
 

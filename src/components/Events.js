@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, TouchableOpacity, ScrollView, View, AsyncStorage, RefreshControl } from 'react-native';
+import { Text, TouchableOpacity, ScrollView, View, AsyncStorage, RefreshControl, Linking } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AwesomeAlert from 'react-native-awesome-alerts';
@@ -35,30 +35,35 @@ class Events extends Component {
     };
   }
 
-  state = { events: [], showAlert: false, refreshing: false, } ;
+  state = { events: [],
+    showAlertLoading: false,
+    showAlertConfirm: false,
+    refreshing: false,
+    selectedProjectId: null
+  };
 
   componentDidMount() {
     this.getEvents();
   }
 
 
-  onJoinEventClick = async (eventId) => {
-    this.setState({ showAlert: true });
+  onJoinEventClick = async () => {
+    this.setState({ showAlertLoading: true, showAlertConfirm: false });
     const token = await AsyncStorage.getItem('token');
     const instance = axios.create({
       timeout: 5000,
       headers: { 'Authorization': 'Bearer ' + token }
     });
-    instance.post(BaseURL + '/events/join', { event_id: eventId })
+    instance.post(BaseURL + '/events/join', { event_id: this.state.selectedProjectId })
     .then((response) => {
-      this.setState({ showAlert: false });
+      this.setState({ showAlertLoading: false });
       this.getEvents();
       // the last line will request the events again so
       // the events that was just registered to will be disabled,
       // go down to the bottom of the page!
     })
       .catch((error) => {
-        this.setState({ showAlert: false });
+        this.setState({ showAlertLoading: false });
       });
   }
 
@@ -77,15 +82,21 @@ class Events extends Component {
       });
   }
 
-  showAlert = () => {
+  showAlert = (type) => {
+    if (type === 'confirm') {
+      this.setState({
+        showAlertConfirm: true
+      });
+    }
     this.setState({
-      showAlert: true
+      showAlertLoading: true
     });
   }
 
   hideAlert = () => {
     this.setState({
-      showAlert: false
+      showAlertLoading: false,
+      showAlertConfirm: false
     });
   }
 
@@ -126,7 +137,7 @@ class Events extends Component {
         buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
         title={title}
         rightIcon={{ name: iconName, type: 'font-awesome' }}
-        onPress={() => this.onJoinEventClick(project.id) }
+        onPress={() => this.setState({ showAlertConfirm: true, selectedProjectId: project.id })}
         disabled={isDisabled}
       />
     );
@@ -139,10 +150,10 @@ class Events extends Component {
 }
 
 render() {
-  const { showAlert } = this.state;
+  const { showAlertLoading, showAlertConfirm } = this.state;
   return (
     <View>
-    <ScrollView 
+    <ScrollView
     style={{ backgroundColor: '#ECF2F4' }}
     refreshControl={
       <RefreshControl
@@ -171,7 +182,7 @@ render() {
       }
     </ScrollView>
     <AwesomeAlert
-      show={showAlert}
+      show={showAlertLoading}
       showProgress={true}
       title="Loading"
       message="Please wait.."
@@ -179,6 +190,26 @@ render() {
       closeOnHardwareBackPress={false}
       showCancelButton={false}
       showConfirmButton={false}
+    />
+    <AwesomeAlert
+          show={showAlertConfirm}
+          showProgress={false}
+          title="اكيد تبي تشارك؟"
+          message="تأكد ان محمد الشهري بإنتظارك اذا سحبت!"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={true}
+          showConfirmButton={true}
+          cancelText="لا هونت"
+          confirmText="ايه اكيد"
+          confirmButtonColor="#9ccc65"
+          onCancelPressed={() => {
+            this.hideAlert();
+          }}
+          onConfirmPressed={() => {
+            this.hideAlert();
+            this.onJoinEventClick();
+          }}
     />
     </View>
     );
