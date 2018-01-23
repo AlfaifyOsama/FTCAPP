@@ -5,7 +5,6 @@ import Autocomplete from 'react-native-autocomplete-input';
 import { TextField } from 'react-native-material-textfield';
 import { Dropdown } from 'react-native-material-dropdown';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import Toast, { DURATION } from 'react-native-easy-toast';
 import normalize from 'react-native-elements/src/helpers/normalizeText';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import axios from 'axios';
@@ -165,13 +164,11 @@ class ManageEventsSingle extends Component {
                 onPress={() => (this.removeMember(index, member))}
               />
             </View>
-            <View style={{ justifyContent: 'center', flex: 1, alignItems: 'flex-end' }}>
-              <Text style={{ fontSize: 16, opacity: 0.7 }}>{member}</Text>
+            <View key={' View' + member.id} style={{ justifyContent: 'center', flex: 1, alignItems: 'flex-end' }}>
+            <Text style={{ fontSize: 16, opacity: 0.7 }}>{member}</Text>
             </View>
           </View>
-          <View key={' View' + member.id} style={{ justifyContent: 'center', flex: 1, alignItems: 'flex-end' }}>
-          <Text style={{ fontSize: 16, opacity: 0.7 }}>{member}</Text>
-          </View>
+          <Divider style={{ marginBottom: 5, marginTop: 5 }} />
         </View>
       )
     );
@@ -376,7 +373,7 @@ class ManageEventsSingle extends Component {
                 onPress={this.onCancel.bind(this)}
               />
               <Button
-                backgroundColor='green'
+                backgroundColor='#9ccc65'
                 buttonStyle={{ borderRadius: 20, marginTop: 25 }}
                 title='حفظ التغييرات'
                 rightIcon={{ name: 'done' }}
@@ -386,10 +383,10 @@ class ManageEventsSingle extends Component {
             <View>
               <Button
                 backgroundColor='red'
-                buttonStyle={{ borderRadius: 20, marginTop: 25 }}
+                buttonStyle={{ borderRadius: 20, marginTop: 5 }}
                 title='إنهاء المشروع'
-                rightIcon={{ name: 'highlight-off' }}
-                onPress={() => this.showDeleteAlert() }
+                rightIcon={{ name: 'calendar-check', type: 'material-community' }}
+                onPress={() => this.showDeleteAlert()}
               />
             </View>
             <View style={{ flex: 1 }}>
