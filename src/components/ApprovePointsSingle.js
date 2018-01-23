@@ -48,7 +48,10 @@ class ApprovePointsSingle extends Component {
     validate = (index,lengthOfRecodedWork) => {
       for(i=0 ; i< lengthOfRecodedWork; i++){
         const value = this.state.inputs[index+''+i];
-        if(value === undefined || value < 0 || value === '' || isNaN(value)){
+        if(value < 0 ){
+          alert('انتبه تراك حطيت رقم سالب متأكد تبي تنقص الرجال؟');
+        }
+        if(value === undefined || value === '' || isNaN(value)){
           return false;
         }
       }
