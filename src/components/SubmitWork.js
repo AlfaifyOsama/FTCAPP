@@ -111,7 +111,7 @@ class SubmitWork extends Component {
               multiline
               placeholder={'وش سوا؟'}
               autoCapitalize={'none'}
-              numberOfLines={10}
+              numberOfLines={2}
               autoCorrect={false}
               onChangeText={(text) => (this.state.inputs[index] = text)}
               value={this.state.inputs[index]}
@@ -157,7 +157,7 @@ class SubmitWork extends Component {
       );
     }
     return (
-      <ScrollView keyboardDismissMode={'on-drag'}>
+      <ScrollView keyboardDismissMode={'on-drag'} keyboardShouldPersistTaps='always'>
         {this.renderCards()}
       </ScrollView>
     );

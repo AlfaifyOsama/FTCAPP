@@ -4,7 +4,7 @@ import { Card, ListItem, Button } from 'react-native-elements';
 import AnimatedHideView from 'react-native-animated-hide-view';
 import axios from 'axios';
 import BaseURL from '../config';
-import Toast, {DURATION} from 'react-native-easy-toast'
+import Toast from 'react-native-root-toast';
 import { Spinner } from './common';
 
 class ApprovePointsSingle extends Component {
@@ -92,8 +92,18 @@ class ApprovePointsSingle extends Component {
         this.setState({
           loading: false
         });
-        this.refs.toast.show('تم :)',500);
-    }
+
+        Toast.show('تم :) ', {
+          duration: 500,
+          position: Toast.positions.CENTER,
+          shadow: true,
+          animation: true,
+          hideOnPress: true,
+          delay: 0,
+      });    
+      
+       }
+
     renderSingleCard = (item, index) => {
 
       if (this.state.isChildVisible[index] === false) {
@@ -170,7 +180,6 @@ class ApprovePointsSingle extends Component {
     return (
       <ScrollView style={{ backgroundColor: '#ECF2F4' }}>
         { this.renderCards() }
-        <Toast position='center' ref="toast" />
       </ScrollView>
       );
   }
@@ -203,6 +212,5 @@ const styles = {
     borderColor: '#e5e5e5'
   },
 };
-
 
 export default ApprovePointsSingle;

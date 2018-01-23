@@ -162,8 +162,8 @@ class AddEvent extends Component {
     const { query } = this.state;
     const names = this.renderNames(query);
     return (
-      <KeyboardAvoidingView>
-      <ScrollView style={{ backgroundColor: '#ECF2F4' }}>
+      <KeyboardAvoidingView keyboardVerticalOffset={70} behavior="padding" >
+      <ScrollView keyboardDismissMode={'on-drag'} keyboardShouldPersistTaps='always' style={{ backgroundColor: '#ECF2F4' }}>
       <View style={{ paddingBottom: 15 }}>
       <Card>
         <TextField

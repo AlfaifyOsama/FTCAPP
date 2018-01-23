@@ -28,8 +28,7 @@ class AddPoints extends Component {
       alert('اختار احد اول يالطقطوقي');
       return;
     }
-    alert(this.state.selectedIDs[0]);
-    this.setState({showLoading: true});
+    this.setState({ showLoading: true });
 
     const token = await AsyncStorage.getItem('token');
     const instance = axios.create({
@@ -83,18 +82,6 @@ class AddPoints extends Component {
       .catch((error) => {
         alert('فيه غلط صار وما كان لي خلق اصلحه، جرب مره ثانيه :)');
       });
-  }
-  validate = (index,lengthOfRecodedWork) => {
-    for(i=0 ; i< lengthOfRecodedWork; i++){
-      const value = this.state.inputs[index+''+i];
-      if(value < 0 ){
-        alert('انتبه تراك حطيت رقم سالب متأكد تبي تنقص الرجال؟');
-      }
-      if(value === undefined || value === '' || isNaN(value)){
-        return false;
-      }
-    }
-      return true;
   }
 
   renderSelectedNames = () => {
