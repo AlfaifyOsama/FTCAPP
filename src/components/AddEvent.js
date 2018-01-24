@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Text, TouchableOpacity, AsyncStorage, View, ScrollView } from 'react-native';
+import { Text, TouchableOpacity, AsyncStorage, View, 
+  ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Card, Button, Icon } from 'react-native-elements';
 import Autocomplete from 'react-native-autocomplete-input';
 import { TextField } from 'react-native-material-textfield';
@@ -161,7 +162,8 @@ class AddEvent extends Component {
     const { query } = this.state;
     const names = this.renderNames(query);
     return (
-      <ScrollView style={{ backgroundColor: '#ECF2F4' }}>
+      <KeyboardAvoidingView keyboardVerticalOffset={70} behavior="padding" >
+      <ScrollView keyboardDismissMode={'on-drag'} keyboardShouldPersistTaps='always' style={{ backgroundColor: '#ECF2F4' }}>
       <View style={{ paddingBottom: 15 }}>
       <Card>
         <TextField
@@ -293,6 +295,7 @@ class AddEvent extends Component {
       </Card>
       </View>
       </ScrollView>
+      </KeyboardAvoidingView>
       );
   }
 }

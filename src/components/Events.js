@@ -3,8 +3,10 @@ import { Text, TouchableOpacity, ScrollView, View, AsyncStorage, RefreshControl,
 import { Card, Button } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AwesomeAlert from 'react-native-awesome-alerts';
-import BaseURL from '../config';
 import axios from 'axios';
+import BaseURL from '../config';
+import { Spinner } from './common';
+
 
 class Events extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -17,14 +19,14 @@ class Events extends Component {
           <Ionicons
             name={'ios-settings'}
             size={26}
-            style={{ color: '#000' }}
+            style={{ color: '#000', paddingLeft: 50, }}
           />
         </TouchableOpacity>,
 
       headerLeft:
         <TouchableOpacity
           onPress={() => navigation.navigate('AddEvent')}
-          style={{ marginLeft: 20 }}
+          style={{ marginLeft: 20, paddingRight: 50, }}
         >
           <Ionicons
             name={'md-add'}
@@ -39,7 +41,8 @@ class Events extends Component {
     showAlertLoading: false,
     showAlertConfirm: false,
     refreshing: false,
-    selectedProjectId: null
+    selectedProjectId: null,
+    loading: true 
   };
 
   componentDidMount() {
@@ -80,6 +83,7 @@ class Events extends Component {
     })
       .catch((error) => {
       });
+      this.setState({ loading: false });
   }
 
   showAlert = (type) => {
@@ -150,6 +154,9 @@ class Events extends Component {
 }
 
 render() {
+  if (this.state.loading){
+  return (<Spinner />);
+  }
   const { showAlertLoading, showAlertConfirm } = this.state;
   return (
     <View>
@@ -168,7 +175,7 @@ render() {
           style={[{ paddingBottom: i === this.state.events.length - 1 ? 20 : 0 }, styles.pageStyle]}
           key={i}
         >
-          <Card title={item.name} key={i}>
+          <Card title={item.name} key={i} containerStyle={{borderRadius: 10 }}>
             <Text style={{ marginBottom: 25, textAlign: 'center' }}>
             {item.description}
             </Text>

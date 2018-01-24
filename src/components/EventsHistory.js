@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, Image, ScrollView, TextInput, AsyncStorage, RefreshControl } from 'react-native';
-import { Card, ListItem, Button } from 'react-native-elements';
-import AnimatedHideView from 'react-native-animated-hide-view';
+import { View, Text, ScrollView, AsyncStorage, RefreshControl } from 'react-native';
+import { Card } from 'react-native-elements';
 import axios from 'axios';
 import BaseURL from '../config';
-import Toast, { DURATION } from 'react-native-easy-toast'
 import { Spinner } from './common';
 
 class EventsHistory extends Component {
@@ -50,7 +48,7 @@ class EventsHistory extends Component {
       return (
 
         <View style={[{ marginBottom: index === this.state.data.length - 1 ? 20 : 0 }, styles.pageStyle]} key={'View' + item.id} >
-          <Card title={item.name} key={'Card' + item.id}>
+          <Card title={item.name} key={'Card' + item.id} containerStyle={{ borderRadius: 10 }}>
             <View style={singleWorkStyle} key={'WorkView' + item.id}>
               <View key={'InputView' + item.id} style={{ flexDirection: 'row', justifyContent: 'flex-end', width: '100%' }} >
                 <Text key={'Description' + item.id} style={workTextStyle}>ما تم توثيق شغلك حتى الأن</Text>
@@ -135,7 +133,6 @@ class EventsHistory extends Component {
         }
       >
         {this.renderCards()}
-        <Toast position='center' ref="toast" />
       </ScrollView>
     );
   }

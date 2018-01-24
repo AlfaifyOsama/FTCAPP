@@ -3,6 +3,7 @@ import { ScrollView, AsyncStorage, Linking, RefreshControl } from 'react-native'
 import { List, ListItem } from 'react-native-elements';
 import axios from 'axios';
 import BaseURL from '../config';
+import { Spinner } from './common';
 
 
 export default class UsersList extends Component {
@@ -11,6 +12,7 @@ export default class UsersList extends Component {
     state = {
         data: [],
         refreshing: false,
+        loading: true
     };
 
     componentDidMount() {
@@ -36,6 +38,7 @@ export default class UsersList extends Component {
                 console.log(error.response);
                 alert('فيه مشكلة، حاول مرة ثانية');
             });
+            this.setState({ loading: false });
     }
 
     _onRefresh() {
@@ -55,6 +58,9 @@ export default class UsersList extends Component {
     }
 
     render() {
+        if (this.state.loading){
+            return (<Spinner />);
+            }
         return (
             <ScrollView
             refreshControl={
@@ -87,30 +93,3 @@ export default class UsersList extends Component {
         );
     }
 }
-
-// <ScrollView
-//                 style={{ flex: 1 }}
-
-//             >
-
-//                 <List containerStyle={{ marginBottom: 20, marginTop: 0 }}>
-//                     {
-
-//                         this.state.data.map((user, index) => {
-//                             alert(user.first_name);
-//                             <ListItem
-//                                 key={index}
-//                                 title={user.first_name + ' ' + user.last_name}
-//                                 subtitle={user.bio}
-//                                 subtitleContainerStyle={{ alignItems: 'flex-end' }}
-//                                 roundAvatar
-//                                 avatar={this.getIconDir()}
-//                                 onPress={() =>
-//                                     this.chatInWhatsApp(user)
-//                                 }
-//                             />
-//                         }
-//                         )
-//                     }
-//                 </List>
-//             </ScrollView >

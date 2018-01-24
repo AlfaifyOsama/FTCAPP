@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, AsyncStorage, RefreshControl, Text, } from 'react-native';
+import { StyleSheet, ScrollView, AsyncStorage, RefreshControl, Text, View } from 'react-native';
 import axios from 'axios';
+import { Card, Divider, ButtonGroup } from 'react-native-elements';
+import normalize from 'react-native-elements/src/helpers/normalizeText';
 import Leaderboards from './Leaderboards';
 import BaseURL from '../config';
-import normalize from 'react-native-elements/src/helpers/normalizeText';
+import { Spinner } from './common';
 
 
 class Points extends Component {
 
-  state = { data: [], avg: 0.0, refreshing: false, };
+  state = { data: [], avg: 0.0, index: 0, refreshing: false, loading: true };
+
 
   componentDidMount() {
+    this.updateIndex(0);
     this.getInfo();
   }
 
@@ -35,8 +39,33 @@ class Points extends Component {
         console.log(error.response);
         alert('فيه مشكلة، حاول مرة ثانية');
       });
-
+      this.setState({ loading: false });
   }
+
+  updateIndex = (index) => {
+    this.setState({ index });
+  }
+
+  displayLeaderBoard = () => {
+    return (<Leaderboards
+    data={this.state.data}
+    sortBy='value'
+    labelBy='name'
+    icon='true'
+    />);
+  }
+
+  displayStats = () => {
+    return (<Card title='احصائيات'>
+            <Text style={{ marginBottom: 25, textAlign: 'center' }}>
+            الاحصائية الاولى
+            </Text>
+            <Text style={{ marginBottom: 10, textAlign: 'center' }}>
+            قائد المشروع: 
+            </Text>
+          </Card>);
+  }
+  
 
   _onRefresh() {
     this.setState({ refreshing: true });
@@ -45,7 +74,15 @@ class Points extends Component {
   }
 
   render() {
+    if (this.state.loading){
+      return (<Spinner />);
+      }
+      const buttons = ['Hello', 'World'];
+      const { selectedIndex } = this.state
+    
+ 
     return (
+
       <ScrollView
       style={{ flex: 1, backgroundColor: '#ECF2F4' }}
       refreshControl={
@@ -55,16 +92,21 @@ class Points extends Component {
           />
         }
       >
-        <Text style={styles.avg}>المتوسط: {this.state.avg}</Text>
-        <Leaderboards
-          data={this.state.data}
-          sortBy='value'
-          labelBy='name'
-          icon='true'
-        />
+            <ButtonGroup
+      selectedBackgroundColor="pink"
+      onPress={this.updateIndex}
+      selectedIndex={this.state.index}
+      buttons={['قائمة النقاط', 'الاحصائيات']}
+      containerStyle={{height: 30 }}
+            />
+      <View>
+        {this.state.index === 0 ? this.displayLeaderBoard() : this.displayStats()}
+        </View>
       </ScrollView>
     );
   }
+
+  
 
 }
 

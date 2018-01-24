@@ -3,7 +3,7 @@ import { Text, View, TextInput, AsyncStorage } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import axios from 'axios';
 import BaseURL from '../config';
-import Toast, { DURATION } from 'react-native-easy-toast'
+import Toast from 'react-native-root-toast';
 
 class SendNotifications extends Component {
 
@@ -28,7 +28,14 @@ class SendNotifications extends Component {
         .then((response) => {
           //console.log(response.data.users);
           if(response.status == 200){
-            this.refs.toast.show('تم :)',500);
+            Toast.show('تم :) ', {
+              duration: 500,
+              position: Toast.positions.CENTER,
+              shadow: true,
+              animation: true,
+              hideOnPress: true,
+              delay: 0,
+          });  
             this.setState({ message: '' });
           }
  
@@ -44,7 +51,7 @@ class SendNotifications extends Component {
     return (
 
       <View style={styles.pageStyle} >
-        <Card title='وش تبي ترسلهم؟' >
+        <Card title='وش تبي ترسلهم؟' containerStyle={{ borderRadius: 10 }}>
           <TextInput
             style={styles.inputStyle}
             multiline
@@ -62,7 +69,6 @@ class SendNotifications extends Component {
           />
 
         </Card>
-        <Toast position='center' ref="toast"/>
       </View>
     );
 
