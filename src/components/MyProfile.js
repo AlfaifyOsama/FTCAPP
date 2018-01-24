@@ -87,7 +87,7 @@ class MyProfile extends Component {
             <ScrollView>
             <View style={styles.pageStyle} >
 
-                <Card title='تغيير كلمة السر' >
+                <Card title='تغيير كلمة السر' containerStyle={{ borderRadius: 10 }}>
                     <FormLabel containerStyle={styles.inputLabelStyle} >الرقم السري الجديد</FormLabel>
                     <FormInput secureTextEntry inputStyle={styles.inputStyle} onChangeText={(text) => this.setState({ pass1: text })} />
                     <FormLabel containerStyle={styles.inputLabelStyle} >تأكيد الرقم السري الجديد</FormLabel>
@@ -101,7 +101,7 @@ class MyProfile extends Component {
                     />
                 </Card>
 
-                <Card title='فلسفتك في الحياة' >
+                <Card title='فلسفتك في الحياة' containerStyle={{ borderRadius: 10, marginBottom: 15 }}>
                     <FormLabel containerStyle={styles.inputLabelStyle} >تفلسف</FormLabel>
                     <FormInput inputStyle={styles.inputStyle} onChangeText={(text) => this.setState({ bio: text })} />
                     <Button

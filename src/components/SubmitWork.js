@@ -87,7 +87,7 @@ class SubmitWork extends Component {
 
     return (
       <View key={'CardMainView' + item.user_id} style={[{ marginBottom: index === this.state.members.length - 1 ? 20 : 0 }, styles.pageStyle]}  >
-        <Card key={'Card' + item.user_id} title={item.name}>
+        <Card key={'Card' + item.user_id} title={item.name} containerStyle={{ borderRadius: 10 }}>
           {
             item.work.map((work, indexWork) => {
               return (
@@ -135,8 +135,6 @@ class SubmitWork extends Component {
     );
   }
   renderCards() {
-    console.log('render cards');
-
     return this.state.members.map((item, index) => (
       <View key={'mainView'+item.user_id} >
         {this.renderSingleCard(item, index)}
@@ -157,7 +155,11 @@ class SubmitWork extends Component {
       );
     }
     return (
+<<<<<<< HEAD
+      <ScrollView>
+=======
       <ScrollView keyboardDismissMode={'on-drag'} keyboardShouldPersistTaps='always'>
+>>>>>>> 3be7ab0f521ea473aea74a83a9f32f08dc88a1c5
         {this.renderCards()}
       </ScrollView>
     );

@@ -51,7 +51,7 @@ class SendNotifications extends Component {
     return (
 
       <View style={styles.pageStyle} >
-        <Card title='وش تبي ترسلهم؟' >
+        <Card title='وش تبي ترسلهم؟' containerStyle={{ borderRadius: 10 }}>
           <TextInput
             style={styles.inputStyle}
             multiline

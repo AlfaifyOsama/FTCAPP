@@ -58,14 +58,12 @@ class Home extends Component {
   }
 
   renderUserEvents() {
-    return this.state.userEvents.map((event,index) =>
+    return this.state.userEvents.map((event, index) =>
       <View key={'MainView' + index} style={{ width: '100%', alignItems: 'center' }}>
-        <View key={'SubView' + index} style={{ flexDirection: 'row', marginLeft: 20, marginRight: 20 }}>
-          <TouchableOpacity onPress={() => this.openWhatsappGroup(event.whatsapp_link)}>
-            <Image style={styles.whatsappImageStyle} source={require('./images/whatsapp.png')} />
-          </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.openWhatsappGroup(event.whatsapp_link)} key={'SubView' + index} style={{ flexDirection: 'row', marginLeft: 20, marginRight: 20 }}>
+          <Image style={styles.whatsappImageStyle} source={require('./images/whatsapp.png')} />
           <Text style={styles.eventNameStyle} >{event.name}</Text>
-        </View>
+        </TouchableOpacity>
         <View key={index} style={styles.line} />
       </View>
 
@@ -152,19 +150,19 @@ class Home extends Component {
             </View>
           </ScrollView>
           <AwesomeAlert
-          show={this.state.showNoWhatsappAlert}
-          showProgress={false}
-          title="نعتذر منك"
-          message="رئيس مشروعك زبال ما سوى قروب واتساب"
-          closeOnTouchOutside={true}
-          closeOnHardwareBackPress={true}
-          showCancelButton={false}
-          showConfirmButton={true}
-          confirmText="طيب"
-          onConfirmPressed={() => {
-            this.hideAlert();
-          }}
-        />
+            show={this.state.showNoWhatsappAlert}
+            showProgress={false}
+            title="نعتذر منك"
+            message="رئيس مشروعك زبال ما سوى قروب واتساب"
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={true}
+            showCancelButton={false}
+            showConfirmButton={true}
+            confirmText="طيب"
+            onConfirmPressed={() => {
+              this.hideAlert();
+            }}
+          />
         </ImageBackground>
       </View>
     );
@@ -207,7 +205,8 @@ const styles = {
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    borderRadius: 10,
   },
   shadowStyle: {
     shadowColor: '#000',
@@ -233,6 +232,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
+    borderRadius: 10,    
   },
   qotdContentStyle: {
     fontSize: 15,
