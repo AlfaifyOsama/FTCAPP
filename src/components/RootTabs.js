@@ -132,7 +132,7 @@ const RootTabs = TabNavigator({
           style={{ color: tintColor }}
         />
       ),
-    
+
     },
   },
   Events: {
@@ -173,7 +173,7 @@ const MainStack = StackNavigator({
     }
   },
   Home: {
-    screen: ({ navigation }) => <RootTabs screenProps={{ rootNavigation: navigation }} />, 
+    screen: ({ navigation }) => <RootTabs screenProps={{ rootNavigation: navigation }} />,
     navigationOptions: {
       header: null,
     }
