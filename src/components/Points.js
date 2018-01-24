@@ -10,7 +10,7 @@ import { Spinner } from './common';
 
 class Points extends Component {
 
-  state = { data: [], avg: 0.0, index: 0, refreshing: false, loading: true };
+  state = { data: [], stats: [], index: 0, refreshing: false, loading: true };
 
 
   componentDidMount() {
@@ -31,7 +31,7 @@ class Points extends Component {
         // console.log(response.data[1]);
         // console.log(response.data[0]);
         if (response.status == 200) {
-          this.setState({ data: response.data[0], avg: response.data[1].avgOfPoints });
+          this.setState({ data: response.data[0], stats: response.data[1] });
         }
 
       })
@@ -56,13 +56,16 @@ class Points extends Component {
   }
 
   displayStats = () => {
+    const { statsStyle } = styles;
+
     return (<Card title='احصائيات'>
-            <Text style={{ marginBottom: 25, textAlign: 'center' }}>
-            الاحصائية الاولى
-            </Text>
-            <Text style={{ marginBottom: 10, textAlign: 'center' }}>
-            قائد المشروع: 
-            </Text>
+            <Text style={statsStyle}> مجموع النقاط : {this.state.stats.pointsTotal}</Text>
+            <Text style={statsStyle}> عدد الاعضاء : {this.state.stats.numOfUsers}</Text>
+            <Text style={statsStyle}> المتوسط : {this.state.stats.avgOfPoints}</Text>
+            <Text style={statsStyle}> الوسيط : {this.state.stats.median}</Text>
+            <Text style={statsStyle}> مجموع النقاط آخر اسبوع : {this.state.stats.lastWeekPoints}</Text>
+            <Text style={statsStyle}> متوسط النقاط اخر اسبوع : {this.state.stats.lastWeekAvg}</Text>
+
           </Card>);
   }
   
@@ -135,13 +138,10 @@ let styles = StyleSheet.create({
     height: 'auto',
     borderWidth: 0,
   },
-  avg: {
+  statsStyle: {
+    marginBottom: 10,
     textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: normalize(30),
-    marginTop: 0,
-    width: 'auto',
-    backgroundColor: '#42A5F5',
+    fontSize: 20
   },
 });
 

@@ -154,7 +154,7 @@ class Events extends Component {
 }
 
 render() {
-  if (this.state.loading){
+  if (this.state.loading) {
   return (<Spinner />);
   }
   const { showAlertLoading, showAlertConfirm } = this.state;
