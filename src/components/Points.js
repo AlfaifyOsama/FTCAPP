@@ -36,7 +36,7 @@ class Points extends Component {
 
       })
       .catch((error) => {
-        console.log(error.response);
+        //console.log(error.response);
         alert('فيه مشكلة، حاول مرة ثانية');
       });
       this.setState({ loading: false });

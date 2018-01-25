@@ -25,7 +25,7 @@ class ApprovePoints extends Component {
         this.setState({ events: response.data, loading: false });
       })
       .catch((error) => {
-        console.log(error);
+      //  console.log(error);
       });
   }
 

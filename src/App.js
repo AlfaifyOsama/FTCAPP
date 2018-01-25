@@ -1,6 +1,7 @@
 import React from 'react';
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
+import SplashScreen from 'react-native-splash-screen';
 import OneSignal from 'react-native-onesignal'; // Import package from node modules
 import MainStack from './components/RootTabs';
 import BaseURL from './config';
@@ -40,6 +41,7 @@ export default class App extends React.Component {
   async onIds(device) {
     const deviceID = await AsyncStorage.getItem('device_id');
     console.log('Device info: ', deviceID);
+    SplashScreen.hide(); // hide the splah screen
     if (deviceID != undefined && deviceID != '' && deviceID !=null)
       return;
     console.log('Device info: ', device);

@@ -50,7 +50,7 @@ class MyProfile extends Component {
                 }
             })
             .catch((error) => {
-                console.log(error);
+              //  console.log(error);
                 this.showErrorAlert();
                 this.setState({ pass1: '', pass2: '' });
             });

@@ -80,7 +80,7 @@ class AddEvent extends Component {
       .catch((error) => {
         this.setState({ loading: false });
         alert('حصلت مشكلة، تأكد انك دخلت البيانات كاملة وجرب مرة ثانية');
-        console.log(error.response.data);
+       // console.log(error.response.data);
       });
   }
 

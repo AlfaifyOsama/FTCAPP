@@ -34,7 +34,7 @@ class ApprovePointsSingle extends Component {
 
        })
        .catch((error) => {
-         console.log(error);
+         //console.log(error);
        });
     }
 
@@ -82,10 +82,10 @@ class ApprovePointsSingle extends Component {
       instance.put(BaseURL + '/points/approve', {
         data: values,
       }).then((response) => {
-        console.log(response);
+        //console.log(response);
         })
         .catch((error) => {
-          console.log(error);
+         // console.log(error);
         });
       //console.log('aa',this.state.event_ID);
       this.state.isChildVisible[index] = false;
