@@ -28,7 +28,7 @@
                                                          appId:@"0968a50c-114a-41c8-b989-4aa1905dd7b9"
                                                       settings:@{kOSSettingsKeyAutoPrompt: @false}];
   
-  
+ 
   
   
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
@@ -41,8 +41,10 @@
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
+  
   [self.window makeKeyAndVisible];
   return YES;
+
 }
 
 @end

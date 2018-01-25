@@ -9,15 +9,15 @@ class SubmitWork extends Component {
   state = { members: [], event: {}, inputs: [], loading: true };
 
   componentDidMount() {
-    console.log('ComponentDidMount');
+    //console.log('ComponentDidMount');
 
     this.getInfo();
   }
   getInfo = async () => {
-    console.log('getInfo');
+    //console.log('getInfo');
 
     this.state.event = this.props.navigation.state.params.event;
-    console.log('event', this.state.event);
+   // console.log('event', this.state.event);
     const token = await AsyncStorage.getItem('token');
     // console.log('token',token);
     const instance = axios.create({
@@ -26,8 +26,8 @@ class SubmitWork extends Component {
     });
     instance.get(BaseURL + '/events/getUsersWithRecordedWork/' + this.state.event.id)
       .then((response) => {
-        console.log(response.data);
-        console.log(response.data[1]);
+       // console.log(response.data);
+        //console.log(response.data[1]);
 
         response.data.map((item, i) => (
           this.state.members[i] = response.data[i]
@@ -38,7 +38,7 @@ class SubmitWork extends Component {
         });
       })
       .catch((error) => {
-        console.log(error);
+       // console.log(error);
         alert('فيه مشكلااا صديق');
         this.setState({
           loading: false
@@ -66,13 +66,13 @@ class SubmitWork extends Component {
       event_id: this.state.event.id,
       description: text
     }).then((response) => {
-      console.log(response);
+     // console.log(response);
      //
       this.state.inputs = []; // erase the inputs
       this.getInfo();
       })
       .catch((error) => {
-        console.log(error);
+      //  console.log(error);
       });
 
   }
@@ -155,11 +155,7 @@ class SubmitWork extends Component {
       );
     }
     return (
-<<<<<<< HEAD
-      <ScrollView>
-=======
       <ScrollView keyboardDismissMode={'on-drag'} keyboardShouldPersistTaps='always'>
->>>>>>> 3be7ab0f521ea473aea74a83a9f32f08dc88a1c5
         {this.renderCards()}
       </ScrollView>
     );

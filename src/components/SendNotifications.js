@@ -41,7 +41,7 @@ class SendNotifications extends Component {
  
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
           alert('فيه مشكلة، حاول مرة ثانية');
           this.setState({ message: '' });
         });
