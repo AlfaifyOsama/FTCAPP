@@ -24,17 +24,8 @@ const PointsStack = StackNavigator({
     screen: Points,
     navigationOptions: {
       title: 'النقاط',
-      headerTitleStyle: {
-        textAlign: 'center',
-        alignSelf: 'center',
-        fontWeight: 'bold',
-        fontSize: 25,
-        marginTop: 0,
-        width: '100%',
-        marginRight: 0,
-        marginLeft: 0,
-      },
-    }
+      header: null,
+    },
   }
 });
 const EventsStack = StackNavigator({
@@ -46,7 +37,6 @@ const EventsStack = StackNavigator({
         textAlign: 'center',
         alignSelf: 'center',
         fontWeight: 'bold',
-        fontSize: 25,
         marginTop: 0,
         width: '100%',
         marginRight: 0,
@@ -61,7 +51,6 @@ const EventsStack = StackNavigator({
       headerTitleStyle: {
         textAlign: 'center',
         fontWeight: 'bold',
-        fontSize: 25,
         marginTop: 0,
         width: '100%',
         marginRight: 0,
@@ -77,7 +66,6 @@ const EventsStack = StackNavigator({
       headerTitleStyle: {
         textAlign: 'center',
         fontWeight: 'bold',
-        fontSize: 25,
         marginTop: 0,
         width: '100%',
         marginRight: 0,
@@ -93,7 +81,6 @@ const EventsStack = StackNavigator({
       headerTitleStyle: {
         textAlign: 'center',
         fontWeight: 'bold',
-        fontSize: 25,
         marginTop: 0,
         width: '100%',
         marginRight: 0,
@@ -109,7 +96,6 @@ const EventsStack = StackNavigator({
       headerTitleStyle: {
         textAlign: 'center',
         fontWeight: 'bold',
-        fontSize: 25,
         marginTop: 0,
         width: '100%',
         marginRight: 0,
@@ -130,7 +116,6 @@ const MoreStack = StackNavigator({
       headerTitleStyle: {
         textAlign: 'center',
         fontWeight: 'bold',
-        fontSize: 25,
         marginTop: 0,
         width: '100%',
         marginRight: 0,
@@ -145,7 +130,6 @@ const MoreStack = StackNavigator({
       headerTitleStyle: {
         textAlign: 'center',
         fontWeight: 'bold',
-        fontSize: 25,
         marginTop: 0,
         width: '100%',
         marginRight: 0,
@@ -162,7 +146,6 @@ const MoreStack = StackNavigator({
         textAlign: 'center',
         alignSelf: 'center',
         fontWeight: 'bold',
-        fontSize: 25,
         marginTop: 0,
         width: '100%',
         marginRight: 0,
@@ -178,7 +161,6 @@ const MoreStack = StackNavigator({
       headerTitleStyle: {
         textAlign: 'center',
         fontWeight: 'bold',
-        fontSize: 25,
         marginTop: 0,
         width: '100%',
         marginRight: 0,
@@ -194,7 +176,6 @@ const MoreStack = StackNavigator({
       headerTitleStyle: {
         textAlign: 'center',
         fontWeight: 'bold',
-        fontSize: 25,
         marginTop: 0,
         width: '100%',
         marginRight: 0,
@@ -210,7 +191,6 @@ const MoreStack = StackNavigator({
       headerTitleStyle: {
         textAlign: 'center',
         fontWeight: 'bold',
-        fontSize: 25,
         marginTop: 0,
         width: '100%',
         marginRight: 0,
@@ -226,7 +206,6 @@ const MoreStack = StackNavigator({
       headerTitleStyle: {
         textAlign: 'center',
         fontWeight: 'bold',
-        fontSize: 25,
         marginTop: 0,
         width: '100%',
         marginRight: 0,
@@ -242,7 +221,6 @@ const MoreStack = StackNavigator({
       headerTitleStyle: {
         textAlign: 'center',
         fontWeight: 'bold',
-        fontSize: 25,
         marginTop: 0,
         width: '100%',
         marginRight: 0,
@@ -320,7 +298,6 @@ const MainStack = StackNavigator({
       headerTitleStyle: {
         textAlign: 'center',
         fontWeight: 'bold',
-        fontSize: 25,
         marginTop: 0,
         width: '100%',
         marginRight: 0,
@@ -336,7 +313,6 @@ const MainStack = StackNavigator({
       headerTitleStyle: {
         textAlign: 'center',
         fontWeight: 'bold',
-        fontSize: 25,
         marginTop: 0,
         width: '100%',
         marginRight: 0,
