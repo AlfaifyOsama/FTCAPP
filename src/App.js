@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, SafeAreaView } from 'react-native';
 import axios from 'axios';
 import OneSignal from 'react-native-onesignal'; // Import package from node modules
 import MainStack from './components/RootTabs';
@@ -67,9 +67,20 @@ export default class App extends React.Component {
   }
 
   render() {
+         // Root tabs is the navigator..
     return (
-      // Root tabs is the navigator..
-      <MainStack />
+
+<MainStack />
+
+
+
     );
   }
 }
+
+const styles = {
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#ddd'
+  }
+};
