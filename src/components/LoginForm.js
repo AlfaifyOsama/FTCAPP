@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { Component } from 'react';
-import { Icon } from 'react-native-elements';
-import { View, Image, TextInput, AsyncStorage, ImageBackground, StatusBar, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { View, Image, AsyncStorage, ImageBackground, StatusBar,
+   Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { TextField } from 'react-native-material-textfield';
 import { NavigationActions } from 'react-navigation';
 import { Button, Spinner } from './common';

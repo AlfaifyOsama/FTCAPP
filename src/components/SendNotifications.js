@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TextInput, AsyncStorage } from 'react-native';
+import { View, TextInput, AsyncStorage } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import axios from 'axios';
 import BaseURL from '../config';

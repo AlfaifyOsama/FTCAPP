@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import { Text, TouchableOpacity, AsyncStorage, View, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { Text, TouchableOpacity, AsyncStorage, View,
+   KeyboardAvoidingView, ScrollView } from 'react-native';
 import { Card, Button, Icon, Divider } from 'react-native-elements';
 import Autocomplete from 'react-native-autocomplete-input';
 import { TextField } from 'react-native-material-textfield';
 import { Dropdown } from 'react-native-material-dropdown';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import normalize from 'react-native-elements/src/helpers/normalizeText';
-import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
+import RadioForm, { RadioButton, RadioButtonInput,
+   RadioButtonLabel } from 'react-native-simple-radio-button';
 import axios from 'axios';
 import Toast from 'react-native-root-toast';
 import AwesomeAlert from 'react-native-awesome-alerts';

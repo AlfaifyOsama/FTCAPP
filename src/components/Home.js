@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Text, View, ImageBackground, AsyncStorage, ScrollView, RefreshControl, TouchableOpacity, Image, Linking } from 'react-native';
+import { Text, View, ImageBackground, AsyncStorage, ScrollView, 
+  RefreshControl, TouchableOpacity, Image, Linking } from 'react-native';
 import normalize from 'react-native-elements/src/helpers/normalizeText';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import axios from 'axios';
@@ -48,6 +49,7 @@ class Home extends Component {
         });
       })
       .catch((error) => {
+        console.log(error.response);
         alert('التطبيق ما اتصل بالسيرفر، شيك على الانترنت عندك');
       });
     this.setState({ loading: false });
@@ -58,6 +60,9 @@ class Home extends Component {
   }
 
   renderUserEvents() {
+    if (this.state.userEvents.length === 0) {
+        return (<Text style={{ margin: 10 }}>ماسجلت بفعاليات للآن :( </Text>);
+    }
     return this.state.userEvents.map((event, index) =>
       <View key={'MainView' + index} style={{ width: '100%', alignItems: 'center' }}>
         <TouchableOpacity onPress={() => this.openWhatsappGroup(event.whatsapp_link)} key={'SubView' + index} style={{ flexDirection: 'row', marginLeft: 20, marginRight: 20 }}>
