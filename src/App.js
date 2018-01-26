@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, SafeAreaView } from 'react-native';
 import axios from 'axios';
 import OneSignal from 'react-native-onesignal'; // Import package from node modules
 import MainStack from './components/RootTabs';
@@ -40,7 +40,7 @@ export default class App extends React.Component {
   async onIds(device) {
     const deviceID = await AsyncStorage.getItem('device_id');
     console.log('Device info: ', deviceID);
-    if (deviceID != undefined && deviceID != '' && deviceID !=null)
+    if (deviceID != undefined && deviceID != '' && deviceID != null)
       return;
     console.log('Device info: ', device);
     const token = await AsyncStorage.getItem('token');
@@ -55,7 +55,7 @@ export default class App extends React.Component {
       device_id: device.userId
     })
       .then((response) => {
-        if (response.status == 200){
+        if (response.status == 200) {
           console.log('finished sending the request');
           AsyncStorage.setItem('device_id', device.userId);
           OneSignal.sendTag('device_id', 'true');
@@ -67,9 +67,16 @@ export default class App extends React.Component {
   }
 
   render() {
+    // Root tabs is the navigator..
     return (
-      // Root tabs is the navigator..
       <MainStack />
     );
   }
 }
+
+const styles = {
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#ddd'
+  }
+};

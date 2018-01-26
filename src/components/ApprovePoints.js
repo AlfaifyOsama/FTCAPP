@@ -25,7 +25,7 @@ class ApprovePoints extends Component {
         this.setState({ events: response.data, loading: false });
       })
       .catch((error) => {
-        console.log(error);
+      //  console.log(error);
       });
   }
 
@@ -51,11 +51,11 @@ class ApprovePoints extends Component {
     }
     return (
       <ScrollView style={{ backgroundColor: '#ECF2F4' }}>
-        <Card title='رصد النقاط بلاسبب' containerStyle={{ borderRadius: 10 }} >
+        <Card containerStyle={{ borderRadius: 10 }} >
           <Button
-            backgroundColor='#03A9F4'
+            backgroundColor='#9ccc65'
             buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
-            title='ارصدني'
+            title='رصد النقاط بدون سبب'
             rightIcon={{ name: 'checkbox-multiple-marked-outline', type: 'material-community' }}
             onPress={() => this.goToAddPointsForNoReason()}
           />

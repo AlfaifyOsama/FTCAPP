@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>FTCAPP.ipa</key>
+	<array>
+		<dict>
+			<key>architectures</key>
+			<array>
+				<string>armv7</string>
+				<string>arm64</string>
+			</array>
+			<key>certificate</key>
+			<dict>
+				<key>SHA1</key>
+				<string>18CBE201381C560DC16DD46D8C4DB811A2FE9530</string>
+				<key>dateExpires</key>
+				<string>06/10/1439 AH</string>
+				<key>type</key>
+				<string>iOS Distribution</string>
+			</dict>
+			<key>entitlements</key>
+			<dict>
+				<key>application-identifier</key>
+				<string>TJKG2AJ5Y5.FTCAPP.com</string>
+				<key>aps-environment</key>
+				<string>production</string>
+				<key>com.apple.developer.team-identifier</key>
+				<string>TJKG2AJ5Y5</string>
+				<key>get-task-allow</key>
+				<false/>
+			</dict>
+			<key>name</key>
+			<string>FTCAPP.app</string>
+			<key>profile</key>
+			<dict>
+				<key>UUID</key>
+				<string>c7011b40-237d-4fe5-beb1-2c3e7bb19910</string>
+				<key>name</key>
+				<string>iOS Team Ad Hoc Provisioning Profile: FTCAPP.com</string>
+			</dict>
+			<key>team</key>
+			<dict>
+				<key>id</key>
+				<string>TJKG2AJ5Y5</string>
+				<key>name</key>
+				<string>Yosif Al-Khlefah</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -21,21 +21,21 @@ export default class UsersList extends Component {
 
     getInfo = async () => {
         const token = await AsyncStorage.getItem('token');
-        console.log('token: ', token);
+       // console.log('token: ', token);
         const instance = axios.create({
             timeout: 5000,
             headers: { 'Authorization': 'Bearer ' + token }
         });
         instance.get(BaseURL + '/users/getAll')
             .then((response) => {
-                console.log(response.data);
+             //   console.log(response.data);
                 if (response.status == 200) {
                     this.setState({ data: response.data });
                 }
 
             })
             .catch((error) => {
-                console.log(error.response);
+            //    console.log(error.response);
                 alert('فيه مشكلة، حاول مرة ثانية');
             });
             this.setState({ loading: false });

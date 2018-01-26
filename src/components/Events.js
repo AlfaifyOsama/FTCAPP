@@ -79,7 +79,7 @@ class Events extends Component {
     instance.get(BaseURL + '/events/getReadyEvents')
     .then((response) => {
       this.setState({ events: response.data });
-      console.log(response.data);
+     // console.log(response.data);
     })
       .catch((error) => {
       });
@@ -154,7 +154,7 @@ class Events extends Component {
 }
 
 render() {
-  if (this.state.loading){
+  if (this.state.loading) {
   return (<Spinner />);
   }
   const { showAlertLoading, showAlertConfirm } = this.state;
