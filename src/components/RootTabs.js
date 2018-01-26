@@ -24,8 +24,17 @@ const PointsStack = StackNavigator({
     screen: Points,
     navigationOptions: {
       title: 'النقاط',
-      header: null,
-    },
+      headerTitleStyle: {
+        textAlign: 'center',
+        alignSelf: 'center',
+        fontWeight: 'bold',
+        fontSize: 25,
+        marginTop: 0,
+        width: '100%',
+        marginRight: 0,
+        marginLeft: 0,
+      },
+    }
   }
 });
 const EventsStack = StackNavigator({
