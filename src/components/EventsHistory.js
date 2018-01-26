@@ -34,6 +34,10 @@ class EventsHistory extends Component {
       })
       .catch((error) => {
         console.log(error);
+        this.setState({
+          loading: false
+        });
+        alert('حصلت مشكلة');
       });
   }
 
