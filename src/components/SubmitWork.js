@@ -95,7 +95,7 @@ class SubmitWork extends Component {
                   <TextInput
                   key={'textInput' + item.user_id+indexWork}
                     multiline
-                    numberOfLines={10}
+                    numberOfLines={2}
                     value={work.description}
                     style={{ textAlign: 'center', width: '100%' }}
                   />
