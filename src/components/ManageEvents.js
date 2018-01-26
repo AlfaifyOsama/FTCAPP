@@ -23,7 +23,6 @@ class ManageEvents extends Component {
     instance.get(BaseURL + '/events/getLeaderEvents/' + userId)
       .then((response) => {
         this.setState({ events: response.data });
-        //console.log(response.data);
       })
       .catch((error) => {
         alert('التطبيق زعلان عليك.. جرب مره ثانيه');
@@ -37,11 +36,15 @@ class ManageEvents extends Component {
     this.setState({ refreshing: false });
   }
 
+  renderSpinner() {
+    return <Spinner />;
+  }
+
   render() {
-    if (this.state.loading){
-      return (<Spinner />);
+    if (this.state.loading) {
+      return this.renderSpinner();
       }
-    else if (this.state.loading == false && this.state.events.length == 0) { // if user does not have events to manage
+    else if (this.state.loading === false && this.state.events.length === 0) { // if user does not have events to manage
       return (
         <ScrollView
           contentContainerStyle={{ flexGrow: 1 }}
