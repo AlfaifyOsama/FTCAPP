@@ -74,7 +74,7 @@ class ManageEventsSingle extends Component {
       event_id: eventId,
       deletedMembersIDs,
       date,
-      whatsapp,
+      whatsapp_link: whatsapp,
     };
 
     instance.put(`${BaseURL}/events/updateEvent`, updatedInfo)
@@ -227,7 +227,7 @@ class ManageEventsSingle extends Component {
     instance.put(`${BaseURL}/events/updateEvent`, updatedInfo)
       .then((response) => {
         this.hideDeleteAlert();
-        this.props.navigation.navigate('ManageEvents');
+        this.props.navigation.goBack();
       })
       .catch((error) => {
       });
@@ -292,7 +292,7 @@ class ManageEventsSingle extends Component {
             <TextField
               label='رابط قروب الواتساب'
               value={this.state.whatsapp}
-              onChangeText={(whatsapp) => this.setState({ whatsapp })}
+              onChangeText={(text) => this.setState({ whatsapp: text })}
               inputContainerStyle={{ alignItems: 'flex-end' }}
             />
 

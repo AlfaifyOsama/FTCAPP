@@ -6,9 +6,10 @@ import BaseURL from '../config';
 import { Spinner } from './common';
 
 class ManageEvents extends Component {
-  state = { events: [], refreshing: false, loading: true };
+  state = { events: null, refreshing: false, loading: true };
 
   componentDidMount() {
+    this.setState({ loading: true });
     this.getEvents();
   }
 
@@ -23,11 +24,14 @@ class ManageEvents extends Component {
     instance.get(BaseURL + '/events/getLeaderEvents/' + userId)
       .then((response) => {
         this.setState({ events: response.data });
+        this.setState({ loading: false });
+        //console.log(response.data);
       })
       .catch((error) => {
         alert('التطبيق زعلان عليك.. جرب مره ثانيه');
+        this.setState({ loading: false });
       });
-      this.setState({ loading: false });
+
   }
 
   _onRefresh() {
@@ -36,35 +40,31 @@ class ManageEvents extends Component {
     this.setState({ refreshing: false });
   }
 
-  renderSpinner() {
-    return <Spinner />;
-  }
-
   render() {
-    if (this.state.loading) {
-      return this.renderSpinner();
-      }
-    else if (this.state.loading === false && this.state.events.length === 0) { // if user does not have events to manage
-      return (
-        <ScrollView
-          contentContainerStyle={{ flexGrow: 1 }}
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={this._onRefresh.bind(this)}
-            />
-          }
-        >
-          <View
-            style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
-          >
-
-            <Text style={{ fontSize: 30 }}>فارغة كحياتي بدونك :)</Text>
-          </View>
-        </ScrollView>
-      );
+    if (this.state.loading === true) {
+      return (<Spinner />);
     }
-    else {return (
+    else if (this.state.events == null) {
+        return (
+          <ScrollView
+            contentContainerStyle={{ flexGrow: 1 }}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh.bind(this)}
+              />
+            }
+          >
+            <View
+              style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
+            >
+  
+              <Text style={{ fontSize: 30 }}>فارغة كحياتي بدونك :)</Text>
+            </View>
+          </ScrollView>
+        );
+    }
+     return (
       <ScrollView
         style={{ backgroundColor: '#ECF2F4' }}
         refreshControl={
@@ -112,10 +112,10 @@ class ManageEvents extends Component {
         }
       </ScrollView>
     );
+  
   }
-  }
-
 }
+
 
 const styles = {
   pageStyle: {

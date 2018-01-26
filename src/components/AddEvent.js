@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, TouchableOpacity, AsyncStorage, View, 
-  ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+  ScrollView, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 import { Card, Button, Icon } from 'react-native-elements';
 import Autocomplete from 'react-native-autocomplete-input';
 import { TextField } from 'react-native-material-textfield';
@@ -25,7 +25,7 @@ class AddEvent extends Component {
             loading: false,
             selectedIDs: [],
             isDateTimePickerVisible: false,
-            whatsapp: ''
+            whatsapp_link: ''
           }
 
   componentDidMount() {
@@ -53,7 +53,7 @@ class AddEvent extends Component {
       type,
       selectedIDs,
       date,
-      whatsapp
+      whatsapp_link
     } = this.state;
 
     this.setState({ loading: true });
@@ -69,12 +69,13 @@ class AddEvent extends Component {
       user_limit: maxNumOfMembers,
       users: selectedIDs,
       date,
-      whatsapp
+      whatsapp_link
     };
     instance.post(BaseURL + '/events/create', param)
       .then((response) => {
         this.setState({ loading: false });
         alert('تمت اضافة المشروع بنجاح');
+        Keyboard.dismiss();
         this.props.navigation.navigate('Events');
       })
       .catch((error) => {
@@ -198,8 +199,8 @@ class AddEvent extends Component {
 
         <TextField
           label='رابط قروب الواتساب'
-          value={this.state.whatsapp}
-          onChangeText={(whatsapp) => this.setState({ whatsapp })}
+          value={this.state.whatsapp_link}
+          onChangeText={(text) => this.setState({ whatsapp_link: text })}
           inputContainerStyle={{ alignItems: 'flex-end' }}
           style={{ textAlign: 'right' }}
         />
@@ -238,7 +239,7 @@ class AddEvent extends Component {
               <Text style={{ textAlign: 'right', marginTop: 10, paddingTop: 5, paddingBottom: 5, paddingRight: 10 }}>{data}</Text>
             </TouchableOpacity>
           )}
-          inputContainerStyle={{ borderRadius: 10, alignItems: 'flex-end', paddingRight: 10 }}
+          inputContainerStyle={{ borderRadius: 10, alignItems: Platform.OS === 'ios' ? 'flex-end' : '', paddingRight: 10 }}
 
         />
         <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 5, flexWrap: 'wrap' }}>
