@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, TouchableOpacity, ScrollView, View, AsyncStorage, RefreshControl, Linking } from 'react-native';
+import { Text, TouchableOpacity, ScrollView, View, AsyncStorage, RefreshControl } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AwesomeAlert from 'react-native-awesome-alerts';
@@ -123,7 +123,16 @@ class Events extends Component {
       return 'احضر الفعالية';
     }
   }
-
+  renderEmptyEventsText = () => {
+    if(this.state.events.length === 0){
+      return (  
+      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+      <Text style={{fontSize: 25, marginTop: '50%' }} >مافيه فعاليات :( </Text>
+      </View>
+      
+      );
+    }
+  }
   renderButtonIconName(project) {
     if (project.type === 'ORGANIZE') {
       return 'handshake-o';
@@ -161,14 +170,16 @@ render() {
   return (
     <View>
     <ScrollView
-    style={{ backgroundColor: '#ECF2F4' }}
     refreshControl={
       <RefreshControl
           refreshing={this.state.refreshing}
           onRefresh={this._onRefresh.bind(this)}
       />
   }
+
     >
+      { this.renderEmptyEventsText() }
+
       {
         this.state.events.map((item, i) => (
         <View
@@ -228,7 +239,6 @@ const styles = {
   pageStyle: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#ECF2F4',
   },
 };
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, TouchableOpacity, AsyncStorage, View, 
-  ScrollView, KeyboardAvoidingView } from 'react-native';
+  ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { Card, Button, Icon } from 'react-native-elements';
 import Autocomplete from 'react-native-autocomplete-input';
 import { TextField } from 'react-native-material-textfield';
@@ -162,8 +162,8 @@ class AddEvent extends Component {
     const { query } = this.state;
     const names = this.renderNames(query);
     return (
-      <KeyboardAvoidingView keyboardVerticalOffset={70} behavior="padding" >
-      <ScrollView keyboardDismissMode={'on-drag'} keyboardShouldPersistTaps='always' style={{ backgroundColor: '#ECF2F4' }}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : '' } keyboardVerticalOffset={70}>
+      <ScrollView keyboardShouldPersistTaps='always' style={{ backgroundColor: '#ECF2F4' }}>
       <View style={{ paddingBottom: 15 }}>
       <Card>
         <TextField
@@ -228,8 +228,8 @@ class AddEvent extends Component {
           <Text style={{ textAlign: 'right', flex: 1 }}>المشاركين مبدئيا:</Text>
         </View>
         <Autocomplete
+          autoCorrect={false}
           placeholder={'اكتب هنا المشاركين مبدئياً'}
-          place
           data={names}
           defaultValue={query}
           onChangeText={text => this.setState({ query: text })}

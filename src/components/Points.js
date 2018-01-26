@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, ScrollView, AsyncStorage, RefreshControl, Text, View } from 'react-native';
 import axios from 'axios';
-import { Card, Divider, ButtonGroup } from 'react-native-elements';
-import normalize from 'react-native-elements/src/helpers/normalizeText';
+import { Card, ButtonGroup } from 'react-native-elements';
 import Leaderboards from './Leaderboards';
 import BaseURL from '../config';
 import { Spinner } from './common';
