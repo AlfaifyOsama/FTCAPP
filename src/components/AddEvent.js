@@ -238,7 +238,7 @@ class AddEvent extends Component {
               <Text style={{ textAlign: 'right', marginTop: 10, paddingTop: 5, paddingBottom: 5, paddingRight: 10 }}>{data}</Text>
             </TouchableOpacity>
           )}
-          inputContainerStyle={{ borderRadius: 10, alignItems: 'flex-end', paddingRight: 10 }}
+          inputContainerStyle={{ borderRadius: 10, alignItems: Platform.OS === 'ios' ? 'flex-end' : '', paddingRight: 10 }}
 
         />
         <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 5, flexWrap: 'wrap' }}>
