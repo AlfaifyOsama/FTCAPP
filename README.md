@@ -1,4 +1,8 @@
-# BaselAlebdi.github.io
-# OsamaAloqaily github.com/o-aloqaily
 # FTCAPP
-# FTCAPP
+a React-Native application developed for FTC members to automate many jobs that used to take many hours to do.
+
+
+# Co-Authors
+ Basel Alebdi github.com/baselalebdi
+ Osama Aloqaily github.com/o-aloqaily
+
