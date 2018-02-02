@@ -3,6 +3,7 @@ a React-Native application developed for FTC members to automate many jobs that 
 
 
 # Co-Authors
- Basel Alebdi github.com/baselalebdi <br>
- Osama Aloqaily github.com/o-aloqaily
-
+<ul>
+ <li> Basel Alebdi github.com/baselalebdi  </li> 
+ <li>  Osama Aloqaily github.com/o-aloqaily </li> 
+</ul>
