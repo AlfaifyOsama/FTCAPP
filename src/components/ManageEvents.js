@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, ScrollView, View, AsyncStorage, RefreshControl } from 'react-native';
+import { Text, ScrollView, View, AsyncStorage, RefreshControl, Keyboard } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import axios from 'axios';
 import BaseURL from '../config';
@@ -41,6 +41,7 @@ class ManageEvents extends Component {
   }
 
   render() {
+    Keyboard.dismiss();
     if (this.state.loading === true) {
       return (<Spinner />);
     }

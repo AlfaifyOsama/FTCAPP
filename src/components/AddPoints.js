@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TextInput, AsyncStorage, TouchableOpacity } from 'react-native';
+import { Text, View, TextInput, ScrollView,  AsyncStorage, TouchableOpacity, Platform } from 'react-native';
 import Autocomplete from 'react-native-autocomplete-input';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { Card, Button } from 'react-native-elements';
@@ -53,7 +53,7 @@ class AddPoints extends Component {
             hideOnPress: true,
             delay: 0,
           });
-
+          this.props.navigation.goBack();
         }
       })
       .catch((error) => {
@@ -116,30 +116,36 @@ class AddPoints extends Component {
     const names = this.renderNames(query);
     return (
 
-      <View style={styles.pageStyle} >
-        <Card title='ارصد النقاط ولاتعلم احد' >
-          <Text style={{ textAlign: 'center', fontSize: 20 }} >لمين تبي ترصد؟</Text>
-          <View style={{ marginBottom: 15, marginTop: 15 }} />
-          <Autocomplete
-            placeholder={'لمين تبي ترصد؟ً'}
-            place
-            data={names}
-            defaultValue={query}
-            onChangeText={text => this.setState({ query: text })}
-            renderItem={data => (
-              <TouchableOpacity onPress={this.onNamePress.bind(this, data)}>
-                <Text style={{ textAlign: 'right', marginTop: 10, paddingTop: 5, paddingBottom: 5, paddingRight: 10 }}>{data}</Text>
-              </TouchableOpacity>
-            )}
-            inputContainerStyle={{ borderRadius: 10, alignItems: 'flex-end', paddingRight: 10 }}
 
-          />
-          <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 5, flexWrap: 'wrap' }}>
-            {
+      <ScrollView keyboardShouldPersistTaps='always' style={{ backgroundColor: '#ECF2F4' }}>
+      <View style={{ paddingBottom: 15 }}>
+      <Card title='ارصد النقاط ولاتعلم احد' >
+
+
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
+          <Text style={{ textAlign: 'right', flex: 1 }}>لمن تبي ترصد؟</Text>
+        </View>
+        <Autocomplete
+          autoCorrect={false}
+          placeholder={'اكتب هنا المشاركين مبدئياً'}
+          data={names}
+          defaultValue={query}
+          onChangeText={text => this.setState({ query: text })}
+          renderItem={data => (
+            <TouchableOpacity onPress={this.onNamePress.bind(this, data)}>
+              <Text style={{ textAlign: 'right', marginTop: 10, paddingTop: 5, paddingBottom: 5, paddingRight: 10 }}>{data}</Text>
+            </TouchableOpacity>
+          )}
+          inputContainerStyle={{ borderRadius: 10, alignItems: Platform.OS === 'ios' ? 'flex-end' : 'stretch', paddingRight: 10 }}
+
+        />
+        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 5, flexWrap: 'wrap' }}>
+          {
               this.renderSelectedNames()
-            }
-          </View>
-          <View style={{ marginBottom: 15, marginTop: 15 }} />
+          }
+        </View>
+
+        <View style={{ marginBottom: 15, marginTop: 15 }} />
           <Text style={{ textAlign: 'center', fontSize: 20 }} >كم؟</Text>
           <View style={{ marginBottom: 15, marginTop: 5 }} />
           <TextInput
@@ -157,10 +163,11 @@ class AddPoints extends Component {
             title='ارصد'
             rightIcon={{ name: 'send' }}
             onPress={() => this.onPress()}
-          />
+          />  
 
-        </Card>
-        <AwesomeAlert
+      </Card>
+      </View>
+      <AwesomeAlert
           show={this.state.showLoading}
           showProgress={true}
           title="لودنق.."
@@ -170,8 +177,7 @@ class AddPoints extends Component {
           showCancelButton={false}
           showConfirmButton={false}
         />
-
-      </View>
+      </ScrollView>
     );
   }
 }

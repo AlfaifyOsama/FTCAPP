@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, ImageBackground, AsyncStorage, ScrollView, 
-  RefreshControl, TouchableOpacity, Image, Linking } from 'react-native';
+  RefreshControl, TouchableOpacity, Image, Linking, StatusBar, Platform } from 'react-native';
 import normalize from 'react-native-elements/src/helpers/normalizeText';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import axios from 'axios';
@@ -96,6 +96,9 @@ class Home extends Component {
     });
   };
 
+  goToPoints = () => {
+    this.props.navigation.navigate('Points');
+  }
 
   render() {
     if (this.state.loading) {
@@ -108,6 +111,7 @@ class Home extends Component {
           } = styles;
     return (
       <View style={{ flex: 1 }}>
+      <StatusBar backgroundColor="#1976D2" />
         <ImageBackground style={headerImage} source={require('./images/headerImage.jpg')}>
           <ScrollView
             style={pageStyle}
@@ -118,24 +122,30 @@ class Home extends Component {
               />
             }
           >
+
             <View>
               <Text style={nameStyle}>{this.state.firstName} {this.state.lastName}</Text>
               <Text style={statusStyle}>{this.state.status}</Text>
+
+              <TouchableOpacity onPress={this.goToPoints}> 
+
               <View style={[sectionStyle, { marginTop: 40 }]}>
+
                 <View style={[cardStyle, shadowStyle, { marginRight: 5 }]}>
                   <ImageBackground style={[cardStyle, cardBackgroundStyle]} source={require('./images/rank.png')}>
                     <Text style={cardContentStyle}>{this.state.rank}</Text>
                     <Text style={cardTitleStyle}>ترتيبك</Text>
                   </ImageBackground>
                 </View>
-
                 <View style={[cardStyle, shadowStyle, { marginLeft: 5 }]}>
                   <ImageBackground style={[cardStyle, cardBackgroundStyle]} source={require('./images/pts.png')}>
                     <Text style={cardContentStyle}>{this.state.points}</Text>
                     <Text style={cardTitleStyle}>نقاطك</Text>
                   </ImageBackground>
                 </View>
+
               </View>
+              </TouchableOpacity> 
 
               <View style={[sectionStyle, { marginTop: 10 }]}>
                 <View style={[qotdCardStyle, shadowStyle]}>

@@ -32,12 +32,17 @@ class AddEvent extends Component {
     this.getInfo();
   }
 
-  onNamePress = (data) => {
+  onNamePress = async (data) => {
     const { maxNumOfMembers, selected, selectedIDs } = this.state;
+    // he is trying to select himself
+    if (data.key == await AsyncStorage.getItem('userID')) {
+      alert('لا تضيف نفسك يا عيوني');
+      return;
+    }
     if (selected.includes(data.props.children)) {
       alert('سبق واضفت هذا الشخص تستهبل انت');
     } else if (selected.length >= maxNumOfMembers) {
-      alert('اما انك ما حددت الحد الاعلى للمشاركين او ان المشروع وصل للحد الاعلى للمشاركين')
+      alert('اما انك ما حددت الحد الاعلى للمشاركين او ان المشروع وصل للحد الاعلى للمشاركين');
     } else {
       selected.push(data.props.children);
       selectedIDs.push(data.key);
@@ -76,7 +81,7 @@ class AddEvent extends Component {
         this.setState({ loading: false });
         alert('تمت اضافة المشروع بنجاح');
         Keyboard.dismiss();
-        this.props.navigation.navigate('Events');
+        this.props.navigation.goBack();
       })
       .catch((error) => {
         this.setState({ loading: false });

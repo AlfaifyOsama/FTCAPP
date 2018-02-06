@@ -163,6 +163,8 @@ class Events extends Component {
 }
 
 render() {
+  Keyboard.dismiss();
+
   if (this.state.loading) {
   return (<Spinner />);
   }

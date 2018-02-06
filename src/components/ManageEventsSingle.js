@@ -87,8 +87,10 @@ class ManageEventsSingle extends Component {
           hideOnPress: true,
           delay: 0,
       });  
+      this.props.navigation.goBack();
           })
       .catch((error) => {
+        alert('حصلت مشكلة يافندم');
       });
   }
 

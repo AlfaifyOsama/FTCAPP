@@ -91,9 +91,18 @@ class ApprovePoints extends Component {
     );
   } // esle nothing to approve
     return (
-      <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-        <Text style={{ fontSize: 30 }}>فارغة كحياتي بدونك :)</Text>
-      </View>
+      <ScrollView style={{ backgroundColor: '#ECF2F4' }}>
+            <Card containerStyle={{ borderRadius: 10 }} >
+          <Button
+            backgroundColor='#9ccc65'
+            buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
+            title='رصد النقاط بدون سبب'
+            rightIcon={{ name: 'checkbox-multiple-marked-outline', type: 'material-community' }}
+            onPress={() => this.goToAddPointsForNoReason()}
+          />
+
+        </Card>
+      </ScrollView>
     );
   
   }
