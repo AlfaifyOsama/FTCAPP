@@ -111,7 +111,9 @@ class Home extends Component {
           } = styles;
     return (
       <View style={{ flex: 1 }}>
+      <View>
       <StatusBar backgroundColor="#1976D2" />
+      </View>
         <ImageBackground style={headerImage} source={require('./images/headerImage.jpg')}>
           <ScrollView
             style={pageStyle}
@@ -202,6 +204,7 @@ const styles = {
   },
   headerImage: {
     flex: 1,
+    marginTop: Platform.OS === 'ios' ? 20 : 0
   },
   nameStyle: {
     fontSize: normalize(30),
