@@ -42,14 +42,8 @@ class ApprovePoints extends Component {
   render() {
     if (this.state.loading)
       return (<Spinner />);
-    if (this.state.events.length == 0) { // nothing to approve
+    if (this.state.events.length > 0) {
       return (
-        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-          <Text style={{ fontSize: 30 }}>فارغة كحياتي بدونك :)</Text>
-        </View>
-      );
-    }
-    return (
       <ScrollView style={{ backgroundColor: '#ECF2F4' }}>
         <Card containerStyle={{ borderRadius: 10 }} >
           <Button
@@ -95,6 +89,13 @@ class ApprovePoints extends Component {
         </View>
       </ScrollView>
     );
+  } // esle nothing to approve
+    return (
+      <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+        <Text style={{ fontSize: 30 }}>فارغة كحياتي بدونك :)</Text>
+      </View>
+    );
+  
   }
 
 }
