@@ -100,7 +100,7 @@ class ApprovePointsSingle extends Component {
           animation: true,
           hideOnPress: true,
           delay: 0,
-      });    
+      });
       
        }
 

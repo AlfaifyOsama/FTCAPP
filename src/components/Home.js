@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ImageBackground, AsyncStorage, ScrollView, 
+import { Text, View, ImageBackground, AsyncStorage, ScrollView,
   RefreshControl, TouchableOpacity, Image, Linking, StatusBar, Platform } from 'react-native';
 import normalize from 'react-native-elements/src/helpers/normalizeText';
 import AwesomeAlert from 'react-native-awesome-alerts';
@@ -129,7 +129,7 @@ class Home extends Component {
               <Text style={nameStyle}>{this.state.firstName} {this.state.lastName}</Text>
               <Text style={statusStyle}>{this.state.status}</Text>
 
-              <TouchableOpacity onPress={this.goToPoints}> 
+              <TouchableOpacity onPress={this.goToPoints}>
 
               <View style={[sectionStyle, { marginTop: 40 }]}>
 
@@ -147,7 +147,7 @@ class Home extends Component {
                 </View>
 
               </View>
-              </TouchableOpacity> 
+              </TouchableOpacity>
 
               <View style={[sectionStyle, { marginTop: 10 }]}>
                 <View style={[qotdCardStyle, shadowStyle]}>
@@ -204,7 +204,7 @@ const styles = {
   },
   headerImage: {
     flex: 1,
-    marginTop: Platform.OS === 'ios' ? 20 : 0
+    marginTop: Platform.OS === 'ios' ? 21 : 0
   },
   nameStyle: {
     fontSize: normalize(30),
@@ -250,7 +250,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
-    borderRadius: 10,    
+    borderRadius: 10,
   },
   qotdContentStyle: {
     fontSize: 15,

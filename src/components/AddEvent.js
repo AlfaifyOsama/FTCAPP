@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Text, TouchableOpacity, AsyncStorage, View, 
+import { Text, TouchableOpacity, AsyncStorage, View,
   ScrollView, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 import { Card, Button, Icon } from 'react-native-elements';
 import Autocomplete from 'react-native-autocomplete-input';
 import { TextField } from 'react-native-material-textfield';
 import { Dropdown } from 'react-native-material-dropdown';
+import AwesomeAlert from 'react-native-awesome-alerts';
 import RadioForm,
           { RadioButton, RadioButtonInput, RadioButtonLabel }
           from 'react-native-simple-radio-button';
@@ -25,24 +26,21 @@ class AddEvent extends Component {
             loading: false,
             selectedIDs: [],
             isDateTimePickerVisible: false,
-            whatsapp_link: ''
+            whatsapp_link: '',
+            showAlert: false,
+            alertMsg: ''
           }
 
   componentDidMount() {
     this.getInfo();
   }
 
-  onNamePress = async (data) => {
+  onNamePress = (data) => {
     const { maxNumOfMembers, selected, selectedIDs } = this.state;
-    // he is trying to select himself
-    if (data.key == await AsyncStorage.getItem('userID')) {
-      alert('لا تضيف نفسك يا عيوني');
-      return;
-    }
     if (selected.includes(data.props.children)) {
       alert('سبق واضفت هذا الشخص تستهبل انت');
     } else if (selected.length >= maxNumOfMembers) {
-      alert('اما انك ما حددت الحد الاعلى للمشاركين او ان المشروع وصل للحد الاعلى للمشاركين');
+      alert('اما انك ما حددت الحد الاعلى للمشاركين او ان المشروع وصل للحد الاعلى للمشاركين')
     } else {
       selected.push(data.props.children);
       selectedIDs.push(data.key);
@@ -51,6 +49,10 @@ class AddEvent extends Component {
   }
 
   onSubmit = async () => {
+    if (!this.validateWhatsappLink(this.state.whatsapp_link)) {
+      this.setState({ alertMsg: 'رابط الواتساب غير صالح', showAlert: true });
+      return;
+    }
     const {
       projectName,
       projectDisc,
@@ -81,12 +83,11 @@ class AddEvent extends Component {
         this.setState({ loading: false });
         alert('تمت اضافة المشروع بنجاح');
         Keyboard.dismiss();
-        this.props.navigation.goBack();
+        this.props.navigation.navigate('Events');
       })
       .catch((error) => {
         this.setState({ loading: false });
         alert('حصلت مشكلة، تأكد انك دخلت البيانات كاملة وجرب مرة ثانية');
-       // console.log(error.response.data);
       });
   }
 
@@ -106,6 +107,12 @@ class AddEvent extends Component {
      .catch((error) => {
        alert('فيه غلط صار وما كان لي خلق اصلحه، جرب مره ثانيه :)');
      });
+  }
+
+  validateWhatsappLink(link) {
+    const re = /^https?\:\/\/(www\.)?chat(\.)?whatsapp(\.com)?\/.*(\?v=|\/v\/)?[a-zA-Z0-9_\-]+$/;
+    const isValid = re.test(link);
+    return isValid;
   }
 
   renderNames(query) {
@@ -159,6 +166,11 @@ class AddEvent extends Component {
     this.hideDateTimePicker();
   }
 
+  hideAlert = () => {
+    this.setState({
+      showAlert: false
+    });
+  };
 
   render() {
     const radioProps = [
@@ -204,6 +216,9 @@ class AddEvent extends Component {
 
         <TextField
           label='رابط قروب الواتساب'
+          title='تأكد من صحة الرابط عشان ما تصير مشاكل.'
+          titleTextStyle={{ textAlign: 'right' }}
+          multiline
           value={this.state.whatsapp_link}
           onChangeText={(text) => this.setState({ whatsapp_link: text })}
           inputContainerStyle={{ alignItems: 'flex-end' }}
@@ -301,6 +316,20 @@ class AddEvent extends Component {
       </Card>
       </View>
       </ScrollView>
+      <AwesomeAlert
+        show={this.state.showAlert}
+        showProgress={false}
+        title="عندك مشكلة"
+        message={this.state.alertMsg}
+        closeOnTouchOutside={true}
+        closeOnHardwareBackPress={true}
+        showCancelButton={false}
+        showConfirmButton={true}
+        confirmText="طيب"
+        onConfirmPressed={() => {
+          this.hideAlert();
+        }}
+      />
       </KeyboardAvoidingView>
       );
   }
