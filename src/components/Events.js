@@ -42,7 +42,7 @@ class Events extends Component {
     showAlertConfirm: false,
     refreshing: false,
     selectedProjectId: null,
-    loading: true 
+    loading: true
   };
 
   componentDidMount() {
@@ -125,11 +125,11 @@ class Events extends Component {
   }
   renderEmptyEventsText = () => {
     if(this.state.events.length === 0){
-      return (  
+      return (
       <View style={{ justifyContent: 'center', alignItems: 'center' }}>
       <Text style={{fontSize: 25, marginTop: '50%' }} >مافيه فعاليات :( </Text>
       </View>
-      
+
       );
     }
   }
@@ -168,7 +168,7 @@ render() {
   }
   const { showAlertLoading, showAlertConfirm } = this.state;
   return (
-    <View>
+    <View style={{ flex: 1, backgroundColor: '#ECF2F4' }}>
     <ScrollView
     refreshControl={
       <RefreshControl
