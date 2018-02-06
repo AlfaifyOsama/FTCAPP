@@ -150,7 +150,7 @@ class SubmitWork extends Component {
       return this.renderSpinner();
     } else if (this.state.members.length == 0) { // nothing to approve
       return (
-        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1, backgroundColor: '#ECF2F4' }}>
           <Text style={{ fontSize: 30 }}>فارغة كحياتي بدونك :)</Text>
         </View>
       );

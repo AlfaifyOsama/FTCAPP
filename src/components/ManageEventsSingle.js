@@ -256,7 +256,11 @@ class ManageEventsSingle extends Component {
     const { query } = this.state;
     const names = this.renderNames(query);
     return (
-      <KeyboardAvoidingView keyboardVerticalOffset={70} behavior="padding" >
+      <KeyboardAvoidingView
+      style={{ flex: 1, backgroundColor: '#ECF2F4' }}
+      keyboardVerticalOffset={70}
+      behavior="padding"
+      >
       <View>
       <ScrollView>
         <View style={{ paddingBottom: 15 }}>

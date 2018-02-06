@@ -28,7 +28,6 @@ const PointsStack = StackNavigator({
         textAlign: 'center',
         alignSelf: 'center',
         fontWeight: 'bold',
-        fontSize: 25,
         marginTop: 0,
         width: '100%',
         marginRight: 0,
