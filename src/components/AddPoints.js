@@ -123,8 +123,9 @@ class AddPoints extends Component {
 
 
         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
-          <Text style={{ textAlign: 'right', flex: 1 }}>لمن تبي ترصد؟</Text>
+          <Text style={{ textAlign: 'center', flex: 1, fontSize: 20 }}>لمن تبي ترصد؟</Text>
         </View>
+        <View style={{ marginBottom: 15 }} />
         <Autocomplete
           autoCorrect={false}
           placeholder={'اكتب هنا المشاركين مبدئياً'}
