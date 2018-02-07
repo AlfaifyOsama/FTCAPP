@@ -69,7 +69,7 @@ class Home extends Component {
           <Image style={styles.whatsappImageStyle} source={require('./images/whatsapp.png')} />
           <Text style={styles.eventNameStyle} >{event.name}</Text>
         </TouchableOpacity>
-        <View key={index} style={styles.line} />
+        <View key={index} style={ index == this.state.userEvents.length - 1 ? { marginBottom: 10 } : styles.line } />
       </View>
 
     );
