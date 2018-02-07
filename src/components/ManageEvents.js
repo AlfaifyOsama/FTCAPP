@@ -45,7 +45,7 @@ class ManageEvents extends Component {
     if (this.state.loading === true) {
       return (<Spinner />);
     }
-    else if (this.state.events == null) {
+    else if (this.state.events == null || this.state.events.length === 0) {
         return (
           <ScrollView
             contentContainerStyle={{ flexGrow: 1 }}
