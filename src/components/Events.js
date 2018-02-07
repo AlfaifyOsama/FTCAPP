@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, TouchableOpacity, ScrollView, View, AsyncStorage, RefreshControl, Keyboard } from 'react-native';
-import { Card, Button } from 'react-native-elements';
+import { Card, Button, Icon } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import axios from 'axios';
@@ -141,6 +141,7 @@ class Events extends Component {
   }
 
   renderAppropriateButton(project) {
+    console.log(project);
     const isDisabled = this.buttonIsDisabled(project);
     const title = this.renderButtonTitle(project);
     const iconName = this.renderButtonIconName(project);
@@ -192,9 +193,26 @@ render() {
             <Text style={{ marginBottom: 25, textAlign: 'center' }}>
             {item.description}
             </Text>
-            <Text style={{ marginBottom: 10, textAlign: 'center' }}>
+            <View style={{ flexDirection: 'row', alignSelf: 'center', justifyContent: 'center', marginBottom: 5, paddingTop: 5, paddingBottom: 5, borderRadius: 20, borderWidth: 1, borderColor: '#03A9F4', width: '80%' }}>
+            <Text style={{ alignSelf: 'center', marginRight: 5 }}>
             قائد المشروع: {item.leader}
             </Text>
+            <Icon
+              name='account-settings-variant'
+              type='material-community'
+              size={20}
+            />
+            </View>
+            <View style={{ flexDirection: 'row', alignSelf: 'center', justifyContent: 'center', marginBottom: 10, paddingTop: 5, paddingBottom: 5, borderRadius: 20, borderWidth: 1, borderColor: '#03A9F4', width: '80%' }}>
+            <Text style={{ alignSelf: 'center', marginRight: 5 }}>
+            تاريخ المشروع: {item.date}
+            </Text>
+            <Icon
+              name='calendar'
+              type='entypo'
+              size={20}
+            />
+            </View>
             {this.renderAppropriateButton(item)}
           </Card>
         </View>
@@ -204,8 +222,8 @@ render() {
     <AwesomeAlert
       show={showAlertLoading}
       showProgress={true}
-      title="Loading"
-      message="Please wait.."
+      title="لحظات"
+      message="جاري تنفيذ طلبك.."
       closeOnTouchOutside={true}
       closeOnHardwareBackPress={false}
       showCancelButton={false}

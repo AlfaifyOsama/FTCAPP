@@ -23,7 +23,7 @@ const PointsStack = StackNavigator({
   Points: {
     screen: Points,
     navigationOptions: {
-      title: 'النقاط',
+      title: 'نقاط الأعضاء',
       headerTitleStyle: {
         textAlign: 'center',
         alignSelf: 'center',

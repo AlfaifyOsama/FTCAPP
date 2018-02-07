@@ -59,7 +59,7 @@ class ManageEvents extends Component {
             <View
               style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
             >
-  
+
               <Text style={{ fontSize: 30 }}>فارغة كحياتي بدونك :)</Text>
             </View>
           </ScrollView>
@@ -84,9 +84,6 @@ class ManageEvents extends Component {
               <Card title={item.name} key={i} containerStyle={{ borderRadius: 10 }}>
                 <Text style={{ marginBottom: 25, textAlign: 'center' }}>
                   {item.description}
-                </Text>
-                <Text style={{ marginBottom: 10, textAlign: 'center' }}>
-                  قائد المشروع: {item.leader}
                 </Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                   <Button
@@ -113,7 +110,6 @@ class ManageEvents extends Component {
         }
       </ScrollView>
     );
-  
   }
 }
 

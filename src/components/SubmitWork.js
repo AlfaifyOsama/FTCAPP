@@ -2,18 +2,18 @@ import React, { Component } from 'react';
 import { View, Text, ScrollView, KeyboardAvoidingView, Platform, TextInput, AsyncStorage } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Card, Button } from 'react-native-elements';
+import AwesomeAlert from 'react-native-awesome-alerts';
 import axios from 'axios';
 import BaseURL from '../config';
 import { Spinner } from './common';
 
 class SubmitWork extends Component {
-  state = { members: [], event: {}, inputs: [], loading: true };
+  state = { members: [], event: {}, inputs: [], loading: true, showAlertLoading: false };
 
   componentDidMount() {
-    //console.log('ComponentDidMount');
-
     this.getInfo();
   }
+
   getInfo = async () => {
     //console.log('getInfo');
 
@@ -35,14 +35,16 @@ class SubmitWork extends Component {
         ));
 
         this.setState({
-          loading: false
+          loading: false,
+          showAlertLoading: false,
         });
       })
       .catch((error) => {
         // console.log(error);
         alert('فيه مشكلااا صديق');
         this.setState({
-          loading: false
+          loading: false,
+          showAlertLoading: false,
         });
       });
   }
@@ -55,7 +57,7 @@ class SubmitWork extends Component {
       return;
     }
     this.setState({
-      loading: true
+      showAlertLoading: true
     });
     const token = await AsyncStorage.getItem('token');
     const instance = axios.create({
@@ -75,7 +77,6 @@ class SubmitWork extends Component {
       .catch((error) => {
         //  console.log(error);
       });
-
   }
 
   renderSpinner() {
@@ -156,9 +157,21 @@ class SubmitWork extends Component {
       );
     }
     return (
+      <View style={{ flex: 1, backgroundColor: '#ECF2F4' }}>
       <KeyboardAwareScrollView keyboardShouldPersistTaps='always' extraScrollHeight={60}>
         {this.renderCards()}
       </KeyboardAwareScrollView>
+      <AwesomeAlert
+        show={this.state.showAlertLoading}
+        showProgress
+        title="لحظات"
+        message="جاري تنفيذ طلبك.."
+        closeOnTouchOutside
+        closeOnHardwareBackPress={false}
+        showCancelButton={false}
+        showConfirmButton={false}
+      />
+      </View>
 
 
     );
