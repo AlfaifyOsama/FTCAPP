@@ -25,7 +25,9 @@ class Events extends Component {
 
       headerLeft:
         <TouchableOpacity
-          onPress={() => navigation.navigate('AddEvent')}
+          onPress={() => navigation.navigate('AddEvent', {
+            onGoBack: () => this.refresh(),
+          })}
           style={{ marginLeft: 20, paddingRight: 50, }}
         >
           <Ionicons
