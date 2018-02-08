@@ -23,8 +23,7 @@ class ManageEvents extends Component {
     });
     instance.get(BaseURL + '/events/getLeaderEvents/' + userId)
       .then((response) => {
-        this.setState({ events: response.data });
-        this.setState({ loading: false });
+        this.setState({ events: response.data, loading: false });
         //console.log(response.data);
       })
       .catch((error) => {
@@ -32,6 +31,11 @@ class ManageEvents extends Component {
         this.setState({ loading: false });
       });
 
+  }
+
+  refresh = () => {
+    this.setState({ loading: true });
+    this.getEvents();
   }
 
   _onRefresh() {
@@ -92,16 +96,22 @@ class ManageEvents extends Component {
                     title='رصد الأعمال'
                     rightIcon={{ name: 'checkbox-multiple-marked-outline', type: 'material-community' }}
                     onPress={() => this.props.navigation.navigate('SubmitWork', {
-                      event: item
+                      event: item, 
+                      onGoBack: () => this.refresh()
                     })
                     }
+                   
                   />
                   <Button
                     backgroundColor='#03A9F4'
                     buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
                     title='ادارة المشروع'
                     rightIcon={{ name: 'account-settings-variant', type: 'material-community' }}
-                    onPress={() => this.props.navigation.navigate('ManageEventsSingle', { eventId: item.id })}
+                    onPress={() => this.props.navigation.navigate('ManageEventsSingle', {
+                       eventId: item.id, 
+                       onGoBack: () => this.refresh()
+                       })
+                      }
                   />
                 </View>
               </Card>

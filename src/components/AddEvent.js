@@ -91,13 +91,13 @@ class AddEvent extends Component {
       })
       .catch((error) => {
         this.setState({ loading: false });
+        console.log(error);
         alert('حصلت مشكلة، تأكد انك دخلت البيانات كاملة وجرب مرة ثانية');
       });
   }
 
   getInfo = async () => {
    const token = 'Bearer ' + await AsyncStorage.getItem('token');
-
    const instance = axios.create({
    timeout: 5000,
    headers: { 'Authorization': token }
@@ -114,7 +114,7 @@ class AddEvent extends Component {
   }
 
   validateWhatsappLink(link) {
-    if (link === '') {
+    if (link === '' || link === undefined) {
       return true;
     }
     const re = /^https?\:\/\/(www\.)?chat(\.)?whatsapp(\.com)?\/.*(\?v=|\/v\/)?[a-zA-Z0-9_\-]+$/;

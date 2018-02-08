@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Text, TouchableOpacity, ScrollView, View, AsyncStorage, RefreshControl, Keyboard } from 'react-native';
+import { Text, TouchableOpacity, ScrollView, View,
+   AsyncStorage, RefreshControl, Keyboard } from 'react-native';
 import { Card, Button, Icon } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AwesomeAlert from 'react-native-awesome-alerts';
@@ -10,6 +11,7 @@ import { Spinner } from './common';
 
 class Events extends Component {
   static navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
     return {
       headerRight:
         <TouchableOpacity
@@ -26,7 +28,7 @@ class Events extends Component {
       headerLeft:
         <TouchableOpacity
           onPress={() => navigation.navigate('AddEvent', {
-            onGoBack: () => this.refresh(),
+            onGoBack: () => params.goToRefresh(),
           })}
           style={{ marginLeft: 20, paddingRight: 50, }}
         >
@@ -48,9 +50,9 @@ class Events extends Component {
   };
 
   componentDidMount() {
+    this.props.navigation.setParams({ goToRefresh: this.refresh });
     this.getEvents();
   }
-
 
   onJoinEventClick = async () => {
     this.setState({ showAlertLoading: true, showAlertConfirm: false });
@@ -80,12 +82,18 @@ class Events extends Component {
     });
     instance.get(BaseURL + '/events/getReadyEvents')
     .then((response) => {
-      this.setState({ events: response.data });
+      this.setState({ events: response.data, loading: false });
      // console.log(response.data);
     })
       .catch((error) => {
+        this.setState({ loading: false });
+       // alert('فيه مشكلة');
       });
-      this.setState({ loading: false });
+  }
+
+  refresh = () => {
+    this.setState({ loading: true });
+    this.getEvents();
   }
 
   showAlert = (type) => {
@@ -235,10 +243,10 @@ render() {
     </ScrollView>
     <AwesomeAlert
       show={showAlertLoading}
-      showProgress={true}
+      showProgress
       title="لحظات"
       message="جاري تنفيذ طلبك.."
-      closeOnTouchOutside={true}
+      closeOnTouchOutside
       closeOnHardwareBackPress={false}
       showCancelButton={false}
       showConfirmButton={false}
@@ -248,10 +256,10 @@ render() {
           showProgress={false}
           title="اكيد تبي تشارك؟"
           message="تأكد ان محمد الشهري بإنتظارك اذا سحبت!"
-          closeOnTouchOutside={true}
+          closeOnTouchOutside
           closeOnHardwareBackPress={false}
-          showCancelButton={true}
-          showConfirmButton={true}
+          showCancelButton
+          showConfirmButton
           cancelText="لا هونت"
           confirmText="ايه اكيد"
           confirmButtonColor="#9ccc65"
