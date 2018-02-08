@@ -7,8 +7,6 @@ import { TextField } from 'react-native-material-textfield';
 import { Dropdown } from 'react-native-material-dropdown';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import normalize from 'react-native-elements/src/helpers/normalizeText';
-import RadioForm, { RadioButton, RadioButtonInput,
-   RadioButtonLabel } from 'react-native-simple-radio-button';
 import axios from 'axios';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import BaseURL from '../config';

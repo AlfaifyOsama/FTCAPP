@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import { View, Image, AsyncStorage, ImageBackground, StatusBar,
    Keyboard, TouchableWithoutFeedback, Platform } from 'react-native';
+import AwesomeAlert from 'react-native-awesome-alerts';
 import { TextField } from 'react-native-material-textfield';
 import { NavigationActions } from 'react-navigation';
 import { Button, Spinner } from './common';
@@ -14,7 +15,9 @@ export default class LoginForm extends Component {
       id: '',
       password: '',
       alert: '',
-      loading: true
+      loading: true,
+      showAlert: false,
+      alertMsg: ''
     };
   }
 
@@ -61,8 +64,11 @@ export default class LoginForm extends Component {
       })
       .catch((error) => {
         //console.log(error);
-        alert('معلوماتك غلط يا كابتن');
-        this.setState({ loading: false });
+        if (error.response.status === 401) {
+          this.setState({ alertMsg: 'معلوماتك غلط يا كبتن', showAlert: true, loading: false });
+        } else {
+          this.setState({ alertMsg: 'فيه مشكلة بالاتصال، نواف القعيد هو السبب', showAlert: true, loading: false });
+        }
         this.renderButtonOrSpinner();
       });
   }
@@ -82,6 +88,12 @@ export default class LoginForm extends Component {
     } else {
       this.setState({ loading: false });
     }
+  }
+
+  hideAlert = () => {
+    this.setState({
+      showAlert: false
+        });
   }
 
   renderButtonOrSpinner() {
@@ -152,6 +164,17 @@ export default class LoginForm extends Component {
 
         </View>
         </ImageBackground>
+        <AwesomeAlert
+      show={this.state.showAlert}
+      title="خطأ"
+      message={this.state.alertMsg}
+      closeOnTouchOutside
+      closeOnHardwareBackPress
+      showConfirmButton
+      onConfirmPressed={() => {
+        this.hideAlert();
+      }}
+    />
       </View>
       </TouchableWithoutFeedback>
 

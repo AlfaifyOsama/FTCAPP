@@ -162,7 +162,7 @@ class Events extends Component {
   }
 
   renderAppropriateButton(project) {
-    console.log(project);
+    //console.log(project);
     const isDisabled = this.buttonIsDisabled(project);
     const title = this.renderButtonTitle(project);
     const iconName = this.renderButtonIconName(project);

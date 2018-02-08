@@ -91,7 +91,7 @@ class AddEvent extends Component {
       })
       .catch((error) => {
         this.setState({ loading: false });
-        console.log(error);
+        //console.log(error);
         alert('حصلت مشكلة، تأكد انك دخلت البيانات كاملة وجرب مرة ثانية');
       });
   }

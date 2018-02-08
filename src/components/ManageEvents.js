@@ -16,7 +16,7 @@ class ManageEvents extends Component {
   getEvents = async () => {
     const token = await AsyncStorage.getItem('token');
     const userId = await AsyncStorage.getItem('userID');
-    console.log('id', userId);
+   // console.log('id', userId);
     const instance = axios.create({
       timeout: 5000,
       headers: { 'Authorization': 'Bearer ' + token }

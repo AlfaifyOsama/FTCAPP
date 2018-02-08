@@ -49,7 +49,7 @@ class Home extends Component {
         });
       })
       .catch((error) => {
-        console.log(error.response);
+        //console.log(error.response);
         alert('التطبيق ما اتصل بالسيرفر، شيك على الانترنت عندك');
       });
     this.setState({ loading: false });

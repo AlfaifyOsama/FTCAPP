@@ -22,29 +22,29 @@ export default class App extends React.Component {
   }
 
   onReceived(notification) {
-    console.log('Notification received: ', notification);
+    //console.log('Notification received: ', notification);
   }
 
   onOpened(openResult) {
-    console.log('Message: ', openResult.notification.payload.body);
-    console.log('Data: ', openResult.notification.payload.additionalData);
-    console.log('isActive: ', openResult.notification.isAppInFocus);
-    console.log('openResult: ', openResult);
+    // console.log('Message: ', openResult.notification.payload.body);
+    // console.log('Data: ', openResult.notification.payload.additionalData);
+    // console.log('isActive: ', openResult.notification.isAppInFocus);
+    // console.log('openResult: ', openResult);
   }
 
   onRegistered(notifData) {
-    console.log('Device had been registered for push notifications!', notifData);
+    //console.log('Device had been registered for push notifications!', notifData);
   }
 
 
   async onIds(device) {
     const deviceID = await AsyncStorage.getItem('device_id');
-    console.log('Device info: ', deviceID);
+    //console.log('Device info: ', deviceID);
     if (deviceID != undefined && deviceID != '' && deviceID != null)
       return;
-    console.log('Device info: ', device);
+    //console.log('Device info: ', device);
     const token = await AsyncStorage.getItem('token');
-    console.log('token: ', token);
+   // console.log('token: ', token);
     if (token == undefined || token == '')
       return;
     const instance = axios.create({
@@ -56,13 +56,13 @@ export default class App extends React.Component {
     })
       .then((response) => {
         if (response.status == 200) {
-          console.log('finished sending the request');
+          //console.log('finished sending the request');
           AsyncStorage.setItem('device_id', device.userId);
           OneSignal.sendTag('device_id', 'true');
         }
       })
       .catch((error) => {
-        console.log(error.response.data);
+       // console.log(error.response.data);
       });
   }
 
