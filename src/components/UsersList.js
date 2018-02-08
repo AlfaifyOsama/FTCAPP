@@ -82,6 +82,7 @@ export default class UsersList extends Component {
                             key={i}
                             title={user.first_name + ' ' + user.last_name}
                             subtitle={user.bio}
+                            subtitleNumberOfLines={2}
                             subtitleContainerStyle={{ alignItems: 'flex-end' }}
                             onPress={() =>
                                 this.chatInWhatsApp(user)
