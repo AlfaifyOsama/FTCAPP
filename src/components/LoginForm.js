@@ -64,7 +64,7 @@ export default class LoginForm extends Component {
       })
       .catch((error) => {
         //console.log(error);
-        if (error.response.status === 401) {
+        if (error.response) {
           this.setState({ alertMsg: 'معلوماتك غلط يا كبتن', showAlert: true, loading: false });
         } else {
           this.setState({ alertMsg: 'فيه مشكلة بالاتصال، نواف القعيد هو السبب', showAlert: true, loading: false });
@@ -171,6 +171,8 @@ export default class LoginForm extends Component {
       closeOnTouchOutside
       closeOnHardwareBackPress
       showConfirmButton
+      confirmButtonColor="red"
+      confirmText="طيب"
       onConfirmPressed={() => {
         this.hideAlert();
       }}
