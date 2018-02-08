@@ -29,7 +29,8 @@ class AddEvent extends Component {
             whatsapp_link: '',
             notifyUsers: false,
             showAlert: false,
-            alertMsg: ''
+            alertMsg: '',
+            alertTitle: ''
           }
 
   componentDidMount() {
@@ -83,10 +84,10 @@ class AddEvent extends Component {
     };
     instance.post(BaseURL + '/events/create', param)
       .then((response) => {
-        this.setState({ loading: false });
-        alert('تمت اضافة المشروع بنجاح');
+        this.setState({ loading: false, alertTitle: 'تمت اضافة المشروع', alertMsg: 'الله الله بالشغل السنع :)', showAlert: true });
         Keyboard.dismiss();
-        this.props.navigation.navigate('Events');
+        this.props.navigation.state.params.onGoBack();
+        this.props.navigation.goBack();
       })
       .catch((error) => {
         this.setState({ loading: false });
@@ -341,12 +342,12 @@ class AddEvent extends Component {
       <AwesomeAlert
         show={this.state.showAlert}
         showProgress={false}
-        title="عندك مشكلة"
+        title={this.state.alertTitle}
         message={this.state.alertMsg}
-        closeOnTouchOutside={true}
-        closeOnHardwareBackPress={true}
+        closeOnTouchOutside
+        closeOnHardwareBackPress
         showCancelButton={false}
-        showConfirmButton={true}
+        showConfirmButton
         confirmText="طيب"
         onConfirmPressed={() => {
           this.hideAlert();
