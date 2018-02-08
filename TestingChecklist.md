@@ -3,7 +3,7 @@
 <ul>
 
 <li>Home Screen</li>
-      - [ ] Mercury
+      - [ ] Mercury <br>
       - [x] Venus
        - [x] Earth (Orbit/Moon)
     - [x] Mars
