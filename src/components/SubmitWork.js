@@ -159,6 +159,9 @@ class SubmitWork extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: '#ECF2F4' }}>
       <KeyboardAwareScrollView keyboardShouldPersistTaps='always' extraScrollHeight={60}>
+      <Card containerStyle={{ borderRadius: 10 }}>
+        <Text>لا تجيب العيد, ترا أي شي تكتبه هنا يمدي يشوفه العضو</Text>     
+      </Card>
         {this.renderCards()}
       </KeyboardAwareScrollView>
       <AwesomeAlert
