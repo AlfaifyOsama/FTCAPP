@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 import { View, Image, AsyncStorage, ImageBackground, StatusBar,
-   Keyboard, TouchableWithoutFeedback } from 'react-native';
+   Keyboard, TouchableWithoutFeedback, Platform } from 'react-native';
 import { TextField } from 'react-native-material-textfield';
 import { NavigationActions } from 'react-navigation';
 import { Button, Spinner } from './common';
@@ -108,9 +108,7 @@ export default class LoginForm extends Component {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={pageStyle}>
-      <StatusBar
-         backgroundColor="grey"
-      />
+      <StatusBar backgroundColor="#1976D2" />
         <ImageBackground
           style={{ height: '100%', width: '100%' }}
           source={require('./images/blurBg.png')}
@@ -182,7 +180,7 @@ const styles = {
   },
   pageStyle: {
     flex: 1,
-  },
+    marginTop: Platform.OS === 'ios' ? 21 : 0  },
   sectionStyle: {
     flexDirection: 'row',
   },

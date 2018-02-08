@@ -225,7 +225,7 @@ const MoreStack = StackNavigator({
   EventsHistory: {
     screen: EventsHistory,
     navigationOptions: {
-      title: 'تاريخ فعالياتي',
+      title: 'سجل فعالياتي',
       headerTitleStyle: {
         textAlign: 'center',
         fontWeight: 'bold',

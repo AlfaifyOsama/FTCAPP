@@ -28,7 +28,7 @@ export default class More extends Component {
           icon: 'account-circle',
         },
         {
-          title: 'تاريخ فعالياتي',
+          title: 'سجل فعالياتي',
           icon: 'history',
         },
         {
