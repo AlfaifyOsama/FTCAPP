@@ -19,7 +19,7 @@ class Points extends Component {
 
   getInfo = async () => {
     const token = await AsyncStorage.getItem('token');
-    const id = await AsyncStorage.getItem('userID');
+    // const id = await AsyncStorage.getItem('userID');
     // console.log('token: ',token);
     const instance = axios.create({
       timeout: 5000,

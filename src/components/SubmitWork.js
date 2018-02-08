@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, KeyboardAvoidingView, Platform, TextInput, AsyncStorage } from 'react-native';
+import { View, Text, TextInput, AsyncStorage } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Card, Button } from 'react-native-elements';
 import AwesomeAlert from 'react-native-awesome-alerts';

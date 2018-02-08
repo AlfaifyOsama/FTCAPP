@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { View, TextInput, AsyncStorage } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import axios from 'axios';
-import BaseURL from '../config';
 import Toast from 'react-native-root-toast';
+import BaseURL from '../config';
 
 class SendNotifications extends Component {
 

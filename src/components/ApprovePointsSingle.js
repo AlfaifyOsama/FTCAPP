@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, Image, ScrollView, TextInput, AsyncStorage } from 'react-native';
+import { View, Text, ScrollView, TextInput, AsyncStorage } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import AnimatedHideView from 'react-native-animated-hide-view';
+import Toast from 'react-native-root-toast';
 import axios from 'axios';
 import BaseURL from '../config';
-import Toast from 'react-native-root-toast';
 import { Spinner } from './common';
 
 class ApprovePointsSingle extends Component {

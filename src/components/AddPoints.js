@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Text, View, TextInput, ScrollView, AsyncStorage, TouchableOpacity, Platform } from 'react-native';
+import { Text, View, TextInput, ScrollView,
+   AsyncStorage, TouchableOpacity, Platform } from 'react-native';
 import Autocomplete from 'react-native-autocomplete-input';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { Card, Button } from 'react-native-elements';
@@ -57,7 +58,7 @@ class AddPoints extends Component {
         }
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
         alert('فيه مشكلة، حاول مرة ثانية');
         this.setState({ showLoading: true });
       });
