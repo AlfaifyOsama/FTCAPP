@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, TouchableOpacity, AsyncStorage, View,
-   KeyboardAvoidingView, ScrollView } from 'react-native';
+   KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
 import { Card, Button, Icon, Divider } from 'react-native-elements';
 import Autocomplete from 'react-native-autocomplete-input';
 import { TextField } from 'react-native-material-textfield';
@@ -278,11 +278,7 @@ class ManageEventsSingle extends Component {
     const { query } = this.state;
     const names = this.renderNames(query);
     return (
-      <KeyboardAvoidingView
-      style={{ flex: 1, backgroundColor: '#ECF2F4' }}
-      keyboardVerticalOffset={70}
-      behavior="padding"
-      >
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : '' } keyboardVerticalOffset={70}>
       <View>
       <ScrollView>
         <View style={{ paddingBottom: 15 }}>
@@ -356,10 +352,10 @@ class ManageEventsSingle extends Component {
               onChangeText={text => this.setState({ query: text })}
               renderItem={data => (
                 <TouchableOpacity onPress={this.onNamePress.bind(this, data)}>
-                  <Text style={{ textAlign: 'right', marginTop: 10, paddingTop: 5, paddingBottom: 5, paddingRight: 10 }}>{data}</Text>
+              <Text style={{ textAlign: 'right', marginTop: 10, paddingTop: 5, paddingBottom: 5, paddingRight: 10 }}>{data}</Text>
                 </TouchableOpacity>
               )}
-              inputContainerStyle={{ borderRadius: 10, alignItems: 'flex-end', paddingRight: 10 }}
+              inputContainerStyle={{ borderRadius: 10, alignItems: Platform.OS === 'ios' ? 'flex-end' : 'stretch', paddingRight: 10 }}
 
             />
             <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 5, flexWrap: 'wrap' }}>
