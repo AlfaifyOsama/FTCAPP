@@ -114,6 +114,9 @@ class AddEvent extends Component {
   }
 
   validateWhatsappLink(link) {
+    if (link === '') {
+      return true;
+    }
     const re = /^https?\:\/\/(www\.)?chat(\.)?whatsapp(\.com)?\/.*(\?v=|\/v\/)?[a-zA-Z0-9_\-]+$/;
     const isValid = re.test(link);
     return isValid;
@@ -237,7 +240,7 @@ class AddEvent extends Component {
           itemTextStyle={{ textAlign: 'right' }}
           onChangeText={(value) => this.setState({ maxNumOfMembers: value })}
         />
-        <Text>لا تحسب نفسك.</Text>
+        <Text style={{ textAlign: 'right', opacity: 0.6 }}>لا تحسب نفسك.</Text>
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
           <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
@@ -312,6 +315,7 @@ class AddEvent extends Component {
             title='تبي ترسل تنبيه لكل الأعضاء؟'
             checked={this.state.notifyUsers}
             containerStyle={{ backgroundColor: 'transparent', borderColor: 'transparent', }}
+            iconRight
             onPress={() => {
               if (this.state.notifyUsers)
                 this.setState({ notifyUsers: false });

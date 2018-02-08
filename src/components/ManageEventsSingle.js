@@ -20,7 +20,6 @@ class ManageEventsSingle extends Component {
     query: '',
     projectName: '',
     projectDisc: '',
-    type: 'ATTEND',
     date: '',
     maxNumOfMembers: 0,
     selectedIDs: [],
@@ -125,7 +124,7 @@ class ManageEventsSingle extends Component {
     });
     instance.get(`${BaseURL}/events/${this.state.eventId}/show`)
       .then((response) => {
-        const { name, description, user_limit, type, date, whatsapp_link } = response.data.event;
+        const { name, description, user_limit, date, whatsapp_link } = response.data.event;
         const { IDs, names } = response.data.users;
 
         // Add all project registered info
@@ -133,7 +132,6 @@ class ManageEventsSingle extends Component {
           projectName: name,
           projectDisc: description,
           maxNumOfMembers: user_limit,
-          type,
           selected: names,
           selectedIDs: IDs,
           date,
@@ -146,6 +144,9 @@ class ManageEventsSingle extends Component {
   }
 
   validateWhatsappLink(link) {
+    if (link === '') {
+      return true;
+    }
     const re = /^https?\:\/\/(www\.)?chat(\.)?whatsapp(\.com)?\/.*(\?v=|\/v\/)?[a-zA-Z0-9_\-]+$/;
     const isValid = re.test(link);
     return isValid;
@@ -364,40 +365,7 @@ class ManageEventsSingle extends Component {
                 this.renderSelectedNames()
               }
             </View>
-            <View style={{ alignItems: 'center', marginTop: 30, marginRight: 20 }}>
-              <RadioForm
-                formHorizontal
-                animation
-              >
-                {radioProps.map((obj, i) => {
-                  return (
-                    <RadioButton labelHorizontal key={i} style={{ marginLeft: 15 }}>
-                      <RadioButtonLabel
-                        obj={obj}
-                        index={i}
-                        onPress={() => this.setState({ type: obj.value })}
-                        labelHorizontal
-                        labelStyle={{ fontSize: 15, color: '#000' }}
-                        labelWrapStyle={{}}
-                      />
-                      <RadioButtonInput
-                        obj={obj}
-                        index={i}
-                        onPress={() => this.setState({ type: obj.value })}
-                        isSelected={this.state.type === obj.value}
-                        borderWidth={3}
-                        buttonInnerColor={'#03A9F4'}
-                        buttonOuterColor={this.state.type === obj.value ? '#03A9F4' : '#03A9F4'}
-                        buttonSize={15}
-                        buttonOuterSize={25}
-                        buttonStyle={{}}
-                        buttonWrapStyle={{ marginLeft: 10 }}
-                      />
-                    </RadioButton>);
-                })}
 
-              </RadioForm>
-            </View>
             <Text style={{ fontSize: normalize(14), fontWeight: 'bold', marginBottom: 15, color: '#43484d', textAlign: 'center', marginTop: 50 }}>الاعضاء</Text>
             <Divider style={{ marginBottom: 15 }} />
             { this.renderAllRegisteredMembers() }
