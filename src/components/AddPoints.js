@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TextInput, ScrollView,  AsyncStorage, TouchableOpacity, Platform } from 'react-native';
+import { Text, View, TextInput, ScrollView, AsyncStorage, TouchableOpacity, Platform } from 'react-native';
 import Autocomplete from 'react-native-autocomplete-input';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { Card, Button } from 'react-native-elements';
@@ -38,7 +38,7 @@ class AddPoints extends Component {
     });
     instance.put(BaseURL + '/points/addPoints', {
       value: this.state.value,
-      user_id: this.state.selectedIDs[0]
+      users: this.state.selectedIDs
     })
       .then((response) => {
         //console.log(response.data.users);
@@ -66,12 +66,8 @@ class AddPoints extends Component {
 
 
   onNamePress = (data) => {
-    if (this.state.selected.length == 1) {
-      alert('سبق واضفت واحد تستهبل انت');
-    } else {
-      this.state.selected.push(data.props.children);
-      this.state.selectedIDs.push(data.key);
-    }
+    this.state.selected.push(data.props.children);
+    this.state.selectedIDs.push(data.key);
     this.setState({ query: '' });
   }
 
@@ -116,74 +112,59 @@ class AddPoints extends Component {
     const names = this.renderNames(query);
     return (
 
-      <View style={styles.pageStyle} >
-        <Card title='ارصد النقاط ولاتعلم احد' >
-          <Text style={{ textAlign: 'center', fontSize: 20 }} >لمين تبي ترصد؟</Text>
-          <View style={{ marginBottom: 15, marginTop: 15 }} />
-          <Autocomplete
-            placeholder={'لمين تبي ترصد؟'}
-            data={names}
-            defaultValue={query}
-            onChangeText={text => this.setState({ query: text })}
-            renderItem={data => (
-              <TouchableOpacity onPress={this.onNamePress.bind(this, data)}>
-                <Text style={{ textAlign: 'right', marginTop: 10, paddingTop: 5, paddingBottom: 5, paddingRight: 10 }}>{data}</Text>
-              </TouchableOpacity>
-            )}
-            inputContainerStyle={{ borderRadius: 10, alignItems: Platform.OS === 'ios' ? 'flex-end' : 'stretch', paddingRight: 10, paddingBottom: 40, marginBottom: 40 }}
-
       <ScrollView keyboardShouldPersistTaps='always' style={{ backgroundColor: '#ECF2F4' }}>
-      <View style={{ paddingBottom: 15 }}>
-      <Card title='ارصد النقاط ولاتعلم احد' >
+        <View style={{ paddingBottom: 15 }}>
+          <Card title='ارصد النقاط ولاتعلم احد' >
 
 
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
-          <Text style={{ textAlign: 'center', flex: 1, fontSize: 20 }}>لمن تبي ترصد؟</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
+              <Text style={{ textAlign: 'center', flex: 1, fontSize: 20 }}>لمن تبي ترصد؟</Text>
+            </View>
+            <View style={{ marginBottom: 15 }} />
+            <Autocomplete
+              autoCorrect={false}
+              placeholder={'اكتب هنا المشاركين مبدئياً'}
+              data={names}
+              defaultValue={query}
+              onChangeText={text => this.setState({ query: text })}
+              renderItem={data => (
+                <TouchableOpacity onPress={this.onNamePress.bind(this, data)}>
+                  <Text style={{ textAlign: 'right', marginTop: 10, paddingTop: 5, paddingBottom: 5, paddingRight: 10 }}>{data}</Text>
+                </TouchableOpacity>
+              )}
+              inputContainerStyle={{ borderRadius: 10, alignItems: Platform.OS === 'ios' ? 'flex-end' : 'stretch', paddingRight: 10 }}
+
+            />
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 5, flexWrap: 'wrap' }}>
+              {
+                this.renderSelectedNames()
+              }
+            </View>
+
+            <View style={{ marginBottom: 15, marginTop: 15 }} />
+            <Text style={{ textAlign: 'center', fontSize: 20 }} >كم؟</Text>
+            <View style={{ marginBottom: 15, marginTop: 5 }} />
+            <TextInput
+              placeholder={'00'}
+              autoCapitalize={'none'}
+              autoCorrect={false}
+              style={{ textAlign: 'center' }}
+              onChangeText={(text) => this.setState({ value: text })}
+              value={this.state.value}
+              maxLength={2}
+              keyboardType='numeric'
+            />
+            <Button
+              backgroundColor='#03A9F4'
+              buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0, marginTop: 20 }}
+              title='ارصد'
+              rightIcon={{ name: 'send' }}
+              onPress={() => this.onPress()}
+            />
+
+          </Card>
         </View>
-        <View style={{ marginBottom: 15 }} />
-        <Autocomplete
-          autoCorrect={false}
-          placeholder={'اكتب هنا المشاركين مبدئياً'}
-          data={names}
-          defaultValue={query}
-          onChangeText={text => this.setState({ query: text })}
-          renderItem={data => (
-            <TouchableOpacity onPress={this.onNamePress.bind(this, data)}>
-              <Text style={{ textAlign: 'right', marginTop: 10, paddingTop: 5, paddingBottom: 5, paddingRight: 10 }}>{data}</Text>
-            </TouchableOpacity>
-          )}
-          inputContainerStyle={{ borderRadius: 10, alignItems: Platform.OS === 'ios' ? 'flex-end' : 'stretch', paddingRight: 10 }}
-
-        />
-        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 5, flexWrap: 'wrap' }}>
-          {
-              this.renderSelectedNames()
-          }
-        </View>
-
-        <View style={{ marginBottom: 15, marginTop: 15 }} />
-          <Text style={{ textAlign: 'center', fontSize: 20 }} >كم؟</Text>
-          <View style={{ marginBottom: 15, marginTop: 5 }} />
-          <TextInput
-            placeholder={'00'}
-            autoCapitalize={'none'}
-            autoCorrect={false}
-            style={{ textAlign: 'center' }}
-            onChangeText={(text) => this.setState({ value: text })}
-            value={this.state.value}
-            maxLength={2}
-          />
-          <Button
-            backgroundColor='#03A9F4'
-            buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0, marginTop: 20 }}
-            title='ارصد'
-            rightIcon={{ name: 'send' }}
-            onPress={() => this.onPress()}
-          />  
-
-      </Card>
-      </View>
-      <AwesomeAlert
+        <AwesomeAlert
           show={this.state.showLoading}
           showProgress={true}
           title="لودنق.."
@@ -194,6 +175,7 @@ class AddPoints extends Component {
           showConfirmButton={false}
         />
       </ScrollView>
+
     );
   }
 }
