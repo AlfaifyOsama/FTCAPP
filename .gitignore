@@ -51,3 +51,7 @@ buck-out/
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
+my-release-key.keystore.old
+android/build.gradle
+android/gradle.properties
+android/app/build.gradle

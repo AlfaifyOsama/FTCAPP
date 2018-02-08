@@ -21,7 +21,7 @@ export default class More extends Component {
         },
         {
           title: 'الأعضاء',
-          icon: 'work'
+          icon: 'people'
         },
         {
           title: 'حسابي',

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, TouchableOpacity, AsyncStorage, View,
   ScrollView, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
-import { Card, Button, Icon } from 'react-native-elements';
+import { Card, Button, Icon, CheckBox } from 'react-native-elements';
 import Autocomplete from 'react-native-autocomplete-input';
 import { TextField } from 'react-native-material-textfield';
 import { Dropdown } from 'react-native-material-dropdown';
@@ -27,6 +27,7 @@ class AddEvent extends Component {
             selectedIDs: [],
             isDateTimePickerVisible: false,
             whatsapp_link: '',
+            notifyUsers: false,
             showAlert: false,
             alertMsg: ''
           }
@@ -60,7 +61,8 @@ class AddEvent extends Component {
       type,
       selectedIDs,
       date,
-      whatsapp_link
+      whatsapp_link,
+      notifyUsers
     } = this.state;
 
     this.setState({ loading: true });
@@ -76,7 +78,8 @@ class AddEvent extends Component {
       user_limit: maxNumOfMembers,
       users: selectedIDs,
       date,
-      whatsapp_link
+      whatsapp_link,
+      notifyUsers,
     };
     instance.post(BaseURL + '/events/create', param)
       .then((response) => {
@@ -233,6 +236,7 @@ class AddEvent extends Component {
           itemTextStyle={{ textAlign: 'right' }}
           onChangeText={(value) => this.setState({ maxNumOfMembers: value })}
         />
+        <Text>لا تحسب نفسك.</Text>
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
           <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
@@ -300,6 +304,20 @@ class AddEvent extends Component {
           })}
 
           </RadioForm>
+        </View>
+
+        <View style={{ backgroundColor: 'transparent', alignItems: 'center' }}>
+          <CheckBox
+            title='تبي ترسل تنبيه لكل الأعضاء؟'
+            checked={this.state.notifyUsers}
+            containerStyle={{ backgroundColor: 'transparent', borderColor: 'transparent', }}
+            onPress={() => {
+              if (this.state.notifyUsers)
+                this.setState({ notifyUsers: false });
+              else
+                this.setState({ notifyUsers: true });
+            }}
+          />
         </View>
 
         <View>

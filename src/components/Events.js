@@ -189,7 +189,7 @@ render() {
           style={[{ paddingBottom: i === this.state.events.length - 1 ? 20 : 0 }, styles.pageStyle]}
           key={i}
         >
-          <Card title={item.name} key={i} containerStyle={{borderRadius: 10 }}>
+          <Card title={item.name} key={i} containerStyle={{ borderRadius: 10 }}>
             <Text style={{ marginBottom: 25, textAlign: 'center' }}>
             {item.description}
             </Text>

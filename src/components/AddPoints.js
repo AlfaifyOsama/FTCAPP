@@ -116,6 +116,21 @@ class AddPoints extends Component {
     const names = this.renderNames(query);
     return (
 
+      <View style={styles.pageStyle} >
+        <Card title='ارصد النقاط ولاتعلم احد' >
+          <Text style={{ textAlign: 'center', fontSize: 20 }} >لمين تبي ترصد؟</Text>
+          <View style={{ marginBottom: 15, marginTop: 15 }} />
+          <Autocomplete
+            placeholder={'لمين تبي ترصد؟'}
+            data={names}
+            defaultValue={query}
+            onChangeText={text => this.setState({ query: text })}
+            renderItem={data => (
+              <TouchableOpacity onPress={this.onNamePress.bind(this, data)}>
+                <Text style={{ textAlign: 'right', marginTop: 10, paddingTop: 5, paddingBottom: 5, paddingRight: 10 }}>{data}</Text>
+              </TouchableOpacity>
+            )}
+            inputContainerStyle={{ borderRadius: 10, alignItems: Platform.OS === 'ios' ? 'flex-end' : 'stretch', paddingRight: 10, paddingBottom: 40, marginBottom: 40 }}
 
       <ScrollView keyboardShouldPersistTaps='always' style={{ backgroundColor: '#ECF2F4' }}>
       <View style={{ paddingBottom: 15 }}>

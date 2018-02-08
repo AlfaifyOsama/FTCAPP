@@ -61,7 +61,7 @@ class Home extends Component {
 
   renderUserEvents() {
     if (this.state.userEvents.length === 0) {
-        return (<Text style={{ margin: 10 }}>ماسجلت بفعاليات للآن :( </Text>);
+      return (<Text style={{ margin: 10 }}>ماسجلت بفعاليات للآن :( </Text>);
     }
     return this.state.userEvents.map((event, index) =>
       <View key={'MainView' + index} style={{ width: '100%', alignItems: 'center' }}>
