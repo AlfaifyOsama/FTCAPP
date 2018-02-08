@@ -133,6 +133,7 @@ class Events extends Component {
       );
     }
   }
+
   renderButtonIconName(project) {
     if (project.type === 'ORGANIZE') {
       return 'handshake-o';
@@ -140,14 +141,25 @@ class Events extends Component {
     return 'smile-o';
   }
 
+  buttonColor(project) {
+    let color;
+    if (project.type === 'ATTEND') {
+      color = '#9ccc65';
+    } else {
+      color = '#03A9F4';
+    }
+    return color;
+  }
+
   renderAppropriateButton(project) {
     console.log(project);
     const isDisabled = this.buttonIsDisabled(project);
     const title = this.renderButtonTitle(project);
     const iconName = this.renderButtonIconName(project);
+    const buttonColor = this.buttonColor(project);
     return (
       <Button
-        backgroundColor='#03A9F4'
+        backgroundColor={buttonColor}
         buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
         title={title}
         rightIcon={{ name: iconName, type: 'font-awesome' }}
