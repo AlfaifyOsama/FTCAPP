@@ -42,14 +42,8 @@ class ApprovePoints extends Component {
   render() {
     if (this.state.loading)
       return (<Spinner />);
-    if (this.state.events.length == 0) { // nothing to approve
+    if (this.state.events.length > 0) {
       return (
-        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-          <Text style={{ fontSize: 30 }}>فارغة كحياتي بدونك :)</Text>
-        </View>
-      );
-    }
-    return (
       <ScrollView style={{ backgroundColor: '#ECF2F4' }}>
         <Card containerStyle={{ borderRadius: 10 }} >
           <Button
@@ -95,6 +89,22 @@ class ApprovePoints extends Component {
         </View>
       </ScrollView>
     );
+  } // esle nothing to approve
+    return (
+      <ScrollView style={{ backgroundColor: '#ECF2F4' }}>
+            <Card containerStyle={{ borderRadius: 10 }} >
+          <Button
+            backgroundColor='#9ccc65'
+            buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
+            title='رصد النقاط بدون سبب'
+            rightIcon={{ name: 'checkbox-multiple-marked-outline', type: 'material-community' }}
+            onPress={() => this.goToAddPointsForNoReason()}
+          />
+
+        </Card>
+      </ScrollView>
+    );
+  
   }
 
 }

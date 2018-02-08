@@ -1,23 +1,24 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, TextInput, AsyncStorage } from 'react-native';
+import { View, Text, ScrollView, KeyboardAvoidingView, Platform, TextInput, AsyncStorage } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Card, Button } from 'react-native-elements';
+import AwesomeAlert from 'react-native-awesome-alerts';
 import axios from 'axios';
 import BaseURL from '../config';
 import { Spinner } from './common';
 
 class SubmitWork extends Component {
-  state = { members: [], event: {}, inputs: [], loading: true };
+  state = { members: [], event: {}, inputs: [], loading: true, showAlertLoading: false };
 
   componentDidMount() {
-    //console.log('ComponentDidMount');
-
     this.getInfo();
   }
+
   getInfo = async () => {
     //console.log('getInfo');
 
     this.state.event = this.props.navigation.state.params.event;
-   // console.log('event', this.state.event);
+    // console.log('event', this.state.event);
     const token = await AsyncStorage.getItem('token');
     // console.log('token',token);
     const instance = axios.create({
@@ -26,7 +27,7 @@ class SubmitWork extends Component {
     });
     instance.get(BaseURL + '/events/getUsersWithRecordedWork/' + this.state.event.id)
       .then((response) => {
-       // console.log(response.data);
+        // console.log(response.data);
         //console.log(response.data[1]);
 
         response.data.map((item, i) => (
@@ -34,14 +35,16 @@ class SubmitWork extends Component {
         ));
 
         this.setState({
-          loading: false
+          loading: false,
+          showAlertLoading: false,
         });
       })
       .catch((error) => {
-       // console.log(error);
+        // console.log(error);
         alert('فيه مشكلااا صديق');
         this.setState({
-          loading: false
+          loading: false,
+          showAlertLoading: false,
         });
       });
   }
@@ -49,31 +52,31 @@ class SubmitWork extends Component {
   OnPress = async (index) => {
     const text = this.state.inputs[index];
 
-    if (text === undefined || text === '' || text == null || text.length < 10 ) {
+    if (text === undefined || text === '' || text == null || text.length < 10) {
       alert('مب على كيفك، لازم تكتب 10 حروف على الاقل');
       return;
     }
     this.setState({
-      loading: true
+      showAlertLoading: true
     });
     const token = await AsyncStorage.getItem('token');
     const instance = axios.create({
-    timeout: 5000,
-    headers: { 'Authorization': 'Bearer ' + token }
+      timeout: 5000,
+      headers: { 'Authorization': 'Bearer ' + token }
     });
     instance.post(BaseURL + '/points/recordWork', {
       user_id: this.state.members[index].user_id,
       event_id: this.state.event.id,
       description: text
     }).then((response) => {
-     // console.log(response);
-     //
+      // console.log(response);
+      //
       this.state.inputs = []; // erase the inputs
       this.getInfo();
-      })
+    })
       .catch((error) => {
+        //  console.log(error);
       });
-
   }
 
   renderSpinner() {
@@ -90,16 +93,16 @@ class SubmitWork extends Component {
           {
             item.work.map((work, indexWork) => {
               return (
-                <View key={'workView' + item.user_id+indexWork} style={singleWorkStyle} >
+                <View key={'workView' + item.user_id + indexWork} style={singleWorkStyle} >
                   <TextInput
-                  key={'textInput' + item.user_id+indexWork}
+                    key={'textInput' + item.user_id + indexWork}
                     multiline
                     numberOfLines={2}
                     value={work.description}
                     style={{ textAlign: 'center', width: '100%' }}
                   />
 
-                  <View key={'line' + item.user_id+indexWork}style={line} />
+                  <View key={'line' + item.user_id + indexWork} style={line} />
                 </View>
               );
             })
@@ -135,7 +138,7 @@ class SubmitWork extends Component {
   }
   renderCards() {
     return this.state.members.map((item, index) => (
-      <View key={'mainView'+item.user_id} >
+      <View key={'mainView' + item.user_id} >
         {this.renderSingleCard(item, index)}
 
       </View>
@@ -148,15 +151,29 @@ class SubmitWork extends Component {
       return this.renderSpinner();
     } else if (this.state.members.length == 0) { // nothing to approve
       return (
-        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1, backgroundColor: '#ECF2F4' }}>
           <Text style={{ fontSize: 30 }}>فارغة كحياتي بدونك :)</Text>
         </View>
       );
     }
     return (
-      <ScrollView keyboardShouldPersistTaps='always'>
+      <View style={{ flex: 1, backgroundColor: '#ECF2F4' }}>
+      <KeyboardAwareScrollView keyboardShouldPersistTaps='always' extraScrollHeight={60}>
         {this.renderCards()}
-      </ScrollView>
+      </KeyboardAwareScrollView>
+      <AwesomeAlert
+        show={this.state.showAlertLoading}
+        showProgress
+        title="لحظات"
+        message="جاري تنفيذ طلبك.."
+        closeOnTouchOutside
+        closeOnHardwareBackPress={false}
+        showCancelButton={false}
+        showConfirmButton={false}
+      />
+      </View>
+
+
     );
   }
 }

@@ -10,7 +10,6 @@ import normalize from 'react-native-elements/src/helpers/normalizeText';
 import RadioForm, { RadioButton, RadioButtonInput,
    RadioButtonLabel } from 'react-native-simple-radio-button';
 import axios from 'axios';
-import Toast from 'react-native-root-toast';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import BaseURL from '../config';
 
@@ -31,7 +30,12 @@ class ManageEventsSingle extends Component {
     deletedMembersIDs: [],
     isDateTimePickerVisible: false,
     whatsapp: '',
+    showAlert: false,
+    alertMsg: '',
+    showDeleteAlert: false,
+    showAlertLoading: false,
   }
+  // we have 3 different alert views so we need 3 states for alerts.
 
   componentDidMount() {
     this.getProjectInfo();
@@ -56,6 +60,11 @@ class ManageEventsSingle extends Component {
   }
 
   onSaveChangesPress = async () => {
+    if (!this.validateWhatsappLink(this.state.whatsapp)) {
+      this.setState({ alertMsg: 'رابط الواتساب غير صالح', showAlert: true });
+      return;
+    }
+    this.setState({ showAlertLoading: true });
     const token = 'Bearer ' + await AsyncStorage.getItem('token');
     const instance = axios.create({
       timeout: 5000,
@@ -78,17 +87,12 @@ class ManageEventsSingle extends Component {
     };
 
     instance.put(`${BaseURL}/events/updateEvent`, updatedInfo)
-      .then((response) => {
-        Toast.show('حفظنا لك التغييرات :) ', {
-          duration: 500,
-          position: Toast.positions.CENTER,
-          shadow: true,
-          animation: true,
-          hideOnPress: true,
-          delay: 0,
-      });  
+      .then(() => {
+        this.props.navigation.goBack();
+        this.setState({ showAlertLoading: false });
           })
-      .catch((error) => {
+      .catch(() => {
+        this.showAlert('حصلت مشكلة يافندم');
       });
   }
 
@@ -121,7 +125,7 @@ class ManageEventsSingle extends Component {
     });
     instance.get(`${BaseURL}/events/${this.state.eventId}/show`)
       .then((response) => {
-        const { name, description, user_limit, type } = response.data.event;
+        const { name, description, user_limit, type, date, whatsapp_link } = response.data.event;
         const { IDs, names } = response.data.users;
 
         // Add all project registered info
@@ -131,12 +135,20 @@ class ManageEventsSingle extends Component {
           maxNumOfMembers: user_limit,
           type,
           selected: names,
-          selectedIDs: IDs
+          selectedIDs: IDs,
+          date,
+          whatsapp: whatsapp_link,
         });
       })
       .catch((error) => {
         alert('ERROR');
       });
+  }
+
+  validateWhatsappLink(link) {
+    const re = /^https?\:\/\/(www\.)?chat(\.)?whatsapp(\.com)?\/.*(\?v=|\/v\/)?[a-zA-Z0-9_\-]+$/;
+    const isValid = re.test(link);
+    return isValid;
   }
 
   renderNames(query) {
@@ -204,6 +216,15 @@ class ManageEventsSingle extends Component {
     return numbers;
   }
 
+  showAlert = () => {
+    this.setState({ showAlert: true });
+  }
+
+  hideAlert = () => {
+    this.setState({ showAlert: false });
+  }
+
+
   showDeleteAlert = () => {
     this.setState({ showDeleteAlert: true });
   }
@@ -254,7 +275,11 @@ class ManageEventsSingle extends Component {
     const { query } = this.state;
     const names = this.renderNames(query);
     return (
-      <KeyboardAvoidingView keyboardVerticalOffset={70} behavior="padding" >
+      <KeyboardAvoidingView
+      style={{ flex: 1, backgroundColor: '#ECF2F4' }}
+      keyboardVerticalOffset={70}
+      behavior="padding"
+      >
       <View>
       <ScrollView>
         <View style={{ paddingBottom: 15 }}>
@@ -292,6 +317,7 @@ class ManageEventsSingle extends Component {
             <TextField
               label='رابط قروب الواتساب'
               value={this.state.whatsapp}
+              multiline
               onChangeText={(text) => this.setState({ whatsapp: text })}
               inputContainerStyle={{ alignItems: 'flex-end' }}
             />
@@ -422,6 +448,25 @@ class ManageEventsSingle extends Component {
         onCancelPressed={() => this.hideDeleteAlert()}
         confirmText={'أكيد'}
         onConfirmPressed={() => this.deleteEvent()}
+      />
+      <AwesomeAlert
+        show={this.state.showAlert}
+        title={'تنبيه'}
+        message={this.state.alertMsg}
+        closeOnHardwareBackPress
+        showConfirmButton
+        confirmText={'طيب'}
+        onConfirmPressed={() => this.hideAlert()}
+      />
+      <AwesomeAlert
+        show={this.state.showAlertLoading}
+        showProgress={true}
+        title="لحظات"
+        message="جاري تنفيذ طلبك.."
+        closeOnTouchOutside={true}
+        closeOnHardwareBackPress={false}
+        showCancelButton={false}
+        showConfirmButton={false}
       />
       </View>
       </KeyboardAvoidingView>

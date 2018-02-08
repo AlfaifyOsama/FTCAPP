@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, ScrollView, View, AsyncStorage, RefreshControl } from 'react-native';
+import { Text, ScrollView, View, AsyncStorage, RefreshControl, Keyboard } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import axios from 'axios';
 import BaseURL from '../config';
@@ -41,10 +41,11 @@ class ManageEvents extends Component {
   }
 
   render() {
+    Keyboard.dismiss();
     if (this.state.loading === true) {
       return (<Spinner />);
     }
-    else if (this.state.events == null) {
+    else if (this.state.events == null || this.state.events.length === 0) {
         return (
           <ScrollView
             contentContainerStyle={{ flexGrow: 1 }}
@@ -58,7 +59,7 @@ class ManageEvents extends Component {
             <View
               style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
             >
-  
+
               <Text style={{ fontSize: 30 }}>فارغة كحياتي بدونك :)</Text>
             </View>
           </ScrollView>
@@ -83,9 +84,6 @@ class ManageEvents extends Component {
               <Card title={item.name} key={i} containerStyle={{ borderRadius: 10 }}>
                 <Text style={{ marginBottom: 25, textAlign: 'center' }}>
                   {item.description}
-                </Text>
-                <Text style={{ marginBottom: 10, textAlign: 'center' }}>
-                  قائد المشروع: {item.leader}
                 </Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                   <Button
@@ -112,7 +110,6 @@ class ManageEvents extends Component {
         }
       </ScrollView>
     );
-  
   }
 }
 

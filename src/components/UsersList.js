@@ -63,6 +63,7 @@ export default class UsersList extends Component {
             }
         return (
             <ScrollView
+            style={{ flex: 1, backgroundColor: '#ECF2F4' }}
             refreshControl={
                 <RefreshControl
                     refreshing={this.state.refreshing}

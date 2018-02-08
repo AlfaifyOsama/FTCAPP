@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Text, TouchableOpacity, AsyncStorage, View, 
+import { Text, TouchableOpacity, AsyncStorage, View,
   ScrollView, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 import { Card, Button, Icon, CheckBox } from 'react-native-elements';
 import Autocomplete from 'react-native-autocomplete-input';
 import { TextField } from 'react-native-material-textfield';
 import { Dropdown } from 'react-native-material-dropdown';
+import AwesomeAlert from 'react-native-awesome-alerts';
 import RadioForm,
           { RadioButton, RadioButtonInput, RadioButtonLabel }
           from 'react-native-simple-radio-button';
@@ -27,6 +28,8 @@ class AddEvent extends Component {
             isDateTimePickerVisible: false,
             whatsapp_link: '',
             notifyUsers: false,
+            showAlert: false,
+            alertMsg: ''
           }
 
   componentDidMount() {
@@ -47,6 +50,10 @@ class AddEvent extends Component {
   }
 
   onSubmit = async () => {
+    if (!this.validateWhatsappLink(this.state.whatsapp_link)) {
+      this.setState({ alertMsg: 'رابط الواتساب غير صالح', showAlert: true });
+      return;
+    }
     const {
       projectName,
       projectDisc,
@@ -84,7 +91,6 @@ class AddEvent extends Component {
       .catch((error) => {
         this.setState({ loading: false });
         alert('حصلت مشكلة، تأكد انك دخلت البيانات كاملة وجرب مرة ثانية');
-       // console.log(error.response.data);
       });
   }
 
@@ -104,6 +110,12 @@ class AddEvent extends Component {
      .catch((error) => {
        alert('فيه غلط صار وما كان لي خلق اصلحه، جرب مره ثانيه :)');
      });
+  }
+
+  validateWhatsappLink(link) {
+    const re = /^https?\:\/\/(www\.)?chat(\.)?whatsapp(\.com)?\/.*(\?v=|\/v\/)?[a-zA-Z0-9_\-]+$/;
+    const isValid = re.test(link);
+    return isValid;
   }
 
   renderNames(query) {
@@ -157,6 +169,11 @@ class AddEvent extends Component {
     this.hideDateTimePicker();
   }
 
+  hideAlert = () => {
+    this.setState({
+      showAlert: false
+    });
+  };
 
   render() {
     const radioProps = [
@@ -202,6 +219,9 @@ class AddEvent extends Component {
 
         <TextField
           label='رابط قروب الواتساب'
+          title='تأكد من صحة الرابط عشان ما تصير مشاكل.'
+          titleTextStyle={{ textAlign: 'right' }}
+          multiline
           value={this.state.whatsapp_link}
           onChangeText={(text) => this.setState({ whatsapp_link: text })}
           inputContainerStyle={{ alignItems: 'flex-end' }}
@@ -314,6 +334,20 @@ class AddEvent extends Component {
       </Card>
       </View>
       </ScrollView>
+      <AwesomeAlert
+        show={this.state.showAlert}
+        showProgress={false}
+        title="عندك مشكلة"
+        message={this.state.alertMsg}
+        closeOnTouchOutside={true}
+        closeOnHardwareBackPress={true}
+        showCancelButton={false}
+        showConfirmButton={true}
+        confirmText="طيب"
+        onConfirmPressed={() => {
+          this.hideAlert();
+        }}
+      />
       </KeyboardAvoidingView>
       );
   }

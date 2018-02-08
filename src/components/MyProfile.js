@@ -11,7 +11,7 @@ class MyProfile extends Component {
     state = { pass1: '', pass2: '', bio: '', showLoadingAlert: false, showErrorAlert: false };
 
     onPress = async (ButtonClicked) => {
-        
+
         let params = {};
         if (ButtonClicked === 'PASSWORD') { //Password Button was clicked, validate passwords
             const value1 = this.state.pass1;
@@ -84,9 +84,8 @@ class MyProfile extends Component {
 
     render() {
         return (
-            <ScrollView>
-            <View style={styles.pageStyle} >
-
+            <ScrollView style={{ flex: 1, backgroundColor: '#ECF2F4' }}>
+            <View>
                 <Card title='تغيير كلمة السر' containerStyle={{ borderRadius: 10 }}>
                     <FormLabel containerStyle={styles.inputLabelStyle} >الرقم السري الجديد</FormLabel>
                     <FormInput secureTextEntry inputStyle={styles.inputStyle} onChangeText={(text) => this.setState({ pass1: text })} />
@@ -139,11 +138,6 @@ class MyProfile extends Component {
 }
 
 const styles = {
-    pageStyle: {
-       flex: 1,
-        flexDirection: 'column',
-       backgroundColor: '#ECF2F4',
-    },
     inputLabelStyle: {
         // shadowRadius: 2,
         // borderColor: '#03A9F4',
