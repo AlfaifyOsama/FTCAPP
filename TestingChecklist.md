@@ -1,14 +1,13 @@
 # This is a refrence checklist for our testing, please ignore :)
 
 
-- [ ] Keyboard aware is implemented on all text field.
-
 ### Login
 - [ ] Login is successful with valid user information.
 - [ ] Background image is shown in HTC 10.
 - [ ] Useful error messages.
 - [ ] StatusBar is working properly.
 - [ ] Go to Home screen when is already logged in.
+- [ ] Keyboard aware is implemented on all text fields.
 
 ### Home
 - [ ] ScrollView.
@@ -35,19 +34,23 @@
 - [ ] When a user adds himself, error is shown.
 - [ ] Notifications is sent when it is the user specify that.
 - [ ] Error message is shown when a required field is missing.
+- [ ] Keyboard aware is implemented on all text fields.
 #### Manage Events
 - [ ] All events are shown, attend events "Submit Work" button is disabled.
+- [ ] Keyboard aware is implemented on all text fields.
 ##### Submit work
 - [ ] Can submit multiple work descriptions.
 - [ ] Submitted work is sent to the admin.
 - [ ] Instructions are well formatted.
 - [ ] Deleted participants are not shown.
 - [ ] Newly added participants are shown.
+- [ ] Keyboard aware is implemented on all text fields.
 ##### Manage Single Event
 - [ ] Fields are already filled with the newest data.
 - [ ] Saved changes are actually saved and displayed in the Events tab, and will go back to previous screen.
 - [ ] Ending the event will submit the work of the participants to the club president.
 - [ ] Cancel and exit button works properly.
+- [ ] Keyboard aware is implemented on all text fields.
 
 ### More
 #### Add Points
@@ -55,14 +58,17 @@
 ##### For no reason
 - [ ] Can submit to multiple users.
 - [ ] Can increase/decrease points from a user.
+- [ ] Keyboard aware is implemented on all text fields.
 ##### Closed Event
 - [ ] All closed events are shown as cards.
 - [ ] All work for each user is displayed.
 - [ ] Admin will be able to submit points for each user.
+- [ ] Keyboard aware is implemented on all text fields.
 
 ##### Send Notifications
 - [ ] Only accessable by the admin.
 - [ ] Notification is sent to all users.
+- [ ] Keyboard aware is implemented on all text fields.
 
 #### Users
 - [ ] All users are shown with their bio.
@@ -73,6 +79,7 @@
 - [ ] The user is able to change his/her password with a minimum of 6 characters.
 - [ ] The user is able to write a bio with a maximum of 50 characters.
 - [ ] Pressing the buttons will go back to the previous screen.
+- [ ] Keyboard aware is implemented on all text fields.
 
 #### Events History
 - [ ] All events that the user has been to (Attendant or Organizor) will be shown.
