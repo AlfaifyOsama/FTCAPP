@@ -87,6 +87,7 @@ class ManageEventsSingle extends Component {
 
     instance.put(`${BaseURL}/events/updateEvent`, updatedInfo)
       .then(() => {
+        this.props.navigation.state.params.onGoBack();
         this.props.navigation.goBack();
         this.setState({ showAlertLoading: false });
           })
@@ -249,6 +250,7 @@ class ManageEventsSingle extends Component {
     instance.put(`${BaseURL}/events/updateEvent`, updatedInfo)
       .then((response) => {
         this.hideDeleteAlert();
+        this.props.navigation.state.params.onGoBack();
         this.props.navigation.goBack();
       })
       .catch((error) => {

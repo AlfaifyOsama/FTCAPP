@@ -27,7 +27,7 @@ class Points extends Component {
     });
     instance.get(BaseURL + '/points/getAllPoints')
       .then((response) => {
-        // console.log(response.data[1]);
+        // console.log(response.data);
         // console.log(response.data[0]);
         if (response.status == 200) {
           this.setState({ data: response.data[0], stats: response.data[1] });
@@ -71,6 +71,7 @@ class Points extends Component {
 
   _onRefresh() {
     this.setState({ refreshing: true });
+    this.updateIndex(0);
     this.getInfo();
     this.setState({ refreshing: false });
   }
