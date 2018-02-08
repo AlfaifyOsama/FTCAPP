@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Text, View, ImageBackground, AsyncStorage, ScrollView, 
-  RefreshControl, TouchableOpacity, Image, Linking } from 'react-native';
+import {
+  Text, View, ImageBackground, AsyncStorage, ScrollView,
+  RefreshControl, TouchableOpacity, Image, Linking, StatusBar
+} from 'react-native';
 import normalize from 'react-native-elements/src/helpers/normalizeText';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import axios from 'axios';
@@ -61,7 +63,7 @@ class Home extends Component {
 
   renderUserEvents() {
     if (this.state.userEvents.length === 0) {
-        return (<Text style={{ margin: 10 }}>ماسجلت بفعاليات للآن :( </Text>);
+      return (<Text style={{ margin: 10 }}>ماسجلت بفعاليات للآن :( </Text>);
     }
     return this.state.userEvents.map((event, index) =>
       <View key={'MainView' + index} style={{ width: '100%', alignItems: 'center' }}>
@@ -108,6 +110,10 @@ class Home extends Component {
           } = styles;
     return (
       <View style={{ flex: 1 }}>
+        <StatusBar
+          backgroundColor="#1976D2"
+          barStyle="default"
+        />
         <ImageBackground style={headerImage} source={require('./images/headerImage.jpg')}>
           <ScrollView
             style={pageStyle}
@@ -237,7 +243,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
-    borderRadius: 10,    
+    borderRadius: 10,
   },
   qotdContentStyle: {
     fontSize: 15,

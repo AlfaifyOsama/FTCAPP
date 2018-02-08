@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TextInput, AsyncStorage, TouchableOpacity } from 'react-native';
+import { Text, View, TextInput, AsyncStorage, TouchableOpacity, Platform } from 'react-native';
 import Autocomplete from 'react-native-autocomplete-input';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { Card, Button } from 'react-native-elements';
@@ -121,8 +121,7 @@ class AddPoints extends Component {
           <Text style={{ textAlign: 'center', fontSize: 20 }} >لمين تبي ترصد؟</Text>
           <View style={{ marginBottom: 15, marginTop: 15 }} />
           <Autocomplete
-            placeholder={'لمين تبي ترصد؟ً'}
-            place
+            placeholder={'لمين تبي ترصد؟'}
             data={names}
             defaultValue={query}
             onChangeText={text => this.setState({ query: text })}
@@ -131,7 +130,7 @@ class AddPoints extends Component {
                 <Text style={{ textAlign: 'right', marginTop: 10, paddingTop: 5, paddingBottom: 5, paddingRight: 10 }}>{data}</Text>
               </TouchableOpacity>
             )}
-            inputContainerStyle={{ borderRadius: 10, alignItems: 'flex-end', paddingRight: 10 }}
+            inputContainerStyle={{ borderRadius: 10, alignItems: Platform.OS === 'ios' ? 'flex-end' : 'stretch', paddingRight: 10, paddingBottom: 40, marginBottom: 40 }}
 
           />
           <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 5, flexWrap: 'wrap' }}>
@@ -139,7 +138,7 @@ class AddPoints extends Component {
               this.renderSelectedNames()
             }
           </View>
-          <View style={{ marginBottom: 15, marginTop: 15 }} />
+          <View style={{ marginBottom: 15, paddingTop: 40 }} />
           <Text style={{ textAlign: 'center', fontSize: 20 }} >كم؟</Text>
           <View style={{ marginBottom: 15, marginTop: 5 }} />
           <TextInput
