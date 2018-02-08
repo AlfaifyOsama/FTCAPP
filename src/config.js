@@ -1,4 +1,4 @@
 
-const BaseURL = 'http://192.168.100.80:8000/v1';
+const BaseURL = 'http://10.131.192.14:8000/v1';
 
 export default BaseURL;

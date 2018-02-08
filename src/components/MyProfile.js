@@ -25,7 +25,7 @@ class MyProfile extends Component {
             };
         } else if (ButtonClicked === 'BIO') { //BIO Button was clicked, validate BIO
             const bio = this.state.bio;
-            if (bio.length > 30 || bio == undefined || bio === '' || bio === ' ') {
+            if (bio.length > 50 || bio == undefined || bio === '' || bio === ' ') {
                 this.showErrorAlert();
                 return;
               }
@@ -125,7 +125,7 @@ class MyProfile extends Component {
             <AwesomeAlert
                     show={this.state.showErrorAlert}
                     title="بروبلم"
-                    message="عندك مشكلة يافندم، اذا عبيت حقل الباسوورد تأكد انهم نفس الشي وانهم يتجاوزون 6 احرف او ارقام، واذا عبيت حقل البايو تأكد انه مايتجاوز 30 حرف. الصراحه كان يمديني احط تنبيه مختلف لكل واحد بس متعيجز"
+                    message="عندك مشكلة يافندم، اذا عبيت حقل الباسوورد تأكد انهم نفس الشي وانهم يتجاوزون 6 احرف او ارقام، واذا عبيت حقل البايو تأكد انه مايتجاوز 50 حرف. الصراحه كان يمديني احط تنبيه مختلف لكل واحد بس متعيجز"
                     closeOnHardwareBackPress={false}
                     showCancelButton
                     cancelText={'طيب'}

@@ -54,18 +54,12 @@ class EventsHistory extends Component {
         <View style={[{ marginBottom: index === this.state.data.length - 1 ? 20 : 0 }, styles.pageStyle]} key={'View' + item.id} >
           <Card title={item.name} key={'Card' + item.id} containerStyle={{ borderRadius: 10 }}>
             <View style={singleWorkStyle} key={'WorkView' + item.id}>
-              <View key={'InputView' + item.id} style={{ flexDirection: 'row', justifyContent: 'flex-end', width: '100%' }} >
+              <View key={'InputView' + item.id} style={{ flexDirection: 'row', justifyContent: 'center', width: '100%' }} >
                 <Text key={'Description' + item.id} style={workTextStyle}>ما تم توثيق شغلك حتى الأن</Text>
               </View>
-              <View key={'line' + item.id} style={line} />
             </View>
-
-
           </Card>
         </View>
-
-
-
       );
     }
     return (
@@ -75,10 +69,10 @@ class EventsHistory extends Component {
             item.work.map((singleWork, indexWork) => {
               return (
                 <View style={singleWorkStyle} key={'WorkView' + item.id + indexWork}>
-                  <View key={'InputView' + item.id + indexWork} style={{ flexDirection: 'row', justifyContent: 'flex-end', width: '100%' }} >
+                  <View key={'InputView' + item.id + indexWork} style={{ flexDirection: 'row', justifyContent: 'center', width: '100%' }} >
                     <Text key={'Description' + item.id + '' + indexWork} style={workTextStyle}>{singleWork.description}</Text>
                   </View>
-                  <View key={'line' + item.id + '' + indexWork} style={line} />
+              <View key={'line' + item.id + '' + indexWork} style={styles.line} /> 
                 </View>
               );
             })
@@ -156,7 +150,7 @@ const styles = {
   },
   workTextStyle: {
     fontSize: 14,
-    textAlign: 'right',
+    textAlign: 'center',
     marginLeft: 0,
     marginRight: 0,
     color: '#515151'
