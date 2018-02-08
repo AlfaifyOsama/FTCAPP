@@ -2,7 +2,7 @@
 
 
 ### Login
-- [ ] Login is successful with valid user information.
+- [X] Login is successful with valid user information.
 - [ ] Background image is shown in HTC 10.
 - [ ] Useful error messages.
 - [ ] StatusBar is working properly.
