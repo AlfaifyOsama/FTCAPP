@@ -40,6 +40,13 @@ class ManageEvents extends Component {
     this.setState({ refreshing: false });
   }
 
+  isDisabled(event) {
+    if (event.type === 'ATTEND') {
+      return true;
+    }
+    return false;
+  }
+
   render() {
     Keyboard.dismiss();
     if (this.state.loading === true) {
@@ -87,6 +94,7 @@ class ManageEvents extends Component {
                 </Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                   <Button
+                    disabled={item.type === 'ATTEND' ? true : false}
                     backgroundColor='#03A9F4'
                     buttonStyle={{ borderRadius: 20 }}
                     title='رصد الأعمال'
