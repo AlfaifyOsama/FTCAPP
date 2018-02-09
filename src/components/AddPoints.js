@@ -153,7 +153,7 @@ class AddPoints extends Component {
               onChangeText={(text) => this.setState({ value: text })}
               value={this.state.value}
               maxLength={2}
-              keyboardType='phone-pad'
+              keyboardType={Platform.OS === 'ios' ? 'numbers-and-punctuation' : 'phone-pad'}
             />
             <Button
               backgroundColor='#03A9F4'
