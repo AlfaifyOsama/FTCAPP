@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Text, TouchableOpacity, ScrollView, View,
-   AsyncStorage, RefreshControl, Keyboard } from 'react-native';
+import {
+  Text, TouchableOpacity, ScrollView, View,
+  AsyncStorage, RefreshControl, Keyboard
+} from 'react-native';
 import { Card, Button, Icon } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AwesomeAlert from 'react-native-awesome-alerts';
@@ -41,7 +43,8 @@ class Events extends Component {
     };
   }
 
-  state = { events: [],
+  state = {
+    events: [],
     showAlertLoading: false,
     showAlertConfirm: false,
     refreshing: false,
@@ -62,13 +65,13 @@ class Events extends Component {
       headers: { 'Authorization': 'Bearer ' + token }
     });
     instance.post(BaseURL + '/events/join', { event_id: this.state.selectedProjectId })
-    .then((response) => {
-      this.setState({ showAlertLoading: false });
-      this.getEvents();
-      // the last line will request the events again so
-      // the events that was just registered to will be disabled,
-      // go down to the bottom of the page!
-    })
+      .then((response) => {
+        this.setState({ showAlertLoading: false });
+        this.getEvents();
+        // the last line will request the events again so
+        // the events that was just registered to will be disabled,
+        // go down to the bottom of the page!
+      })
       .catch((error) => {
         this.setState({ showAlertLoading: false });
       });
@@ -81,13 +84,13 @@ class Events extends Component {
       headers: { 'Authorization': 'Bearer ' + token }
     });
     instance.get(BaseURL + '/events/getReadyEvents')
-    .then((response) => {
-      this.setState({ events: response.data, loading: false });
-     // console.log(response.data);
-    })
+      .then((response) => {
+        this.setState({ events: response.data, loading: false });
+        // console.log(response.data);
+      })
       .catch((error) => {
         this.setState({ loading: false });
-       // alert('فيه مشكلة');
+        // alert('فيه مشكلة');
       });
   }
 
@@ -134,11 +137,11 @@ class Events extends Component {
     }
   }
   renderEmptyEventsText = () => {
-    if(this.state.events.length === 0){
+    if (this.state.events.length === 0) {
       return (
-      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={{fontSize: 25, marginTop: '50%' }} >مافيه فعاليات :( </Text>
-      </View>
+        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <Text style={{ fontSize: 25, marginTop: '50%' }} >مافيه فعاليات :( </Text>
+        </View>
 
       );
     }
@@ -183,75 +186,74 @@ class Events extends Component {
     this.setState({ refreshing: true });
     this.getEvents();
     this.setState({ refreshing: false });
-}
-
-render() {
-  Keyboard.dismiss();
-
-  if (this.state.loading) {
-  return (<Spinner />);
-  }
-  const { showAlertLoading, showAlertConfirm } = this.state;
-  return (
-    <View style={{ flex: 1, backgroundColor: '#ECF2F4' }}>
-    <ScrollView
-    refreshControl={
-      <RefreshControl
-          refreshing={this.state.refreshing}
-          onRefresh={this._onRefresh.bind(this)}
-      />
   }
 
-    >
-      { this.renderEmptyEventsText() }
+  render() {
+    Keyboard.dismiss();
 
-      {
-        this.state.events.map((item, i) => (
-        <View
-          style={[{ paddingBottom: i === this.state.events.length - 1 ? 20 : 0 }, styles.pageStyle]}
-          key={i}
+    if (this.state.loading) {
+      return (<Spinner />);
+    }
+    const { showAlertLoading, showAlertConfirm } = this.state;
+    return (
+      <View style={{ flex: 1, backgroundColor: '#ECF2F4' }}>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this._onRefresh.bind(this)}
+            />
+          }
         >
-          <Card title={item.name} key={i} containerStyle={{ borderRadius: 10 }}>
-            <Text style={{ marginBottom: 25, textAlign: 'center' }}>
-            {item.description}
-            </Text>
-            <View style={{ flexDirection: 'row', alignSelf: 'center', justifyContent: 'center', marginBottom: 5, paddingTop: 5, paddingBottom: 5, borderRadius: 20, borderWidth: 1, borderColor: '#03A9F4', width: '80%' }}>
-            <Text style={{ alignSelf: 'center', marginRight: 5 }}>
-            قائد المشروع: {item.leader}
-            </Text>
-            <Icon
-              name='account-settings-variant'
-              type='material-community'
-              size={20}
-            />
-            </View>
-            <View style={{ flexDirection: 'row', alignSelf: 'center', justifyContent: 'center', marginBottom: 10, paddingTop: 5, paddingBottom: 5, borderRadius: 20, borderWidth: 1, borderColor: '#03A9F4', width: '80%' }}>
-            <Text style={{ alignSelf: 'center', marginRight: 5 }}>
-            تاريخ المشروع: {item.date}
-            </Text>
-            <Icon
-              name='calendar'
-              type='entypo'
-              size={20}
-            />
-            </View>
-            {this.renderAppropriateButton(item)}
-          </Card>
-        </View>
-    ))
-      }
-    </ScrollView>
-    <AwesomeAlert
-      show={showAlertLoading}
-      showProgress
-      title="لحظات"
-      message="جاري تنفيذ طلبك.."
-      closeOnTouchOutside
-      closeOnHardwareBackPress={false}
-      showCancelButton={false}
-      showConfirmButton={false}
-    />
-    <AwesomeAlert
+          {this.renderEmptyEventsText()}
+
+          {
+            this.state.events.map((item, i) => (
+              <View
+                style={[{ paddingBottom: i === this.state.events.length - 1 ? 20 : 0 }, styles.pageStyle]}
+                key={i}
+              >
+                <Card title={item.name} key={i} containerStyle={{ borderRadius: 10 }}>
+                  <Text style={{ marginBottom: 25, textAlign: 'center' }}>
+                    {item.description}
+                  </Text>
+                  <View style={{ flexDirection: 'row', alignSelf: 'center', justifyContent: 'center', marginBottom: 5, paddingTop: 5, paddingBottom: 5, borderRadius: 20, borderWidth: 1, borderColor: '#03A9F4', width: '80%' }}>
+                    <Text style={{ alignSelf: 'center', marginRight: 5 }}>
+                      قائد المشروع: {item.leader}
+                    </Text>
+                    <Icon
+                      name='account-settings-variant'
+                      type='material-community'
+                      size={20}
+                    />
+                  </View>
+                  <View style={{ flexDirection: 'row', alignSelf: 'center', justifyContent: 'center', marginBottom: 10, paddingTop: 5, paddingBottom: 5, borderRadius: 20, borderWidth: 1, borderColor: '#03A9F4', width: '80%' }}>
+                    <Text style={{ alignSelf: 'center', marginRight: 5 }}>
+                      تاريخ المشروع: {item.date}
+                    </Text>
+                    <Icon
+                      name='calendar'
+                      type='entypo'
+                      size={20}
+                    />
+                  </View>
+                  {this.renderAppropriateButton(item)}
+                </Card>
+              </View>
+            ))
+          }
+        </ScrollView>
+        <AwesomeAlert
+          show={showAlertLoading}
+          showProgress
+          title="لحظات"
+          message="جاري تنفيذ طلبك.."
+          closeOnTouchOutside
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={false}
+        />
+        <AwesomeAlert
           show={showAlertConfirm}
           showProgress={false}
           title="اكيد تبي تشارك؟"
@@ -270,8 +272,8 @@ render() {
             this.hideAlert();
             this.onJoinEventClick();
           }}
-    />
-    </View>
+        />
+      </View>
     );
   }
 

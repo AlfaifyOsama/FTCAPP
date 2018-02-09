@@ -46,8 +46,8 @@ class AddEvent extends Component {
     } else {
       selected.push(data.props.children);
       selectedIDs.push(data.key);
+      this.setState({ query: '' });
     }
-    this.setState({ query: '' });
   }
 
   onSubmit = async () => {

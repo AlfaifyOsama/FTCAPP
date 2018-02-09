@@ -120,12 +120,12 @@ export default class LoginForm extends Component {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={pageStyle}>
-      <StatusBar backgroundColor="#1976D2" />
         <ImageBackground
           style={{ height: '100%', width: '100%' }}
           source={require('./images/blurBg.png')}
         >
         <View style={container}>
+        <StatusBar backgroundColor="#1976D2" />
           <Image
             style={logo}
             source={require('./images/ftcLogoWhite.png')}

@@ -44,9 +44,11 @@ export default class More extends Component {
     const isAdmin = await AsyncStorage.getItem('isAdmin');
     if (x === 0) {
       isAdmin === '1' ? this.props.navigation.navigate('ApprovePoints') : this.showErrorAlert();
+      return;
     }
     else if (x === 1) {
       isAdmin === '1' ? this.props.navigation.navigate('SendNotifications') : this.showErrorAlert();
+      return;
     }
     else if (x === 2) {
       this.props.navigation.navigate('UsersList');
@@ -59,12 +61,14 @@ export default class More extends Component {
     }
     else if (x === 5) {
       this.showSignOutAlert();
+      return;
     }
   }
 
   showErrorAlert = () => {
     this.setState({
-      showErrorAlert: true
+      showErrorAlert: true,
+      showSignOutAlert: false
     });
   }
   hideErrorAlert = () => {
@@ -75,13 +79,14 @@ export default class More extends Component {
 
   showSignOutAlert = () => {
     this.setState({
-      showSignOutAlert: true
+      showSignOutAlert: true,
+      showErrorAlert: false
     });
   }
 
   hideSignOutAlert = () => {
     this.setState({
-      showSignOutAlert: false
+      showSignOutAlert: false,
     });
   }
 

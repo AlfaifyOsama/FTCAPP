@@ -12,7 +12,6 @@ class MyProfile extends Component {
     state = { pass1: '', pass2: '', bio: '', showLoadingAlert: false, showErrorAlert: false };
 
     onPress = async (ButtonClicked) => {
-
         let params = {};
         if (ButtonClicked === 'PASSWORD') { //Password Button was clicked, validate passwords
             const value1 = this.state.pass1;
@@ -85,8 +84,9 @@ class MyProfile extends Component {
 
     render() {
         return (
-            <KeyboardAwareScrollView style={{ flex: 1, backgroundColor: '#ECF2F4' }} keyboardShouldPersistTaps='always' extraScrollHeight={60}>
-            <View>
+            <View style={{ flex: 1, backgroundColor: '#ECF2F4' }}>
+
+            <KeyboardAwareScrollView keyboardShouldPersistTaps='always' extraScrollHeight={60}>
                 <Card title='تغيير كلمة السر' containerStyle={{ borderRadius: 10 }}>
                     <FormLabel containerStyle={styles.inputLabelStyle} >الرقم السري الجديد</FormLabel>
                     <FormInput secureTextEntry inputStyle={styles.inputStyle} onChangeText={(text) => this.setState({ pass1: text })} />
@@ -112,7 +112,7 @@ class MyProfile extends Component {
                         onPress={() => this.onPress('BIO')}
                     />
                 </Card>
-            </View>
+                </KeyboardAwareScrollView>
             <AwesomeAlert
                     show={this.state.showLoadingAlert}
                     showProgress
@@ -133,7 +133,7 @@ class MyProfile extends Component {
                     cancelButtonColor={'red'}
                     onCancelPressed={() => this.hideErrorAlert()}
                 />
-            </KeyboardAwareScrollView>
+            </View>
         );
     }
 }
