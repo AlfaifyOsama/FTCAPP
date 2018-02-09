@@ -1,4 +1,4 @@
-# This is a refrence checklist for our testing, please ignore :)
+# This is a refrence checklist for our testing at each release, please ignore :)
 
 
 ### Login
