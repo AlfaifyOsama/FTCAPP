@@ -4,6 +4,6 @@ a React-Native application developed for FTC members to automate many jobs that 
 
 # Co-Authors
 <ul>
- <li> Basel Alebdi github.com/baselalebdi  </li> 
+ <li> Basel Alebdi <a href="github.com/baselalebdi">github.com/baselalebdi</a>  </li> 
  <li>  Osama Aloqaily github.com/o-aloqaily </li> 
 </ul>
