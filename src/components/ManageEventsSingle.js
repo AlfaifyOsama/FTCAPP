@@ -89,8 +89,9 @@ class ManageEventsSingle extends Component {
         this.props.navigation.goBack();
         this.setState({ showAlertLoading: false });
           })
-      .catch(() => {
-        this.showAlert('حصلت مشكلة يافندم');
+      .catch((error) => {
+        this.setState({ showAlertLoading: false });
+        this.showAlert('حصلت مشكلة، تعديلك ما تم ');
       });
   }
 
@@ -143,7 +144,7 @@ class ManageEventsSingle extends Component {
   }
 
   validateWhatsappLink(link) {
-    if (link === '') {
+    if (link === '' || link === undefined || link === null) {
       return true;
     }
     const re = /^https?\:\/\/(www\.)?chat(\.)?whatsapp(\.com)?\/.*(\?v=|\/v\/)?[a-zA-Z0-9_\-]+$/;
@@ -216,8 +217,8 @@ class ManageEventsSingle extends Component {
     return numbers;
   }
 
-  showAlert = () => {
-    this.setState({ showAlert: true });
+  showAlert = (msg = null) => {
+    this.setState({ showAlert: true, alertMsg: msg });
   }
 
   hideAlert = () => {
@@ -232,7 +233,7 @@ class ManageEventsSingle extends Component {
   hideDeleteAlert = () => {
     this.setState({ showDeleteAlert: false });
   }
-
+  // it's actually closing it
   deleteEvent = async () => {
     const token = 'Bearer ' + await AsyncStorage.getItem('token');
     const instance = axios.create({
@@ -244,7 +245,7 @@ class ManageEventsSingle extends Component {
       event_id: this.state.eventId,
       status: 'DONE',
     };
-
+    
     instance.put(`${BaseURL}/events/updateEvent`, updatedInfo)
       .then((response) => {
         this.hideDeleteAlert();
@@ -252,6 +253,7 @@ class ManageEventsSingle extends Component {
         this.props.navigation.goBack();
       })
       .catch((error) => {
+        //console.log(error.response);
       });
   }
 

@@ -160,10 +160,10 @@ class SubmitWork extends Component {
       <View style={{ flex: 1, backgroundColor: '#ECF2F4' }}>
       <KeyboardAwareScrollView keyboardShouldPersistTaps='always' extraScrollHeight={60}>
       <Card containerStyle={{ borderRadius: 10, alignItems: 'center', }} title={'تعليمات'} >
-        <Text style={{ fontFamily: 'Arial', fontWeight: 'bold', fontSize: 16, textAlign: 'right' }}>
-        • أكتب لكل منظم ايش سوا وبيرفع عمله إلى رئيس النادي {'\n'}
-        • تقدر ترصد أعمال العضو مرة أخرى بعد ما تسجلها {'\n'}
-        • العضو يقدر يشوف وش كتبت عنه
+        <Text style={{ fontWeight: 'bold', fontSize: 13, textAlign: 'right' }}>
+        • أكتب لكل منظم ايش سوا وبيرفع عمله إلى رئيس النادي. {'\n'}
+        • تقدر ترصد أعمال العضو مرة أخرى بعد ما تسجلها.{'\n'}
+        • العضو يقدر يشوف وش كتبت عنه.
         </Text>     
       </Card>
         {this.renderCards()}

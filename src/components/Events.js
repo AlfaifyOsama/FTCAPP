@@ -63,7 +63,7 @@ class Events extends Component {
     });
     instance.post(BaseURL + '/events/join', { event_id: this.state.selectedProjectId })
     .then((response) => {
-      this.setState({ showAlertLoading: false });
+      this.setState({ showAlertLoading: false, loading: true });
       this.getEvents();
       // the last line will request the events again so
       // the events that was just registered to will be disabled,
