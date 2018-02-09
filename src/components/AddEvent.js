@@ -37,12 +37,17 @@ class AddEvent extends Component {
     this.getInfo();
   }
 
-  onNamePress = (data) => {
+  onNamePress = async (data) => {
+    let userID = await AsyncStorage.getItem('userID');
     const { maxNumOfMembers, selected, selectedIDs } = this.state;
+
     if (selected.includes(data.props.children)) {
       alert('سبق واضفت هذا الشخص تستهبل انت');
-    } else if (selected.length >= maxNumOfMembers) {
+    }
+    else if (selected.length >= maxNumOfMembers) {
       alert('اما انك ما حددت الحد الاعلى للمشاركين او ان المشروع وصل للحد الاعلى للمشاركين')
+    } else if (data.key === userID) {
+      alert('لاتضيف نفسك يالطقطوقي');
     } else {
       selected.push(data.props.children);
       selectedIDs.push(data.key);
@@ -86,8 +91,6 @@ class AddEvent extends Component {
       .then((response) => {
         this.setState({ loading: false, alertTitle: 'تمت اضافة المشروع', alertMsg: 'الله الله بالشغل السنع :)', showAlert: true });
         Keyboard.dismiss();
-        this.props.navigation.state.params.onGoBack();
-        this.props.navigation.goBack();
       })
       .catch((error) => {
         this.setState({ loading: false });
@@ -177,6 +180,8 @@ class AddEvent extends Component {
     this.setState({
       showAlert: false
     });
+    this.props.navigation.state.params.onGoBack();
+    this.props.navigation.goBack();
   };
 
   render() {

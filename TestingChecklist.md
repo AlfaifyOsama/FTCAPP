@@ -1,90 +1,90 @@
-# This is a refrence checklist for our testing, please ignore :)
+# This is a refrence checklist for our testing at each release, please ignore :)
 
 
 ### Login
 - [X] Login is successful with valid user information.
 - [ ] Background image is shown in HTC 10.
-- [ ] Useful error messages.
-- [ ] StatusBar is working properly.
-- [ ] Go to Home screen when is already logged in.
-- [ ] Keyboard aware is implemented on all text fields.
+- [X] Useful error messages.
+- [X] StatusBar is working properly.
+- [X] Go to Home screen when is already logged in.
+- [X] Keyboard aware is implemented on all text fields.
 
 ### Home
-- [ ] ScrollView.
+- [X] ScrollView.
 - [ ] Auto-refresh when showing this screen.
-- [ ] Clickable cards.
-- [ ] Whatsapp links.
-- [ ] StatusBar.
-- [ ] All registered events are shown.
+- [X] Clickable cards.
+- [X] Whatsapp links.
+- [X] StatusBar.
+- [X] All registered events are shown.
 
 ### Points
-- [ ] ScrollView.
+- [X] ScrollView.
 - [ ] Auto-refresh when shown this screen.
-- [ ] Stats.
-- [ ] Icons.
+- [X] Stats.
+- [X] Icons.
 
 ### Events
-- [ ] ScrollView.
+- [X] ScrollView.
 - [ ] Auto-refresh when shown this screen.
-- [ ] Joining an event.
-- [ ] Disabled cards for events that are already joined.
+- [X] Joining an event.
+- [X] Disabled cards for events that are already joined.
 #### Add Event
-- [ ] All fields are working properly.
-- [ ] Date is correct.
-- [ ] When a user adds himself, error is shown.
-- [ ] Notifications is sent when it is the user specify that.
-- [ ] Error message is shown when a required field is missing.
-- [ ] Keyboard aware is implemented on all text fields.
+- [X] All fields are working properly.
+- [X] Date is correct.
+- [X] When a user adds himself, error is shown.
+- [X] Notifications is sent when it is the user specify that.
+- [X] Error message is shown when a required field is missing.
+- [X] Keyboard aware is implemented on all text fields.
 #### Manage Events
-- [ ] All events are shown, attend events "Submit Work" button is disabled.
-- [ ] Keyboard aware is implemented on all text fields.
+- [X] All events are shown, attend events "Submit Work" button is disabled.
+- [X] Keyboard aware is implemented on all text fields.
 ##### Submit work
-- [ ] Can submit multiple work descriptions.
-- [ ] Submitted work is sent to the admin.
-- [ ] Instructions are well formatted.
-- [ ] Deleted participants are not shown.
-- [ ] Newly added participants are shown.
-- [ ] Keyboard aware is implemented on all text fields.
+- [X] Can submit multiple work descriptions.
+- [X] Submitted work is sent to the admin.
+- [X] Instructions are well formatted.
+- [x] Deleted participants are not shown.
+- [x] Newly added participants are shown.
+- [x] Keyboard aware is implemented on all text fields.
 ##### Manage Single Event
-- [ ] Fields are already filled with the newest data.
-- [ ] Saved changes are actually saved and displayed in the Events tab, and will go back to previous screen.
-- [ ] Ending the event will submit the work of the participants to the club president.
-- [ ] Cancel and exit button works properly.
-- [ ] Keyboard aware is implemented on all text fields.
+- [x] Fields are already filled with the newest data.
+- [x] Saved changes are actually saved and displayed in the Events tab, and will go back to previous screen.
+- [x] Ending the event will submit the work of the participants to the club president.
+- [x] Cancel and exit button works properly.
+- [x] Keyboard aware is implemented on all text fields.
 
 ### More
 #### Add Points
-- [ ] Only accessable by the admin.
+- [x] Only accessable by the admin.
 ##### For no reason
-- [ ] Can submit to multiple users.
+- [x] Can submit to multiple users.
 - [ ] Can increase/decrease points from a user.
-- [ ] Keyboard aware is implemented on all text fields.
+- [x] Keyboard aware is implemented on all text fields.
 ##### Closed Event
-- [ ] All closed events are shown as cards.
-- [ ] All work for each user is displayed.
-- [ ] Admin will be able to submit points for each user.
-- [ ] Keyboard aware is implemented on all text fields.
+- [x] All closed events are shown as cards.
+- [x] All work for each user is displayed.
+- [x] Admin will be able to submit points for each user.
+- [x] Keyboard aware is implemented on all text fields.
 
 ##### Send Notifications
-- [ ] Only accessable by the admin.
-- [ ] Notification is sent to all users.
-- [ ] Keyboard aware is implemented on all text fields.
+- [x] Only accessable by the admin.
+- [x] Notification is sent to all users.
+- [x] Keyboard aware is implemented on all text fields.
 
 #### Users
-- [ ] All users are shown with their bio.
-- [ ] On click, it will open a Whatsapp chat with the specified user.
+- [x] All users are shown with their bio.
+- [x] On click, it will open a Whatsapp chat with the specified user.
 - [ ] Users pictures are shown.
 
 #### My Profile
-- [ ] The user is able to change his/her password with a minimum of 6 characters.
-- [ ] The user is able to write a bio with a maximum of 50 characters.
-- [ ] Pressing the buttons will go back to the previous screen.
-- [ ] Keyboard aware is implemented on all text fields.
+- [x] The user is able to change his/her password with a minimum of 6 characters.
+- [x] The user is able to write a bio with a maximum of 50 characters.
+- [x] Pressing the buttons will go back to the previous screen.
+- [x] Keyboard aware is implemented on all text fields.
 
 #### Events History
-- [ ] All events that the user has been to (Attendant or Organizor) will be shown.
-- [ ] If the user was an organizor, all his work will be shown.
+- [x] All events that the user has been to (Attendant or Organizor) will be shown.
+- [x] If the user was an organizor, all his work will be shown.
 
 #### Signout
-- [ ] When pressed an alert will be shown to make sure that the user wants to logout.
-- [ ] When the logout is confirmed, the user will be directed to the Login screen.
+- [x] When pressed an alert will be shown to make sure that the user wants to logout.
+- [x] When the logout is confirmed, the user will be directed to the Login screen.
