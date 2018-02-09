@@ -22,6 +22,7 @@ export default class UsersList extends Component {
     getInfo = async () => {
         const token = await AsyncStorage.getItem('token');
        // console.log('token: ', token);
+       this.setState({ loading: true });
         const instance = axios.create({
             timeout: 5000,
             headers: { 'Authorization': 'Bearer ' + token }
@@ -31,14 +32,16 @@ export default class UsersList extends Component {
              //   console.log(response.data);
                 if (response.status == 200) {
                     this.setState({ data: response.data });
+                    this.setState({ loading: false });
+
                 }
 
             })
             .catch((error) => {
             //    console.log(error.response);
                 alert('فيه مشكلة، حاول مرة ثانية');
+                this.setState({ loading: false });
             });
-            this.setState({ loading: false });
     }
 
     _onRefresh() {
