@@ -50,8 +50,8 @@ export default class UsersList extends Component {
         this.setState({ refreshing: false });
     }
 
-    getIconDir() {
-        return require('./images/whatsapp.png');
+    getIconDir(image) {
+        return image;
     }
 
     // https://api.whatsapp.com/send?phone=966568020407
@@ -81,7 +81,7 @@ export default class UsersList extends Component {
                     this.state.data.map((user, i) => (
                         <ListItem
                             roundAvatar
-                            avatar={this.getIconDir(user)}
+                            avatar={this.getIconDir(user.profilephoto)}
                             key={i}
                             title={user.first_name + ' ' + user.last_name}
                             subtitle={user.bio}
