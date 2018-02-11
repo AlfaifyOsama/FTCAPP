@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, AsyncStorage, Linking, RefreshControl } from 'react-native';
+import { ScrollView, AsyncStorage, RefreshControl } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import axios from 'axios';
 import BaseURL from '../config';
@@ -44,20 +44,29 @@ export default class UsersList extends Component {
             });
     }
 
+    getIcon(image) {
+        return image;
+    }
+
+    goToDetailedView = (user) => {        
+        const name = user.first_name + ' ' + user.last_name;
+        const avatar = BaseURL + '/users/getUserImage/' + user.id;
+        const tels = [{ id: 1, name: 'Mobile', number: user.phone }];
+        const emails = { id: 1, email: user.student_id + '@student.ksu.edu.da' };
+
+        this.props.navigation.navigate('ProfileScreen', {
+            name,
+            bio: user.bio,
+            avatar,
+            tels,
+            emails,
+            userID: user.id
+        });
+     }
     _onRefresh() {
         this.setState({ refreshing: true });
         this.getInfo();
         this.setState({ refreshing: false });
-    }
-
-    getIconDir(image) {
-        return image;
-    }
-
-    // https://api.whatsapp.com/send?phone=966568020407
-    chatInWhatsApp(user) {
-        const phoneNumber = 'https://api.whatsapp.com/send?phone=' + user.phone;
-        return (Linking.openURL(phoneNumber));
     }
 
     render() {
@@ -81,14 +90,14 @@ export default class UsersList extends Component {
                     this.state.data.map((user, i) => (
                         <ListItem
                             roundAvatar
-                            avatar={this.getIconDir(user.profilephoto)}
+                            avatar={this.getIcon(user.profilephoto)}
                             key={i}
                             title={user.first_name + ' ' + user.last_name}
                             subtitle={user.bio}
                             subtitleNumberOfLines={2}
                             subtitleContainerStyle={{ alignItems: 'flex-end' }}
                             onPress={() =>
-                                this.chatInWhatsApp(user)
+                                this.goToDetailedView(user)
                             }
                         />
                     ))

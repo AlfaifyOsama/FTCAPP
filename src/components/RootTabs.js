@@ -18,6 +18,8 @@ import UsersList from './UsersList';
 import AddPoints from './AddPoints';
 import MyProfile from './MyProfile';
 import EventsHistory from './EventsHistory';
+import UserProfile from './ProfileScreen';
+
 
 const PointsStack = StackNavigator({
   Points: {
@@ -236,8 +238,10 @@ const MoreStack = StackNavigator({
       },
       headerRight: (<View />) // To center the text, you have to put something fake in the header to shift the text on the right.
     },
+  },
+  ProfileScreen: {
+    screen: UserProfile,
   }
-
 });
 
 const RootTabs = TabNavigator({
