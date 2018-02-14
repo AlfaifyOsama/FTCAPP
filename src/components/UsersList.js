@@ -33,7 +33,6 @@ export default class UsersList extends Component {
                 if (response.status == 200) {
                     this.setState({ data: response.data });
                     this.setState({ loading: false });
-
                 }
 
             })
@@ -53,14 +52,15 @@ export default class UsersList extends Component {
         const avatar = BaseURL + '/users/getUserImage/' + user.id;
         const tels = [{ id: 1, name: 'Mobile', number: user.phone }];
         const emails = { id: 1, email: user.student_id + '@student.ksu.edu.da' };
-
+        const socialAccounts = { snapchat: user.snapchat, twitter: user.twitter, linkedin: user.linkedin, steam: user.steam };
         this.props.navigation.navigate('ProfileScreen', {
             name,
             bio: user.bio,
             avatar,
             tels,
             emails,
-            userID: user.id
+            userID: user.id,
+            socialAccounts
         });
      }
     _onRefresh() {

@@ -9,14 +9,27 @@ import BaseURL from '../config';
 class MyProfile extends Component {
 
 
-    state = { pass1: '', pass2: '', bio: '', showLoadingAlert: false, showErrorAlert: false };
+    state = {
+        pass1: '',
+        pass2: '',
+        bio: '',
+        showLoadingAlert: false,
+        showErrorAlert: false,
+        snapchat: '',
+        twitter: '',
+        linkedin: '',
+        steam: ''
+    };
+    componentDidMount() {
+        this.getInfo();
+    }
 
     onPress = async (ButtonClicked) => {
         let params = {};
         if (ButtonClicked === 'PASSWORD') { //Password Button was clicked, validate passwords
             const value1 = this.state.pass1;
             const value2 = this.state.pass2;
-            if (value1 !== value2 || value1.length < 6 || value1 == undefined || value1 == '') {
+            if (value1 !== value2 || value1.length < 6 || value1 === undefined || value1 === '') {
                 this.showErrorAlert();
                 return;
             }
@@ -25,18 +38,25 @@ class MyProfile extends Component {
             };
         } else if (ButtonClicked === 'BIO') { //BIO Button was clicked, validate BIO
             const bio = this.state.bio;
-            if (bio.length > 50 || bio == undefined || bio === '' || bio === ' ') {
+            if (bio.length > 50 || bio === undefined || bio === '' || bio === ' ') {
                 this.showErrorAlert();
                 return;
-              }
-              params = {
+            }
+            params = {
                 bio
             };
-            }
+        } else if (ButtonClicked === 'Social') { // Social button was clicked, validate Social
+            //validate here
+            params = {
+               snapchat: this.state.snapchat,
+               twitter: this.state.twitter,
+               linkedin: this.state.linkedin,
+               steam: this.state.steam
+            };
+        }
         this.showLoadingAlert();
 
         const token = await AsyncStorage.getItem('token');
-        const id = await AsyncStorage.getItem('userID');
         const instance = axios.create({
             timeout: 5000,
             headers: { 'Authorization': 'Bearer ' + token }
@@ -50,14 +70,37 @@ class MyProfile extends Component {
                 }
             })
             .catch((error) => {
-              //  console.log(error);
+                //  console.log(error);
                 this.showErrorAlert();
                 this.setState({ pass1: '', pass2: '' });
             });
 
     }
 
-
+    getInfo = async () => {
+        const token = 'Bearer ' + await AsyncStorage.getItem('token');
+        const userID = await AsyncStorage.getItem('userID');
+        const instance = axios.create({
+            timeout: 3000,
+            headers: { 'Authorization': token }
+        });
+        instance.get(BaseURL + '/users/' + userID)
+            .then((response) => {
+                this.setState({
+                    bio: response.data.bio,
+                    snapchat: response.data.snapchat,
+                    twitter: response.data.twitter,
+                    linkedin: response.data.linkedin,
+                    steam: response.data.steam,
+                    loading: false 
+                });
+            })
+            .catch((error) => {
+                //console.log(error.response);
+                this.setState({ loading: false });
+                alert('التطبيق ما اتصل بالسيرفر، شيك على الانترنت عندك');
+            });
+    }
 
     showLoadingAlert = () => {
         this.setState({
@@ -80,40 +123,97 @@ class MyProfile extends Component {
             showErrorAlert: false
         });
     }
+    renderBio = () => {
+        return (
+            <Card title='فلسفتك في الحياة' containerStyle={{ borderRadius: 10 }}>
+                <FormLabel containerStyle={styles.inputLabelStyle} >تفلسف</FormLabel>
+                <FormInput
+                 inputStyle={styles.inputStyle}
+                 onChangeText={(text) => this.setState({ bio: text })}
+                 value={this.state.bio} 
+                 multiline
+                />
+                <Button
+                    backgroundColor='#03A9F4'
+                    buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0, marginTop: 20 }}
+                    title='اعتمد'
+                    rightIcon={{ name: 'check-circle' }}
+                    onPress={() => this.onPress('BIO')}
+                />
+            </Card>
+        );
+    }
+    renderSocialAccounts = () => {
+        return (
+            <Card title='حساباتك' containerStyle={{ borderRadius: 10 }}>
 
+                <FormLabel>Snapchat</FormLabel>
+                <FormInput
+                 onChangeText={(text) => this.setState({ snapchat: text })}
+                 value={this.state.snapchat}
+                 autoCapitalize='none'
+                />
 
+                <FormLabel>Twitter</FormLabel>
+                <FormInput
+                 onChangeText={(text) => this.setState({ twitter: text })}
+                value={this.state.twitter}
+                autoCapitalize='none'
+                />
+
+                <FormLabel>LinkedIn</FormLabel>
+                <FormInput
+                 onChangeText={(text) => this.setState({ linkedin: text })}
+                 value={this.state.linkedin}
+                 autoCapitalize='none'
+                />
+
+                <FormLabel>Steam</FormLabel>
+                <FormInput
+                 onChangeText={(text) => this.setState({ steam: text })}
+                 value={this.state.steam}
+                 autoCapitalize='none'
+                />
+
+                <Button
+                    backgroundColor='#03A9F4'
+                    buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0, marginTop: 20 }}
+                    title='اعتمد'
+                    rightIcon={{ name: 'check-circle' }}
+                    onPress={() => this.onPress('Social')}
+                />
+            </Card>
+        );
+    }
+
+    renderPassword = () => {
+        return (
+            <Card title='تغيير كلمة السر' containerStyle={{ borderRadius: 10 }}>
+                <FormLabel containerStyle={styles.inputLabelStyle} >الرقم السري الجديد</FormLabel>
+                <FormInput secureTextEntry inputStyle={styles.inputStyle} onChangeText={(text) => this.setState({ pass1: text })} />
+                <FormLabel containerStyle={styles.inputLabelStyle} >تأكيد الرقم السري الجديد</FormLabel>
+                <FormInput secureTextEntry inputStyle={styles.inputStyle} onChangeText={(text) => this.setState({ pass2: text })} />
+                <Button
+                    backgroundColor='#03A9F4'
+                    buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0, marginTop: 20 }}
+                    title='اعتمد'
+                    rightIcon={{ name: 'check-circle' }}
+                    onPress={() => this.onPress('PASSWORD')}
+                />
+            </Card>
+        );
+    }
     render() {
         return (
             <View style={{ flex: 1, backgroundColor: '#ECF2F4' }}>
 
-            <KeyboardAwareScrollView keyboardShouldPersistTaps='always' extraScrollHeight={60}>
-                <Card title='تغيير كلمة السر' containerStyle={{ borderRadius: 10 }}>
-                    <FormLabel containerStyle={styles.inputLabelStyle} >الرقم السري الجديد</FormLabel>
-                    <FormInput secureTextEntry inputStyle={styles.inputStyle} onChangeText={(text) => this.setState({ pass1: text })} />
-                    <FormLabel containerStyle={styles.inputLabelStyle} >تأكيد الرقم السري الجديد</FormLabel>
-                    <FormInput secureTextEntry inputStyle={styles.inputStyle} onChangeText={(text) => this.setState({ pass2: text })} />
-                    <Button
-                        backgroundColor='#03A9F4'
-                        buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0, marginTop: 20 }}
-                        title='اعتمد'
-                        rightIcon={{ name: 'check-circle' }}
-                        onPress={() => this.onPress('PASSWORD')}
-                    />
-                </Card>
-
-                <Card title='فلسفتك في الحياة' containerStyle={{ borderRadius: 10, marginBottom: 15 }}>
-                    <FormLabel containerStyle={styles.inputLabelStyle} >تفلسف</FormLabel>
-                    <FormInput inputStyle={styles.inputStyle} onChangeText={(text) => this.setState({ bio: text })} />
-                    <Button
-                        backgroundColor='#03A9F4'
-                        buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0, marginTop: 20 }}
-                        title='اعتمد'
-                        rightIcon={{ name: 'check-circle' }}
-                        onPress={() => this.onPress('BIO')}
-                    />
-                </Card>
+                <KeyboardAwareScrollView keyboardShouldPersistTaps='always' extraScrollHeight={60}>
+                    {this.renderPassword()}
+                    {this.renderBio()}
+                    {this.renderSocialAccounts()}
                 </KeyboardAwareScrollView>
-            <AwesomeAlert
+
+                <AwesomeAlert
                     show={this.state.showLoadingAlert}
                     showProgress
                     title="Loading"
@@ -123,7 +223,7 @@ class MyProfile extends Component {
                     showCancelButton={false}
                     showConfirmButton={false}
                 />
-            <AwesomeAlert
+                <AwesomeAlert
                     show={this.state.showErrorAlert}
                     title="بروبلم"
                     message="عندك مشكلة يافندم، اذا عبيت حقل الباسوورد تأكد انهم نفس الشي وانهم يتجاوزون 6 احرف او ارقام، واذا عبيت حقل البايو تأكد انه مايتجاوز 50 حرف. الصراحه كان يمديني احط تنبيه مختلف لكل واحد بس متعيجز"
@@ -140,9 +240,7 @@ class MyProfile extends Component {
 
 const styles = {
     inputLabelStyle: {
-        // shadowRadius: 2,
-        // borderColor: '#03A9F4',
-          alignItems: 'flex-end'
+        alignItems: 'flex-end',
     },
     inputStyle: {
         width: '100%'

@@ -166,19 +166,24 @@ class UserProfile extends Component {
   }
 
   onSnapChatPress = () => {
-
+    const snapchatURL = 'https://www.snapchat.com/add/' + this.props.navigation.state.params.socialAccounts.snapchat;
+    return (Linking.openURL(snapchatURL).catch(err => alert('Error:', err)));
   }
-  
+ 
   onTwitterPress = () => {
-
+    const twitterURL = 'https://twitter.com/' + this.props.navigation.state.params.socialAccounts.twitter;
+    return (Linking.openURL(twitterURL).catch(err => alert('Error:', err)));
   }
 
   onLinkedInPress = () => {
-
+    // if not URL
+    const linkedinURL = 'https://www.linkedin.com/in/' + this.props.navigation.state.params.socialAccounts.linkedin;
+    return (Linking.openURL(linkedinURL).catch(err => alert('Error:', err)));
   }
-
+  
   onSteamPress = () => {
-
+    const steamURL = 'http://steamcommunity.com/search/users/#text=' + this.props.navigation.state.params.socialAccounts.steam;
+    return (Linking.openURL(steamURL).catch(err => alert('Error:', err)));
   }
   // https://api.whatsapp.com/send?phone=966568020407
   chatInWhatsApp = () => {
