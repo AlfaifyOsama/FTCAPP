@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, TextInput, AsyncStorage } from 'react-native';
+import { View, Text, ScrollView, TextInput, AsyncStorage, Platform } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import AnimatedHideView from 'react-native-animated-hide-view';
 import Toast from 'react-native-root-toast';
@@ -132,6 +132,7 @@ class ApprovePointsSingle extends Component {
                         value={this.state.inputs[index+''+indexWork]}
                         style={{ textAlign: 'right' }}
                         maxLength={2}
+                        keyboardType={Platform.OS === 'ios' ? 'numbers-and-punctuation' : 'phone-pad'}
                       />
 
                       <Text key={'Description' + item.id+''+indexWork } style={workTextStyle}>{work.description}</Text>
