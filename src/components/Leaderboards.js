@@ -129,6 +129,10 @@ export default class Leaderboards extends Component {
         <Text style={[styles.score, this.props.scoreStyle]}>
           {item[sortBy] || 0}
         </Text>
+        <Image
+              source={this.getDir(index)}
+              style={[styles.rankSign, this.props.rankStyle]}
+        />
 
       </View>
     );
@@ -186,12 +190,15 @@ const styles = StyleSheet.create({
   },
   left: {
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "flex-end"
   },
   rank: {
     fontSize: 17,
     fontWeight: "bold",
-    marginRight: 5
+    marginRight: 5,
+    position: 'absolute',
+    right: 15,
+    paddingLeft: 15
   },
   singleDidget: {
     paddingLeft: 16,
@@ -210,20 +217,29 @@ const styles = StyleSheet.create({
     fontSize: 12,
     flex: 1,
     color: '#565454',
-    textAlign: 'center',
-    paddingRight: 80
+    paddingRight: 80,
+    textAlign: 'right'
   },
   score: {
     fontSize: 20,
     fontWeight: "bold",
     position: "absolute",
-    right: 15,
-    paddingLeft: 15
+    left: 15,
+    paddingRight: 15
   },
   avatar: {
     height: 30,
     width: 30,
     borderRadius: 30 / 2,
-    marginRight: 10
+    position: 'absolute',
+    right: 45,
+    paddingLeft: 15
+  },
+  rankSign: {
+    height: 30,
+    width: 30,
+    borderRadius: 30 / 2,
+    position: 'absolute',
+    left: 60
   }
 });
