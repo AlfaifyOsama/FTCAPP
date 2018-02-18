@@ -20,10 +20,6 @@ export default class More extends Component {
           icon: 'send',
         },
         {
-          title: 'الأعضاء',
-          icon: 'people'
-        },
-        {
           title: 'حسابي',
           icon: 'account-circle',
         },
@@ -51,15 +47,12 @@ export default class More extends Component {
       return;
     }
     else if (x === 2) {
-      this.props.navigation.navigate('UsersList');
-    }
-    else if (x === 3) {
       this.props.navigation.navigate('MyProfile');
     }
-    else if (x === 4) {
+    else if (x === 3) {
       this.props.navigation.navigate('EventsHistory');
     }
-    else if (x === 5) {
+    else if (x === 4) {
       this.showSignOutAlert();
       return;
     }

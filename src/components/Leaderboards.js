@@ -73,7 +73,6 @@ export default class Leaderboards extends Component {
     // 20% trash, 30% sleeping, 30% turtle, 20% weightlifting.
 
     var numberOfUsers = Object.keys(this.props.data).length - 3;
-
     var indexOfWeighlifters = numberOfUsers * 0.2;
     var indexOfTurtles = numberOfUsers * 0.3 + indexOfWeighlifters;
     var indexOfSleeping = numberOfUsers * 0.3 + indexOfTurtles;
@@ -90,8 +89,8 @@ export default class Leaderboards extends Component {
       return require('./images/turtle.png');
     }
     if(index - 3 < indexOfSleeping)
-      return require('./images/sleeping.png')
-    return require('./images/waste-bin.png')
+      return require('./images/sleeping.png');
+    return require('./images/waste-bin.png');
   }
 
   _defaultRenderItem = (item, index) => {
@@ -115,19 +114,25 @@ export default class Leaderboards extends Component {
           </Text>
           {this.props.icon && (
             <Image
-              source={this.getDir(index)}
+              source={{ uri: this.props.data[index].profilephoto }}
               style={[styles.avatar, this.props.avatarStyle]}
             />
           )}
-          <Text style={[styles.label, this.props.labelStyle]} numberOfLines={1}>
+          <View style={{flex: 3}}>
+            <Text style={[styles.label, this.props.labelStyle]} numberOfLines={2}>
             {item[this.props.labelBy]}
-          </Text>
+            </Text>
+
+            <Text style={styles.bio}>{item.bio }</Text>
+            </View>
         </View>
         <Text style={[styles.score, this.props.scoreStyle]}>
           {item[sortBy] || 0}
         </Text>
+
       </View>
     );
+
 
     return this.props.onRowPress ? (
       <TouchableOpacity onPress={e => this.props.onRowPress(item, index)}>
@@ -198,7 +203,14 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 17,
+    flex: 2,
+    paddingRight: 80
+  },
+  bio: {
+    fontSize: 12,
     flex: 1,
+    color: '#565454',
+    textAlign: 'center',
     paddingRight: 80
   },
   score: {

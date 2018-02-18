@@ -14,11 +14,10 @@ import ManageEvents from './ManageEvents';
 import ManageEventsSingle from './ManageEventsSingle';
 import AddEvent from './AddEvent';
 import SubmitWork from './SubmitWork';
-import UsersList from './UsersList';
 import AddPoints from './AddPoints';
-import MyProfile from './MyProfile';
 import EventsHistory from './EventsHistory';
 import UserProfile from './ProfileScreen';
+import MyProfile from './MyProfile';
 
 
 const PointsStack = StackNavigator({
@@ -36,6 +35,9 @@ const PointsStack = StackNavigator({
         marginLeft: 0,
       },
     }
+  },
+    ProfileScreen: {
+    screen: UserProfile,
   }
 });
 const EventsStack = StackNavigator({
@@ -179,36 +181,6 @@ const MoreStack = StackNavigator({
       headerRight: (<View />) // To center the text, you have to put something fake in the header to shift the text on the right.
     }
   },
-  UsersList: {
-    screen: UsersList,
-    navigationOptions: {
-      title: 'الأعضاء',
-      headerTitleStyle: {
-        textAlign: 'center',
-        fontWeight: 'bold',
-        marginTop: 0,
-        width: '100%',
-        marginRight: 0,
-        marginLeft: 0,
-      },
-      headerRight: (<View />) // To center the text, you have to put something fake in the header to shift the text on the right.
-    }
-  },
-  MyProfile: {
-    screen: MyProfile,
-    navigationOptions: {
-      title: 'حسابي الزبال',
-      headerTitleStyle: {
-        textAlign: 'center',
-        fontWeight: 'bold',
-        marginTop: 0,
-        width: '100%',
-        marginRight: 0,
-        marginLeft: 0,
-      },
-      headerRight: (<View />) // To center the text, you have to put something fake in the header to shift the text on the right.
-    }
-  },
   AddPoints: {
     screen: AddPoints,
     navigationOptions: {
@@ -238,10 +210,23 @@ const MoreStack = StackNavigator({
       },
       headerRight: (<View />) // To center the text, you have to put something fake in the header to shift the text on the right.
     },
-  },
-  ProfileScreen: {
-    screen: UserProfile,
+  },  
+  MyProfile: {
+    screen: MyProfile,
+    navigationOptions: {
+      title: 'حسابي الزبال',
+      headerTitleStyle: {
+        textAlign: 'center',
+        fontWeight: 'bold',
+        marginTop: 0,
+        width: '100%',
+        marginRight: 0,
+        marginLeft: 0,
+      },
+      headerRight: (<View />) // To center the text, you have to put something fake in the header to shift the text on the right.
+    }
   }
+
 });
 
 const RootTabs = TabNavigator({
