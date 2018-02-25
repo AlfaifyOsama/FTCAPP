@@ -166,7 +166,7 @@ export default class LoginForm extends Component {
         </ImageBackground>
         <AwesomeAlert
       show={this.state.showAlert}
-      title="خطأ"
+      title="بروبلم"
       message={this.state.alertMsg}
       closeOnTouchOutside
       closeOnHardwareBackPress

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Card, Icon } from 'react-native-elements';
+import AwesomeAlert from 'react-native-awesome-alerts';
 import axios from 'axios';
 import {
   Image,
@@ -129,6 +130,7 @@ class UserProfile extends Component {
   state = {
     userEvents: [],
     loading: true,
+    showAlert: false,
     telDS: new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
     }).cloneWithRows(this.props.navigation.state.params.tels),
@@ -161,36 +163,48 @@ class UserProfile extends Component {
     this.getInfo();
   }
 
+
+
   onPressTel = number => {
-    Linking.openURL(`tel:${number}`).catch(alert('Error', number));
+    return this.checkAccountExists(number) ? Linking.openURL(`tel:${number}`).catch(err => alert('Error', number)) : this.showAlert();
   }
 
   onSnapChatPress = () => {
-    const snapchatURL = 'https://www.snapchat.com/add/' + this.props.navigation.state.params.socialAccounts.snapchat;
-    return (Linking.openURL(snapchatURL).catch(alert('Error:', snapchatURL)));
+    const snapchat = this.props.navigation.state.params.socialAccounts.snapchat;
+    const snapchatURL = 'https://www.snapchat.com/add/' + snapchat;
+    return this.checkAccountExists(snapchat) ? Linking.openURL(snapchatURL).catch(err => alert('Error:', snapchatURL)) : this.showAlert();
   }
  
   onTwitterPress = () => {
-    const twitterURL = 'https://twitter.com/' + this.props.navigation.state.params.socialAccounts.twitter;
-    return (Linking.openURL(twitterURL).catch(alert('Error:', twitterURL)));
+    const twitter = this.props.navigation.state.params.socialAccounts.twitter;
+    const twitterURL = 'https://twitter.com/' + twitter;
+    return this.checkAccountExists(twitter) ? Linking.openURL(twitterURL).catch(err => alert('Error:', twitterURL)) : this.showAlert();
   }
 
   onLinkedInPress = () => {
     // if not URL
-    const linkedinURL = 'https://www.linkedin.com/in/' + this.props.navigation.state.params.socialAccounts.linkedin;
-    return (Linking.openURL(linkedinURL).catch(alert('Error:', linkedinURL)));
+    const linkedin = this.props.navigation.state.params.socialAccounts.linkedin;
+    const linkedinURL = 'https://www.linkedin.com/in/' + linkedin;
+    return this.checkAccountExists(linkedin) ? Linking.openURL(linkedinURL).catch(err => alert('Error:', linkedinURL)) : this.showAlert();
   }
   
   onSteamPress = () => {
-    const steamURL = 'http://steamcommunity.com/search/users/#text=' + this.props.navigation.state.params.socialAccounts.steam;
-    return (Linking.openURL(steamURL).catch(alert('Error:', steamURL)));
+    const steam = this.props.navigation.state.params.socialAccounts.steam;
+    const steamURL = 'http://steamcommunity.com/search/users/#text=' + steam;
+    return this.checkAccountExists(steam) ? Linking.openURL(steamURL).catch(err => alert('Error:', steamURL)) : this.showAlert();
+  }
+
+  checkAccountExists = (account) => {
+    if (account === undefined || account === null || account === ''){
+      return false;
+    }
+    return true;
   }
   // https://api.whatsapp.com/send?phone=966568020407
   chatInWhatsApp = () => {
-    //console.log(this.props.navigation.state.params.tels[0].number);
     const phoneNumber = this.props.navigation.state.params.tels[0].number;
     const whatsappURL = 'https://api.whatsapp.com/send?phone=' + phoneNumber;
-    return (Linking.openURL(whatsappURL).catch(alert('Error:', phoneNumber)));
+    return this.checkAccountExists(phoneNumber) ? Linking.openURL(whatsappURL).catch(alert('Error:', phoneNumber)) : this.showAlert();
   }
 
 
@@ -308,6 +322,36 @@ class UserProfile extends Component {
     />
   );
 
+  hideAlert = () => {
+    this.setState({
+      showAlert: false
+        });
+  }
+
+  showAlert = () => {
+    this.setState({
+      showAlert: true
+        });
+  }
+  
+  renderAwesomeAlert = () => {
+    return (
+      <AwesomeAlert
+            show={this.state.showAlert}
+            title="بروبلم"
+            message="خويك ما حط حساب"
+            closeOnTouchOutside
+            closeOnHardwareBackPress
+            showConfirmButton
+            confirmButtonColor="red"
+            confirmText="طيب"
+            onConfirmPressed={() => {
+            this.hideAlert();
+      }}
+    />
+    );
+  }
+
   render() {
     if (this.state.loading){
       return (<Spinner />);
@@ -328,6 +372,7 @@ class UserProfile extends Component {
             
           </Card>
         </View>
+       {this.renderAwesomeAlert()}
       </ScrollView>
     );
   }

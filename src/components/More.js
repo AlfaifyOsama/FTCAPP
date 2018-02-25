@@ -120,14 +120,14 @@ export default class More extends Component {
         />
         <AwesomeAlert
           show={this.state.showSignOutAlert}
-          title="وين رايح؟"
+          title="على وين يانور العين؟"
           message='متأكد ودك تروح وتتركنا؟'
           closeOnHardwareBackPress={false}
           showCancelButton
           showConfirmButton
-          cancelText={'ما أقدر أتركم :)'}
+          cancelText='ما أقدر أتركم :)'
           onCancelPressed={() => this.hideSignOutAlert()}
-          confirmText={'انا سحبة'}
+          confirmText='انا زبال سحبة'
           confirmButtonColor={'red'}
           onConfirmPressed={() => this.signOut()}
         />
