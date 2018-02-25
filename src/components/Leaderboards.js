@@ -118,7 +118,7 @@ export default class Leaderboards extends Component {
               style={[styles.avatar, this.props.avatarStyle]}
             />
           )}
-          <View style={{flex: 3}}>
+          <View style={{ flex: 3, justifyContent: 'flex-end' }}>
             <Text style={[styles.label, this.props.labelStyle]} numberOfLines={2}>
             {item[this.props.labelBy]}
             </Text>
@@ -211,13 +211,15 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 17,
     flex: 2,
-    paddingRight: 80
+    paddingRight: 80,
+    textAlign: 'right'
   },
   bio: {
     fontSize: 12,
     flex: 1,
     color: '#565454',
     paddingRight: 80,
+    paddingLeft: 105,
     textAlign: 'right'
   },
   score: {

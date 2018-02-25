@@ -162,34 +162,35 @@ class UserProfile extends Component {
   }
 
   onPressTel = number => {
-    Linking.openURL(`tel:${number}`).catch(err => alert('Error', err));
+    Linking.openURL(`tel:${number}`).catch(alert('Error', number));
   }
 
   onSnapChatPress = () => {
     const snapchatURL = 'https://www.snapchat.com/add/' + this.props.navigation.state.params.socialAccounts.snapchat;
-    return (Linking.openURL(snapchatURL).catch(err => alert('Error:', err)));
+    return (Linking.openURL(snapchatURL).catch(alert('Error:', snapchatURL)));
   }
  
   onTwitterPress = () => {
     const twitterURL = 'https://twitter.com/' + this.props.navigation.state.params.socialAccounts.twitter;
-    return (Linking.openURL(twitterURL).catch(err => alert('Error:', err)));
+    return (Linking.openURL(twitterURL).catch(alert('Error:', twitterURL)));
   }
 
   onLinkedInPress = () => {
     // if not URL
     const linkedinURL = 'https://www.linkedin.com/in/' + this.props.navigation.state.params.socialAccounts.linkedin;
-    return (Linking.openURL(linkedinURL).catch(err => alert('Error:', err)));
+    return (Linking.openURL(linkedinURL).catch(alert('Error:', linkedinURL)));
   }
   
   onSteamPress = () => {
     const steamURL = 'http://steamcommunity.com/search/users/#text=' + this.props.navigation.state.params.socialAccounts.steam;
-    return (Linking.openURL(steamURL).catch(err => alert('Error:', err)));
+    return (Linking.openURL(steamURL).catch(alert('Error:', steamURL)));
   }
   // https://api.whatsapp.com/send?phone=966568020407
   chatInWhatsApp = () => {
-    console.log(this.props.navigation.state.params.tels[0].number);
-    const phoneNumber = 'https://api.whatsapp.com/send?phone=' + this.props.navigation.state.params.tels[0].number;
-    return (Linking.openURL(phoneNumber).catch(err => alert('Error:', err)));
+    //console.log(this.props.navigation.state.params.tels[0].number);
+    const phoneNumber = this.props.navigation.state.params.tels[0].number;
+    const whatsappURL = 'https://api.whatsapp.com/send?phone=' + phoneNumber;
+    return (Linking.openURL(whatsappURL).catch(alert('Error:', phoneNumber)));
   }
 
 

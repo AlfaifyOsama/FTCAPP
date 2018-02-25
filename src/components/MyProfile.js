@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, AsyncStorage } from 'react-native';
-import { Card, Button, FormLabel, FormInput } from 'react-native-elements';
+import { Card, Button, FormLabel, FormInput, Text } from 'react-native-elements';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import axios from 'axios';
@@ -144,9 +144,10 @@ class MyProfile extends Component {
         );
     }
     renderSocialAccounts = () => {
+
         return (
             <Card title='حساباتك' containerStyle={{ borderRadius: 10 }}>
-
+            <Text style={{ fontSize: 13.8, fontWeight: 'bold', textAlign: 'center', color: '#86939e' }}>دخل اسم اليوزر لاتدخل روابط</Text>
                 <FormLabel>Snapchat</FormLabel>
                 <FormInput
                  onChangeText={(text) => this.setState({ snapchat: text })}
