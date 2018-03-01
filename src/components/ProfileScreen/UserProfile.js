@@ -204,55 +204,19 @@ class UserProfile extends Component {
   chatInWhatsApp = () => {
     const phoneNumber = this.props.navigation.state.params.tels[0].number;
     const whatsappURL = 'https://api.whatsapp.com/send?phone=' + phoneNumber;
-    return this.checkAccountExists(phoneNumber) ? Linking.openURL(whatsappURL).catch(alert('Error:', phoneNumber)) : this.showAlert();
+    return this.checkAccountExists(phoneNumber) ? Linking.openURL(whatsappURL).catch(err => alert('Error:', phoneNumber)) : this.showAlert();
   }
 
+  hideAlert = () => {
+    this.setState({
+      showAlert: false
+        });
+  }
 
-  renderSocialIcons = () => {
-    return (
-    <View style={styles.socialRow}>
-          <View>
-          <Icon
-              size={30}
-              type="font-awesome"
-              color="#fffc04"
-              name="snapchat"
-              onPress={() => this.onSnapChatPress()}
-              underlayColor="#fffc04"
-          />
-          </View>
-          <View style={styles.socialIcon}>
-            <Icon
-              size={30}
-              type="entypo"
-              color="#56ACEE"
-              name="twitter-with-circle"
-              onPress={() => this.onTwitterPress()}
-              underlayColor="#56ACEE"
-            />
-          </View>
-          <View style={{ marginRight: 7 }}>
-          <Icon
-              size={30}
-              type="entypo"
-              color="#027ab5"
-              name="linkedin-with-circle"
-              onPress={() => this.onLinkedInPress()}
-              underlayColor="#027ab5"
-          />
-          </View>
-          <View>
-          <Icon
-              size={30}
-              type="font-awesome"
-              color="#231f20"
-              name="steam"
-              onPress={() => this.onSteamPress()}
-              underlayColor="#231f20"
-          />
-          </View>
-        </View>
-    );
+  showAlert = () => {
+    this.setState({
+      showAlert: true
+        });
   }
 
   renderHeader = () => {
@@ -322,16 +286,53 @@ class UserProfile extends Component {
     />
   );
 
-  hideAlert = () => {
-    this.setState({
-      showAlert: false
-        });
-  }
 
-  showAlert = () => {
-    this.setState({
-      showAlert: true
-        });
+
+  renderSocialIcons = () => {
+    return (
+    <View style={styles.socialRow}>
+          <View>
+          <Icon
+              size={30}
+              type="font-awesome"
+              color="#fffc04"
+              name="snapchat"
+              onPress={() => this.onSnapChatPress()}
+              underlayColor="#fffc04"
+          />
+          </View>
+          <View style={styles.socialIcon}>
+            <Icon
+              size={30}
+              type="entypo"
+              color="#56ACEE"
+              name="twitter-with-circle"
+              onPress={() => this.onTwitterPress()}
+              underlayColor="#56ACEE"
+            />
+          </View>
+          <View style={{ marginRight: 7 }}>
+          <Icon
+              size={30}
+              type="entypo"
+              color="#027ab5"
+              name="linkedin-with-circle"
+              onPress={() => this.onLinkedInPress()}
+              underlayColor="#027ab5"
+          />
+          </View>
+          <View>
+          <Icon
+              size={30}
+              type="font-awesome"
+              color="#231f20"
+              name="steam"
+              onPress={() => this.onSteamPress()}
+              underlayColor="#231f20"
+          />
+          </View>
+        </View>
+    );
   }
   
   renderAwesomeAlert = () => {
