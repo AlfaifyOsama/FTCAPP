@@ -12,8 +12,7 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
-  AsyncStorage
+  AsyncStorage,
 } from 'react-native';
 import { Spinner } from '../common';
 import BaseURL from '../../config';
@@ -124,7 +123,8 @@ class UserProfile extends Component {
         width: '100%',
         marginRight: 0,
         marginLeft: 0,
-      }
+      },
+      headerRight: (<View></View>)
     };
   }
   state = {
@@ -163,8 +163,6 @@ class UserProfile extends Component {
     this.getInfo();
   }
 
-
-
   onPressTel = number => {
     return this.checkAccountExists(number) ? Linking.openURL(`tel:${number}`).catch(err => alert('Error', number)) : this.showAlert();
   }
@@ -174,7 +172,7 @@ class UserProfile extends Component {
     const snapchatURL = 'https://www.snapchat.com/add/' + snapchat;
     return this.checkAccountExists(snapchat) ? Linking.openURL(snapchatURL).catch(err => alert('Error:', snapchatURL)) : this.showAlert();
   }
- 
+
   onTwitterPress = () => {
     const twitter = this.props.navigation.state.params.socialAccounts.twitter;
     const twitterURL = 'https://twitter.com/' + twitter;
@@ -187,7 +185,7 @@ class UserProfile extends Component {
     const linkedinURL = 'https://www.linkedin.com/in/' + linkedin;
     return this.checkAccountExists(linkedin) ? Linking.openURL(linkedinURL).catch(err => alert('Error:', linkedinURL)) : this.showAlert();
   }
-  
+
   onSteamPress = () => {
     const steam = this.props.navigation.state.params.socialAccounts.steam;
     const steamURL = 'http://steamcommunity.com/search/users/#text=' + steam;
@@ -195,7 +193,7 @@ class UserProfile extends Component {
   }
 
   checkAccountExists = (account) => {
-    if (account === undefined || account === null || account === ''){
+    if (account === undefined || account === null || account === '') {
       return false;
     }
     return true;
@@ -204,54 +202,54 @@ class UserProfile extends Component {
   chatInWhatsApp = () => {
     const phoneNumber = this.props.navigation.state.params.tels[0].number;
     const whatsappURL = 'https://api.whatsapp.com/send?phone=' + phoneNumber;
-    return this.checkAccountExists(phoneNumber) ? Linking.openURL(whatsappURL).catch(alert('Error:', phoneNumber)) : this.showAlert();
+    return this.checkAccountExists(phoneNumber) ? Linking.openURL(whatsappURL).catch(err => alert('Error:', phoneNumber)) : this.showAlert();
   }
 
 
   renderSocialIcons = () => {
     return (
-    <View style={styles.socialRow}>
-          <View>
+      <View style={styles.socialRow}>
+        <View>
           <Icon
-              size={30}
-              type="font-awesome"
-              color="#fffc04"
-              name="snapchat"
-              onPress={() => this.onSnapChatPress()}
-              underlayColor="#fffc04"
+            size={30}
+            type="font-awesome"
+            color="#fffc04"
+            name="snapchat"
+            onPress={() => this.onSnapChatPress()}
+            underlayColor="#fffc04"
           />
-          </View>
-          <View style={styles.socialIcon}>
-            <Icon
-              size={30}
-              type="entypo"
-              color="#56ACEE"
-              name="twitter-with-circle"
-              onPress={() => this.onTwitterPress()}
-              underlayColor="#56ACEE"
-            />
-          </View>
-          <View style={{ marginRight: 7 }}>
-          <Icon
-              size={30}
-              type="entypo"
-              color="#027ab5"
-              name="linkedin-with-circle"
-              onPress={() => this.onLinkedInPress()}
-              underlayColor="#027ab5"
-          />
-          </View>
-          <View>
-          <Icon
-              size={30}
-              type="font-awesome"
-              color="#231f20"
-              name="steam"
-              onPress={() => this.onSteamPress()}
-              underlayColor="#231f20"
-          />
-          </View>
         </View>
+        <View style={styles.socialIcon}>
+          <Icon
+            size={30}
+            type="entypo"
+            color="#56ACEE"
+            name="twitter-with-circle"
+            onPress={() => this.onTwitterPress()}
+            underlayColor="#56ACEE"
+          />
+        </View>
+        <View style={{ marginRight: 7 }}>
+          <Icon
+            size={30}
+            type="entypo"
+            color="#027ab5"
+            name="linkedin-with-circle"
+            onPress={() => this.onLinkedInPress()}
+            underlayColor="#027ab5"
+          />
+        </View>
+        <View>
+          <Icon
+            size={30}
+            type="font-awesome"
+            color="#231f20"
+            name="steam"
+            onPress={() => this.onSteamPress()}
+            underlayColor="#231f20"
+          />
+        </View>
+      </View>
     );
   }
 
@@ -275,6 +273,7 @@ class UserProfile extends Component {
               source={{
                 uri: avatar,
               }}
+              resizeMethod={'resize'}
             />
             <Text style={styles.userNameText}>{name}</Text>
             <View style={styles.userAddressRow}>
@@ -284,7 +283,7 @@ class UserProfile extends Component {
                 </Text>
               </View>
             </View>
-              {this.renderSocialIcons()}
+            {this.renderSocialIcons()}
           </View>
         </ImageBackground>
       </View>
@@ -297,7 +296,7 @@ class UserProfile extends Component {
     }
     return this.state.userEvents.map((event, index) =>
       <View key={'MainView' + index} style={{ width: '100%', alignItems: 'center' }}>
-          <Text style={styles.eventNameStyle} >{event.name}</Text>
+        <Text style={styles.eventNameStyle} >{event.name}</Text>
         <View key={index} style={index == this.state.userEvents.length - 1 ? { marginBottom: 10 } : styles.line} />
       </View>
     );
@@ -325,55 +324,68 @@ class UserProfile extends Component {
   hideAlert = () => {
     this.setState({
       showAlert: false
-        });
+    });
   }
 
   showAlert = () => {
     this.setState({
       showAlert: true
-        });
+    });
   }
-  
+
   renderAwesomeAlert = () => {
     return (
       <AwesomeAlert
-            show={this.state.showAlert}
-            title="بروبلم"
-            message="خويك ما حط حساب"
-            closeOnTouchOutside
-            closeOnHardwareBackPress
-            showConfirmButton
-            confirmButtonColor="red"
-            confirmText="طيب"
-            onConfirmPressed={() => {
-            this.hideAlert();
-      }}
-    />
+        show={this.state.showAlert}
+        title="بروبلم"
+        message="خويك ما حط حساب"
+        closeOnTouchOutside
+        closeOnHardwareBackPress={false}
+        showConfirmButton
+        confirmButtonColor="red"
+        confirmText="طيب"
+        onConfirmPressed={() => this.hideAlert()}
+      />
     );
   }
 
-  render() {
-    if (this.state.loading){
-      return (<Spinner />);
-      }
-    return (
-      <ScrollView style={styles.scroll}>
-        <View style={styles.container}>
-          <Card containerStyle={styles.cardContainer}>
-            {this.renderHeader()}
-            {this.renderTel()}
-            {Separator()}
+  // _onRefresh() {
+  //   this.setState({ refreshing: true });
+  //   this.getInfo();
+  //   this.setState({ refreshing: false });
+  // }
 
-            {/* <Card containerStyle={styles.cardContainer}>
+  // refreshControl={
+  //   <RefreshControl
+  //       refreshing={this.state.refreshing}
+  //       onRefresh={this._onRefresh.bind(this)}
+  //     />
+  //   }
+
+  render() {
+    if (this.state.loading) {
+      return (<Spinner />);
+    }
+    return (
+      <View style={styles.container}>
+        <ScrollView
+        style={styles.scroll}
+        >
+            <Card containerStyle={styles.cardContainer}>
+              {this.renderHeader()}
+              {this.renderTel()}
+              {Separator()}
+
+              {/* <Card containerStyle={styles.cardContainer}>
             <Text style={styles.eventsText}>الفعاليات اللي مسجل فيها:</Text>
             {this.renderUserEvents()}
             </Card> */}
 
-            
-          </Card>
-        </View>
-       {this.renderAwesomeAlert()}
-      </ScrollView>
+
+            </Card>
+        </ScrollView>
+        {this.renderAwesomeAlert()}
+      </View>
     );
   }
 }

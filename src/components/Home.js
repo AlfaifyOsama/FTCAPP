@@ -109,6 +109,7 @@ class Home extends Component {
               source={{
                 uri: this.state.profilephoto,
               }}
+              resizeMethod={'resize'}
            />
            </View>
         );
