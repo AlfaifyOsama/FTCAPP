@@ -40,7 +40,7 @@ class SubmitWork extends Component {
         });
       })
       .catch((error) => {
-        // console.log(error);
+         console.log(error.response);
         alert('فيه مشكلااا صديق');
         this.setState({
           loading: false,

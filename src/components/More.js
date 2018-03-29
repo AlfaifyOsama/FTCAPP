@@ -90,7 +90,7 @@ export default class More extends Component {
 
 
   render() {
-    const { pageStyle, listStyle, listItem } = styles;
+    const { pageStyle, listStyle } = styles;
     return (
       // <ScrollView style={{ backgroundColor: '#ECF2F4'}} >
       <View style={pageStyle}>
