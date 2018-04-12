@@ -6,6 +6,7 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import { TextField } from 'react-native-material-textfield';
 import { NavigationActions } from 'react-navigation';
 import { Button, Spinner } from './common';
+import { ifIphoneX } from "react-native-iphone-x-helper";
 import BaseURL from '../config';
 
 export default class LoginForm extends Component {
@@ -205,7 +206,22 @@ const styles = {
   },
   pageStyle: {
     flex: 1,
-    marginTop: Platform.OS === 'ios' ? 21 : 0  },
+    ...Platform.select({
+      ios: {
+        ...ifIphoneX(
+          {
+            marginTop: 0
+          },
+          {
+            marginTop: 21
+          }
+        )
+      },
+      android: {
+        marginTop: 0
+      }
+    })
+  },
   sectionStyle: {
     flexDirection: 'row',
   },
