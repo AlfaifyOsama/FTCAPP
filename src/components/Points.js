@@ -74,7 +74,6 @@ class Points extends Component {
   }
 
 
-
   displayStats = () => {
     const { statsStyle } = styles;
 
