@@ -13,6 +13,7 @@ class MyProfile extends Component {
         pass1: '',
         pass2: '',
         bio: '',
+        'quote': '',
         showLoadingAlert: false,
         showErrorAlert: false,
         snapchat: '',
@@ -77,6 +78,36 @@ class MyProfile extends Component {
 
     }
 
+    updateQuote = async () => {
+        const quote = this.state.quote;
+        if (quote.length > 150 || quote === undefined || quote === '' || quote === ' ') {
+            this.showErrorAlert();
+            return;
+        }
+        params = {
+            quote
+        };
+
+        const token = await AsyncStorage.getItem('token');
+        const instance = axios.create({
+            timeout: 5000,
+            headers: { 'Authorization': 'Bearer ' + token }
+        });
+        instance.post(BaseURL + '/users/updateQuote', params)
+        .then((response) => {
+            //console.log(response.data.users);
+            if (response.status  >= 200 && response.status < 400) {
+                this.hideLoadingAlert();
+                this.props.navigation.goBack(null);
+            }
+        })
+        .catch((error) => {
+            //  console.log(error);
+            this.showErrorAlert();
+            this.setState({ pass1: '', pass2: '' });
+        });
+    }
+
     getInfo = async () => {
         const token = 'Bearer ' + await AsyncStorage.getItem('token');
         const userID = await AsyncStorage.getItem('userID');
@@ -139,6 +170,27 @@ class MyProfile extends Component {
                     title='اعتمد'
                     rightIcon={{ name: 'check-circle' }}
                     onPress={() => this.onPress('BIO')}
+                />
+            </Card>
+        );
+    }
+
+    renderQuoteSubmission = () => {
+        return (
+            <Card title='اكتب في "كلام مايهمك"' containerStyle={{ borderRadius: 10 }}>
+                <FormLabel containerStyle={styles.inputLabelStyle} >وش رايك</FormLabel>
+                <FormInput
+                 inputStyle={styles.inputStyle}
+                 onChangeText={(text) => this.setState({ quote: text })}
+                 value={this.state.quote} 
+                 multiline
+                />
+                <Button
+                    backgroundColor='#03A9F4'
+                    buttonStyle={{ borderRadius: 20, marginLeft: 0, marginRight: 0, marginBottom: 0, marginTop: 20 }}
+                    title='اعتمد'
+                    rightIcon={{ name: 'check-circle' }}
+                    onPress={() => this.updateQuote()}
                 />
             </Card>
         );
@@ -212,6 +264,7 @@ class MyProfile extends Component {
                     {this.renderPassword()}
                     {this.renderBio()}
                     {this.renderSocialAccounts()}
+                    {this.renderQuoteSubmission()}
                 </KeyboardAwareScrollView>
 
                 <AwesomeAlert
