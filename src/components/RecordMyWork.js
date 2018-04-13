@@ -1,42 +1,40 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, AsyncStorage } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { View, Text, ScrollView, AsyncStorage, RefreshControl, TextInput } from 'react-native';
 import { Card, Button } from 'react-native-elements';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import AwesomeAlert from 'react-native-awesome-alerts';
+
 import axios from 'axios';
 import BaseURL from '../config';
 import { Spinner } from './common';
 
-class SubmitWork extends Component {
-  state = { members: [], event: {}, inputs: [], loading: true, showAlertLoading: false };
+export default class RecordMyWork extends Component {
+  state = { events: [], inputs: [], loading: true, refreshing: false, showAlertLoading: false };
 
   componentDidMount() {
     this.getInfo();
   }
 
+  // returns the list of user registered events.
   getInfo = async () => {
-    //console.log('getInfo');
 
-    this.state.event = this.props.navigation.state.params.event;
-    // console.log('event', this.state.event);
-    const token = await AsyncStorage.getItem('token');
+    const token = await AsyncStorage.getItem('token')
+    const userID = await AsyncStorage.getItem('userID');
     // console.log('token',token);
     const instance = axios.create({
       timeout: 1000,
       headers: { 'Authorization': 'Bearer ' + token }
     });
-    instance.get(BaseURL + '/events/getUsersWithRecordedWork/' + this.state.event.id)
+    instance.get(BaseURL + '/users/'+ userID +'/getEvents')
       .then((response) => {
-        // console.log(response.data);
-        //console.log(response.data[1]);
+         console.log(response.data);
 
         response.data.map((item, i) => (
-          this.state.members[i] = response.data[i]
+          this.state.events[i] = response.data[i]
         ));
 
         this.setState({
           loading: false,
-          showAlertLoading: false,
         });
       })
       .catch((error) => {
@@ -44,7 +42,7 @@ class SubmitWork extends Component {
         alert('فيه مشكلااا صديق');
         this.setState({
           loading: false,
-          showAlertLoading: false,
+          showAlertLoading: true,
         });
       });
   }
@@ -83,36 +81,42 @@ class SubmitWork extends Component {
     return <Spinner />;
   }
 
+  renderEventWork = (item) => {
+    return (
+        <View key={'workView' + item.id + indexWork} style={singleWorkStyle} >
+          <TextInput
+            key={'textInput' + item.id + indexWork}
+            multiline
+            numberOfLines={2}
+            value={work.description}
+            editable={false}
+            style={{ textAlign: 'center', width: '100%' }}
+          />
+
+          <View key={'line' + item.user_id + indexWork} style={line} />
+        </View>
+      );
+  }
+
   renderSingleCard = (item, index) => {
 
     const { singleWorkStyle, workTextStyle, line } = styles;
 
     return (
-      <View key={'CardMainView' + item.user_id} style={[{ marginBottom: index === this.state.members.length - 1 ? 20 : 0 }, styles.pageStyle]}  >
-        <Card key={'Card' + item.user_id} title={item.name} containerStyle={{ borderRadius: 10 }}>
-          {
-            item.work.map((work, indexWork) => {
-              return (
-                <View key={'workView' + item.user_id + indexWork} style={singleWorkStyle} >
-                  <TextInput
-                    key={'textInput' + item.user_id + indexWork}
-                    multiline
-                    numberOfLines={2}
-                    value={work.description}
-                    editable={false}
-                    style={{ textAlign: 'center', width: '100%' }}
-                  />
+      <View key={'CardMainView' + item.id} style={[{ marginBottom: index === this.state.events.length - 1 ? 20 : 0 }, styles.pageStyle]}  >
+        <Card key={'Card' + item.d} title={item.name} containerStyle={{ borderRadius: 10 }}>
 
-                  <View key={'line' + item.user_id + indexWork} style={line} />
-                </View>
-              );
-            })
-          }
-          {/* the line that he rights on */}
-          <View key={'writingLine' + item.user_id} style={singleWorkStyle} >
+      {
+           // item.work.map((work, indexWork) => {
+          //      this.renderEventWork(item, work, indexWork) 
+          //  })
+      }
+          
+          {/* the line that he writes on */}
+          <View key={'writingLine' + item.d} style={singleWorkStyle} >
             <TextInput
               multiline
-              placeholder={'وش سوا؟'}
+              placeholder={'وش سويت؟'}
               autoCapitalize={'none'}
               numberOfLines={2}
               autoCorrect={false}
@@ -121,10 +125,10 @@ class SubmitWork extends Component {
               style={{ textAlign: 'center', width: '100%' }}
             />
 
-            <View key={'lastLine' + item.user_id} style={line} />
+            <View key={'lastLine' + item.id} style={line} />
           </View>
           <Button
-            key={'Submitbutton' + item.user_id}
+            key={'Submitbutton' + item.id}
             onPress={() => this.OnPress(index)}
             title='سجلها'
             rightIcon={{ name: 'done' }}
@@ -138,22 +142,20 @@ class SubmitWork extends Component {
     );
   }
   renderCards() {
-    return this.state.members.map((item, index) => (
-      <View key={'mainView' + item.user_id} >
+    return this.state.events.map((item, index) => (
+      <View key={'mainView'+ index} >
         {this.renderSingleCard(item, index)}
-
       </View>
-
     ));
   }
 
   render() {
     if (this.state.loading) {
       return this.renderSpinner();
-    } else if (this.state.members.length == 0) { // nothing to approve
+    } else if (this.state.events.length == 0) { // nothing to approve
       return (
         <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1, backgroundColor: '#ECF2F4' }}>
-          <Text style={{ fontSize: 30 }}>فارغة كحياتي بدونك :)</Text>
+          <Text style={{ fontSize: 30 }}>ما عندك مشاريع يافندم</Text>
         </View>
       );
     }
@@ -162,10 +164,8 @@ class SubmitWork extends Component {
       <KeyboardAwareScrollView keyboardShouldPersistTaps='always' extraScrollHeight={60}>
       <Card containerStyle={{ borderRadius: 10, alignItems: 'center', }} title={'تعليمات'} >
         <Text style={{ fontWeight: 'bold', fontSize: 13, textAlign: 'right' }}>
-        • أكتب لكل منظم ايش سوا وبيرفع عمله إلى رئيس النادي. {'\n'}
-        • تقدر ترصد أعمال العضو مرة أخرى بعد ما تسجلها.{'\n'}
-        • العضو يقدر يشوف وش كتبت عنه.
-        </Text>     
+        •أكتب وش سويت لهذا المشروع، كلامك بيروح لقائد المشروع عشان يعتمده. {'\n'}
+        </Text>    
       </Card>
         {this.renderCards()}
       </KeyboardAwareScrollView>
@@ -216,5 +216,3 @@ const styles = {
   },
 };
 
-
-export default SubmitWork;
