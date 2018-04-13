@@ -18,7 +18,7 @@ import AddPoints from './AddPoints';
 import EventsHistory from './EventsHistory';
 import UserProfile from './ProfileScreen';
 import MyProfile from './MyProfile';
-
+import RecordMyWork from './RecordMyWork';
 
 const PointsStack = StackNavigator({
   Points: {
@@ -215,6 +215,21 @@ const MoreStack = StackNavigator({
     screen: MyProfile,
     navigationOptions: {
       title: 'حسابي الزبال',
+      headerTitleStyle: {
+        textAlign: 'center',
+        fontWeight: 'bold',
+        marginTop: 0,
+        width: '100%',
+        marginRight: 0,
+        marginLeft: 0,
+      },
+      headerRight: (<View />) // To center the text, you have to put something fake in the header to shift the text on the right.
+    }
+  },
+  RecordMyWork: {
+    screen: RecordMyWork,
+    navigationOptions: {
+      title: 'رصد اعمالي',
       headerTitleStyle: {
         textAlign: 'center',
         fontWeight: 'bold',

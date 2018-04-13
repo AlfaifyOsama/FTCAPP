@@ -28,6 +28,10 @@ export default class More extends Component {
           icon: 'history',
         },
         {
+          title: 'رصد أعمالي',
+          icon: 'note-add',
+        },
+        {
           title: 'تسجيل الخروج',
           icon: 'cancel',
         },
@@ -38,24 +42,30 @@ export default class More extends Component {
 
   onPress = async (x) => {
     const isAdmin = await AsyncStorage.getItem('isAdmin');
-    if (x === 0) {
-      isAdmin === '1' ? this.props.navigation.navigate('ApprovePoints') : this.showErrorAlert();
-      return;
-    }
-    else if (x === 1) {
-      isAdmin === '1' ? this.props.navigation.navigate('SendNotifications') : this.showErrorAlert();
-      return;
-    }
-    else if (x === 2) {
-      this.props.navigation.navigate('MyProfile');
-    }
-    else if (x === 3) {
-      this.props.navigation.navigate('EventsHistory');
-    }
-    else if (x === 4) {
-      this.showSignOutAlert();
-      return;
-    }
+
+    switch(x) {
+      case 0:
+        isAdmin === '1' ? this.props.navigation.navigate('ApprovePoints') : this.showErrorAlert();  
+        break;
+      case 1:
+        isAdmin === '1' ? this.props.navigation.navigate('SendNotifications') : this.showErrorAlert();
+        break;
+      case 2:
+        this.props.navigation.navigate('MyProfile');
+        break;
+      case 3:
+        this.props.navigation.navigate('EventsHistory');
+        break;
+      case 4:
+        this.props.navigation.navigate('RecordMyWork');
+       break;
+      case 5:
+        this.showSignOutAlert();
+        break;
+      default:
+          return;
+  }
+
   }
 
   showErrorAlert = () => {
