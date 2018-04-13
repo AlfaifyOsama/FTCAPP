@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
   Text, View, ImageBackground, AsyncStorage, ScrollView,
-  RefreshControl, TouchableOpacity, Image, Linking, StatusBar, Platform
+  RefreshControl, TouchableOpacity, Image, Linking, StatusBar, Platform,
+  TouchableWithoutFeedback
 } from 'react-native';
 import normalize from 'react-native-elements/src/helpers/normalizeText';
 import AwesomeAlert from 'react-native-awesome-alerts';
@@ -21,12 +22,28 @@ class Home extends Component {
     lastName: '',
     userEvents: [],
     refreshing: false,
-    profilephoto: ''
+    profilephoto: '',
+    clicks: 0
   }
 
   componentDidMount() {
     this.getInfo();
   }
+
+  onSecretPlaceClick() {
+    const { clicks } = this.state;
+    if (clicks === 20) {
+      this.BeMillionare();
+      this.state.clicks = 0;
+    } else {
+      this.state.clicks++;
+    }
+  }
+
+  BeMillionare() {
+    this.setState({ points: 9999, rank: 1, status: 'الهامووووورررر' });
+  }
+
 
   getInfo = async () => {
     const token = 'Bearer ' + await AsyncStorage.getItem('token');
@@ -103,6 +120,7 @@ class Home extends Component {
   renderProfilePhoto = () => {
     if (this.state.profilephoto !== ''){
       return (
+          <TouchableWithoutFeedback onPress={this.onSecretPlaceClick.bind(this)}>
            <View style={styles.headerColumn}>
            <Image
               style={styles.userImage}
@@ -111,6 +129,7 @@ class Home extends Component {
               }}
            />
            </View>
+           </TouchableWithoutFeedback>
         );
       }
       return (
@@ -235,7 +254,7 @@ const styles = {
     }),
   },
   userImage: {
-    borderColor: '#1E88E5',
+    borderColor: '#fff',
     borderRadius: 85,
     borderWidth: 3,
     height: 170,
