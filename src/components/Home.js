@@ -7,6 +7,7 @@ import {
   ScrollView,
   RefreshControl,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   Image,
   Linking,
   StatusBar,
@@ -51,6 +52,7 @@ class Home extends Component {
   }
 
   BeMillionare() {
+    alert('مبروووووووووووووووووووووووك!!! لقد الربحت جائزة القيمة 9999 نقطة الف العميل عزيزي!');
     this.setState({ points: 9999, rank: 1, status: 'الهامووووورررر' });
   }
 
@@ -319,11 +321,7 @@ const styles = {
     })
   },
   userImage: {
-<<<<<<< HEAD
     borderColor: '#fff',
-=======
-    borderColor: "#1E88E5",
->>>>>>> c947512feb7a8e5384835367ae79edf7a4ad3c1f
     borderRadius: 85,
     borderWidth: 3,
     height: 170,
