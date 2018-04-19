@@ -7,6 +7,7 @@ import {
   ScrollView,
   RefreshControl,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   Image,
   Linking,
   StatusBar,
@@ -32,12 +33,29 @@ class Home extends Component {
     lastName: "",
     userEvents: [],
     refreshing: false,
-    profilephoto: ""
-  };
+    profilephoto: '',
+    clicks: 0
+  }
 
   componentDidMount() {
     this.getInfo();
   }
+
+  onSecretPlaceClick() {
+    const { clicks } = this.state;
+    if (clicks === 20) {
+      this.BeMillionare();
+      this.state.clicks = 0;
+    } else {
+      this.state.clicks++;
+    }
+  }
+
+  BeMillionare() {
+    alert('مبروووووووووووووووووووووووك!!! لقد الربحت جائزة القيمة 9999 نقطة الف العميل عزيزي!');
+    this.setState({ points: 9999, rank: 1, status: 'الهامووووورررر' });
+  }
+
 
   getInfo = async () => {
     const token = "Bearer " + (await AsyncStorage.getItem("token"));
@@ -130,17 +148,19 @@ class Home extends Component {
   }
 
   renderProfilePhoto = () => {
-    if (this.state.profilephoto !== "") {
+    if (this.state.profilephoto !== ''){
       return (
-        <View style={styles.headerColumn}>
-          <Image
-            style={styles.userImage}
-            source={{
-              uri: this.state.profilephoto
-            }}
-          />
-        </View>
-      );
+          <TouchableWithoutFeedback onPress={this.onSecretPlaceClick.bind(this)}>
+           <View style={styles.headerColumn}>
+           <Image
+              style={styles.userImage}
+              source={{
+                uri: this.state.profilephoto,
+              }}
+           />
+           </View>
+           </TouchableWithoutFeedback>
+        );
     }
     return (
       <View style={styles.headerColumn}>
@@ -301,7 +321,7 @@ const styles = {
     })
   },
   userImage: {
-    borderColor: "#1E88E5",
+    borderColor: '#fff',
     borderRadius: 85,
     borderWidth: 3,
     height: 170,
