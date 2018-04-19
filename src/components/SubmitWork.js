@@ -27,12 +27,14 @@ class SubmitWork extends Component {
     });
     instance.get(BaseURL + '/events/getUsersWithRecordedWork/' + this.state.event.id)
       .then((response) => {
-        // console.log(response.data);
+         //console.log(response.data);
         //console.log(response.data[1]);
 
-        response.data.map((item, i) => (
-          this.state.members[i] = response.data[i]
+        response.data.map((item, index) => (
+          this.state.members[index] = item,
+          this.state.inputs[index] = ''
         ));
+        
 
         this.setState({
           loading: false,
@@ -40,7 +42,7 @@ class SubmitWork extends Component {
         });
       })
       .catch((error) => {
-         console.log(error.response);
+        //console.log(error);
         alert('فيه مشكلااا صديق');
         this.setState({
           loading: false,
@@ -49,13 +51,38 @@ class SubmitWork extends Component {
       });
   }
 
-  OnPress = async (index) => {
-    const text = this.state.inputs[index];
+  validateDescription = (text) => {
+    if (text === undefined || text === '' || text == null || text.length < 10) 
+        return false;
+    else
+        return true;
+  }
 
-    if (text === undefined || text === '' || text == null || text.length < 10) {
-      alert('مب على كيفك، لازم تكتب 10 حروف على الاقل');
-      return;
+ //TODO with the current logic, after submission we call getInfo to update, that's not good.
+ //return the new data from response of this request.  
+  OnPress = async (index) => {
+    //console.log(this.state.members[index].work);
+    var descriptionsArray = [];
+    this.state.members[index].work.map((item, index) => (
+      descriptionsArray.push(item.description)
+    ))
+
+    let arrayLength = descriptionsArray.length;
+    for (var i = 0; i < arrayLength; i++) {
+      if (this.validateDescription(descriptionsArray[i]) == false) {
+        alert('مب على كيفك، لازم تكتب 10 حروف على الاقل');
+        return;
+      }
+  }
+  const text = this.state.inputs[index];
+    if(text !== undefined && text !== ''){ // the lastestInput is filled
+      if(text.length < 10){
+         alert('مب على كيفك، لازم تكتب 10 حروف على الاقل');
+         return;
+      }
     }
+
+
     this.setState({
       showAlertLoading: true
     });
@@ -67,15 +94,16 @@ class SubmitWork extends Component {
     instance.post(BaseURL + '/points/recordWork', {
       user_id: this.state.members[index].user_id,
       event_id: this.state.event.id,
-      description: text
+      description: this.state.inputs[index],
+      selfRecordedWork: this.state.members[index].work
     }).then((response) => {
-      // console.log(response);
-      //
+       //console.log(response);
+      
       this.state.inputs = []; // erase the inputs
       this.getInfo();
     })
       .catch((error) => {
-        //  console.log(error);
+        // console.log(error.response);
       });
   }
 
@@ -84,22 +112,22 @@ class SubmitWork extends Component {
   }
 
   renderSingleCard = (item, index) => {
-
     const { singleWorkStyle, workTextStyle, line } = styles;
-
+    let latestIndex = item.work.length == undefined ? 0 : item.work.length;
     return (
       <View key={'CardMainView' + item.user_id} style={[{ marginBottom: index === this.state.members.length - 1 ? 20 : 0 }, styles.pageStyle]}  >
         <Card key={'Card' + item.user_id} title={item.name} containerStyle={{ borderRadius: 10 }}>
           {
             item.work.map((work, indexWork) => {
+
               return (
                 <View key={'workView' + item.user_id + indexWork} style={singleWorkStyle} >
                   <TextInput
                     key={'textInput' + item.user_id + indexWork}
                     multiline
                     numberOfLines={2}
-                    value={work.description}
-                    editable={false}
+                    value={this.state.members[index].work[indexWork].description}
+                    onChangeText={(text) => (this.state.members[index].work[indexWork].description = text, this.forceUpdate())}
                     style={{ textAlign: 'center', width: '100%' }}
                   />
 
@@ -116,7 +144,7 @@ class SubmitWork extends Component {
               autoCapitalize={'none'}
               numberOfLines={2}
               autoCorrect={false}
-              onChangeText={(text) => (this.state.inputs[index] = text)}
+              onChangeText={(text) => (this.state.inputs[index] = text, this.forceUpdate())}
               value={this.state.inputs[index]}
               style={{ textAlign: 'center', width: '100%' }}
             />

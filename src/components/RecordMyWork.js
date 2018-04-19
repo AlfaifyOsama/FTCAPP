@@ -25,9 +25,9 @@ export default class RecordMyWork extends Component {
       timeout: 1000,
       headers: { 'Authorization': 'Bearer ' + token }
     });
-    instance.get(BaseURL + '/users/'+ userID +'/getEvents')
+    instance.get(BaseURL + '/users/'+ userID +'/getEventsWithSelfSubmittedWork')
       .then((response) => {
-         console.log(response.data);
+         //console.log(response.data);
 
         response.data.map((item, i) => (
           this.state.events[i] = response.data[i]
@@ -38,7 +38,7 @@ export default class RecordMyWork extends Component {
         });
       })
       .catch((error) => {
-         console.log(error.response);
+         //console.log(error.response);
         alert('فيه مشكلااا صديق');
         this.setState({
           loading: false,
@@ -62,9 +62,8 @@ export default class RecordMyWork extends Component {
       timeout: 5000,
       headers: { 'Authorization': 'Bearer ' + token }
     });
-    instance.post(BaseURL + '/points/recordWork', {
-      user_id: this.state.members[index].user_id,
-      event_id: this.state.event.id,
+    instance.post(BaseURL + '/points/submitSelfRecordedWork', {
+      event_id: this.state.events[index].id,
       description: text
     }).then((response) => {
       // console.log(response);
@@ -81,23 +80,6 @@ export default class RecordMyWork extends Component {
     return <Spinner />;
   }
 
-  renderEventWork = (item) => {
-    return (
-        <View key={'workView' + item.id + indexWork} style={singleWorkStyle} >
-          <TextInput
-            key={'textInput' + item.id + indexWork}
-            multiline
-            numberOfLines={2}
-            value={work.description}
-            editable={false}
-            style={{ textAlign: 'center', width: '100%' }}
-          />
-
-          <View key={'line' + item.user_id + indexWork} style={line} />
-        </View>
-      );
-  }
-
   renderSingleCard = (item, index) => {
 
     const { singleWorkStyle, workTextStyle, line } = styles;
@@ -107,9 +89,22 @@ export default class RecordMyWork extends Component {
         <Card key={'Card' + item.d} title={item.name} containerStyle={{ borderRadius: 10 }}>
 
       {
-           // item.work.map((work, indexWork) => {
-          //      this.renderEventWork(item, work, indexWork) 
-          //  })
+            item.selfSubmittedWork.map((work, indexWork) => {
+               return (
+                    <View key={'workView' + item.id + indexWork} style={singleWorkStyle} >
+                       <TextInput
+                       key={'textInput' + item.id + indexWork}
+                       multiline
+                       numberOfLines={2}
+                       value={work.description}
+                       editable={false}
+                       style={{ textAlign: 'center', width: '100%' }}
+                        />
+
+                       <View key={'line' + item.user_id + indexWork} style={line} /> 
+                    </View>
+               );
+            })
       }
           
           {/* the line that he writes on */}
