@@ -16,6 +16,7 @@ import {
 import { ifIphoneX } from "react-native-iphone-x-helper";
 import normalize from "react-native-elements/src/helpers/normalizeText";
 import AwesomeAlert from "react-native-awesome-alerts";
+import Carousel from 'react-native-snap-carousel';
 import axios from "axios";
 import BaseURL from "../config";
 import { Spinner } from "./common";
@@ -148,20 +149,20 @@ class Home extends Component {
   }
 
   renderProfilePhoto = () => {
-    if (this.state.profilephoto !== ''){
+    if (this.state.profilephoto !== '') {
       return (
-          <TouchableWithoutFeedback onPress={this.onSecretPlaceClick.bind(this)}>
-           <View style={styles.headerColumn}>
-           <Image
+        <TouchableWithoutFeedback onPress={this.onSecretPlaceClick.bind(this)}>
+          <View style={styles.headerColumn}>
+            <Image
               style={styles.userImage}
               source={{
                 uri: this.state.profilephoto,
               }}
               resizeMethod={'resize'}
-           />
-           </View>
-           </TouchableWithoutFeedback>
-        );
+            />
+          </View>
+        </TouchableWithoutFeedback>
+      );
     }
     return (
       <View style={styles.headerColumn}>
@@ -172,6 +173,20 @@ class Home extends Component {
 
   renderSpinner() {
     return <Spinner />;
+  }
+  _renderItem({ item, index }) {
+    return (
+      <View style={styles.slide}>
+        <Image
+          style={styles.memeImage}
+          source={{
+            uri: item.pic,
+          }}
+          resizeMethod={'resize'}
+          resizeMode={'stretch'}
+        />
+      </View>
+    );
   }
 
   render() {
@@ -256,7 +271,7 @@ class Home extends Component {
                   </Text>
                   <View style={styles.line} />
                   <Text style={qotdContentStyle}>{this.state.qotd}</Text>
-                  <Text style={qotdWriterContentStyle}>{'"-' +this.state.qotdWriter +'"'}</Text>
+                  <Text style={qotdWriterContentStyle}>{'"-' + this.state.qotdWriter + '"'}</Text>
                 </View>
               </View>
 
@@ -276,6 +291,40 @@ class Home extends Component {
                   <View style={styles.line} />
                   {this.renderUserEvents()}
                 </View>
+              </View>
+            </View>
+            <View style={[sectionStyle, { marginTop: 10, marginBottom: 10 }]}>
+              <View style={[qotdCardStyle, shadowStyle]}>
+                <Carousel
+                  data={[
+                    {
+                      pic: 'https://i.redd.it/nz8aqgez6vs01.jpg'
+                    },
+                    {
+                      pic: 'https://i.imgur.com/2nCt3Sbl.jpg'
+                    },
+                    {
+                      pic: 'https://i.imgur.com/lceHsT6l.jpg'
+                    },
+                    {
+                      pic: 'https://i.imgur.com/KZsmUi2l.jpg'
+                    },
+                    {
+                      pic: 'https://i.imgur.com/2nCt3Sbl.jpg'
+                    },
+                    {
+                      pic: 'https://i.imgur.com/lceHsT6l.jpg'
+                    }
+                  ]}
+                  renderItem={this._renderItem}
+                  sliderWidth={300}
+                  sliderHeight={300}
+                  itemWidth={300}
+                  itemHeight={300}
+                  layout={'tinder'}
+                  layoutCardOffset={0}
+                  useScrollView={true}
+                />
               </View>
             </View>
           </ScrollView>
@@ -317,7 +366,8 @@ const styles = {
         marginTop: 35
       },
       android: {
-        alignItems: "center"
+        alignItems: 'center',
+        marginTop: 35,
       }
     })
   },
@@ -328,6 +378,10 @@ const styles = {
     height: 170,
     marginBottom: 15,
     width: 170
+  },
+  memeImage: {
+    height: 300,
+    width: 300
   },
   sectionStyle: {
     flexDirection: "row",
