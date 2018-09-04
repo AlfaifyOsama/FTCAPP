@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -12,26 +12,26 @@ import {
   Linking,
   StatusBar,
   Platform
-} from "react-native";
-import { ifIphoneX } from "react-native-iphone-x-helper";
-import normalize from "react-native-elements/src/helpers/normalizeText";
-import AwesomeAlert from "react-native-awesome-alerts";
+} from 'react-native';
+import { ifIphoneX } from 'react-native-iphone-x-helper';
+import normalize from 'react-native-elements/src/helpers/normalizeText';
+import AwesomeAlert from 'react-native-awesome-alerts';
 import Carousel from 'react-native-snap-carousel';
-import axios from "axios";
-import BaseURL from "../config";
-import { Spinner } from "./common";
+import axios from 'axios';
+import BaseURL from '../config';
+import { Spinner } from './common';
 
 class Home extends Component {
   state = {
     loading: true,
     points: null,
     rank: null,
-    status: "",
-    qotd: "", // quote of the day
-    qotdWriter: "",
+    status: '',
+    qotd: '', // quote of the day
+    qotdWriter: '',
     avg: null,
-    firstName: "",
-    lastName: "",
+    firstName: '',
+    lastName: '',
     userEvents: [],
     refreshing: false,
     profilephoto: '',
@@ -52,14 +52,8 @@ class Home extends Component {
     }
   }
 
-  BeMillionare() {
-    alert('مبروووووووووووووووووووووووك!!! لقد الربحت جائزة القيمة 9999 نقطة الف العميل عزيزي!');
-    this.setState({ points: 9999, rank: 1, status: 'الهامووووورررر' });
-  }
-
-
   getInfo = async () => {
-    const token = "Bearer " + (await AsyncStorage.getItem("token"));
+    const token = 'Bearer ' + (await AsyncStorage.getItem("token"));
     const id = await AsyncStorage.getItem("userID");
     const firstName = await AsyncStorage.getItem("firstName");
     const lastName = await AsyncStorage.getItem("lastName");
@@ -90,6 +84,11 @@ class Home extends Component {
       });
     this.setState({ loading: false });
   };
+
+  BeMillionare() {
+    alert('مبروووووووووووووووووووووووك!!! لقد الربحت جائزة القيمة 9999 نقطة الف العميل عزيزي!');
+    this.setState({ points: 9999, rank: 1, status: 'الهامووووورررر' });
+  }
 
   openWhatsappGroup(link) {
     if (link == null) {
@@ -149,12 +148,16 @@ class Home extends Component {
   }
 
   renderProfilePhoto = () => {
+    const {
+      headerColumn,
+      userImage,
+    } = styles;
     if (this.state.profilephoto !== '') {
       return (
         <TouchableWithoutFeedback onPress={this.onSecretPlaceClick.bind(this)}>
-          <View style={styles.headerColumn}>
+          <View style={headerColumn}>
             <Image
-              style={styles.userImage}
+              style={userImage}
               source={{
                 uri: this.state.profilephoto,
               }}
@@ -165,8 +168,8 @@ class Home extends Component {
       );
     }
     return (
-      <View style={styles.headerColumn}>
-        <Image style={styles.userImage} />
+      <View style={headerColumn}>
+        <Image style={userImage} />
       </View>
     );
   };
@@ -174,7 +177,8 @@ class Home extends Component {
   renderSpinner() {
     return <Spinner />;
   }
-  _renderItem({ item, index }) {
+
+  renderItem({ item, index }) {
     return (
       <View style={styles.slide}>
         <Image
@@ -189,26 +193,185 @@ class Home extends Component {
     );
   }
 
-  render() {
-    if (this.state.loading) {
-      return this.renderSpinner();
-    }
-
+  renderCarousel = () => {
     const {
-      pageStyle,
+      shadowStyle,
+      qotdCardStyle,
+      sectionStyle
+    } = styles;
+    return (
+      <View style={[sectionStyle, { marginTop: 10, marginBottom: 10 }]}>
+      <View style={[qotdCardStyle, shadowStyle]}>
+      <Carousel
+                data={[
+                {
+                  pic: 'https://i.redd.it/nz8aqgez6vs01.jpg'
+                },
+                {
+                  pic: 'https://i.imgur.com/2nCt3Sbl.jpg'
+                },
+                {
+                  pic: 'https://i.imgur.com/lceHsT6l.jpg'
+                },
+                {
+                  pic: 'https://i.imgur.com/KZsmUi2l.jpg'
+                },
+                {
+                  pic: 'https://i.imgur.com/2nCt3Sbl.jpg'
+                },
+                {
+                  pic: 'https://i.imgur.com/lceHsT6l.jpg'
+                }
+              ]}
+              renderItem={this.renderItem}
+              sliderWidth={300}
+              sliderHeight={300}
+              itemWidth={300}
+              itemHeight={300}
+              layout={'tinder'}
+              layoutCardOffset={0}
+      />
+      </View>
+      </View>
+    );
+  }
+
+  renderPointsCards = () => {
+    const {
       sectionStyle,
-      headerImage,
-      nameStyle,
       cardContentStyle,
-      statusStyle,
       cardStyle,
       shadowStyle,
       cardBackgroundStyle,
       cardTitleStyle,
+    } = styles;
+    return (
+      <TouchableOpacity onPress={this.goToPoints}>
+      <View style={[sectionStyle, { marginTop: 25 }]}>
+        <View style={[cardStyle, shadowStyle, { marginRight: 5 }]}>
+          <ImageBackground
+            style={[cardStyle, cardBackgroundStyle]}
+            source={require("./images/rank.png")}
+          >
+            <Text style={cardContentStyle}>{this.state.rank}</Text>
+            <Text style={cardTitleStyle}>ترتيبك</Text>
+          </ImageBackground>
+        </View>
+        <View style={[cardStyle, shadowStyle, { marginLeft: 5 }]}>
+          <ImageBackground
+            style={[cardStyle, cardBackgroundStyle]}
+            source={require("./images/pts.png")}
+          >
+            <Text style={cardContentStyle}>{this.state.points}</Text>
+            <Text style={cardTitleStyle}>نقاطك</Text>
+          </ImageBackground>
+        </View>
+      </View>
+    </TouchableOpacity>
+    );
+  }
+
+  renderEventsCard = () => {
+    const {
+      shadowStyle,
+      qotdCardStyle,
+    } = styles;
+    return (
+      <View style={[qotdCardStyle, shadowStyle]}>
+          <Text
+            style={{
+              fontSize: normalize(14),
+              fontWeight: "bold",
+              color: "#43484d",
+              textAlign: "center",
+              marginTop: 15
+            }}
+          >
+            المشاريع الي سجلت فيها
+          </Text>
+          <View style={styles.line} />
+          {this.renderUserEvents()}
+        </View>
+    );
+  }
+  renderQuote = () => {
+    const {
+      shadowStyle,
       qotdCardStyle,
       qotdContentStyle,
       qotdWriterContentStyle
     } = styles;
+    return (
+      <View style={[qotdCardStyle, shadowStyle]}>
+      <Text
+        style={{
+          fontSize: normalize(14),
+          fontWeight: "bold",
+          color: "#43484d",
+          textAlign: "center",
+          marginTop: 15
+        }}
+      >
+        كلام ما يهمك
+      </Text>
+      <View style={styles.line} />
+      <Text style={qotdContentStyle}>{this.state.qotd}</Text>
+      <Text style={qotdWriterContentStyle}>{'"-' + this.state.qotdWriter + '"'}</Text>
+    </View>
+    );
+  }
+  renderTopSection = () => {
+
+    const {
+      sectionStyle,
+      nameStyle,
+      statusStyle,
+    } = styles;
+    return (
+      <View>
+      <Text style={nameStyle}>
+        {this.state.firstName} {this.state.lastName}
+      </Text>
+      <Text style={statusStyle}>{this.state.status}</Text>
+      
+      
+      {this.renderPointsCards()}
+
+      <View style={[sectionStyle, { marginTop: 10 }]}>
+      {this.renderQuote()}
+      </View>
+
+      <View style={[sectionStyle, { marginTop: 10, marginBottom: 10 }]}>
+        {this.renderEventsCard()}
+      </View>
+    </View>
+    );
+  }
+  renderAwesomeAlert= () => {
+    return (
+    <AwesomeAlert
+            show={this.state.showNoWhatsappAlert}
+            showProgress={false}
+            title="نعتذر منك"
+            message="رئيس مشروعك زبال ما سوى قروب واتساب"
+            showCancelButton={false}
+            confirmText="طيب"
+            onConfirmPressed={() => {
+              this.hideAlert();
+            }}
+    />
+    );
+  }
+
+  render() {
+    if (this.state.loading) {
+      return this.renderSpinner();
+    }
+    const {
+      pageStyle,
+      headerImage,
+    } = styles;
+
     return (
       <View style={{ flex: 1 }}>
         <StatusBar backgroundColor="#1976D2" />
@@ -225,127 +388,23 @@ class Home extends Component {
               />
             }
           >
+
             {this.renderProfilePhoto()}
+            
+            {/* includes the points and rank card, Quote card and events card */}
+            {this.renderTopSection()}              
 
-            <View>
-              <Text style={nameStyle}>
-                {this.state.firstName} {this.state.lastName}
-              </Text>
-              <Text style={statusStyle}>{this.state.status}</Text>
+            {this.renderCarousel()}
 
-              <TouchableOpacity onPress={this.goToPoints}>
-                <View style={[sectionStyle, { marginTop: 25 }]}>
-                  <View style={[cardStyle, shadowStyle, { marginRight: 5 }]}>
-                    <ImageBackground
-                      style={[cardStyle, cardBackgroundStyle]}
-                      source={require("./images/rank.png")}
-                    >
-                      <Text style={cardContentStyle}>{this.state.rank}</Text>
-                      <Text style={cardTitleStyle}>ترتيبك</Text>
-                    </ImageBackground>
-                  </View>
-                  <View style={[cardStyle, shadowStyle, { marginLeft: 5 }]}>
-                    <ImageBackground
-                      style={[cardStyle, cardBackgroundStyle]}
-                      source={require("./images/pts.png")}
-                    >
-                      <Text style={cardContentStyle}>{this.state.points}</Text>
-                      <Text style={cardTitleStyle}>نقاطك</Text>
-                    </ImageBackground>
-                  </View>
-                </View>
-              </TouchableOpacity>
-
-              <View style={[sectionStyle, { marginTop: 10 }]}>
-                <View style={[qotdCardStyle, shadowStyle]}>
-                  <Text
-                    style={{
-                      fontSize: normalize(14),
-                      fontWeight: "bold",
-                      color: "#43484d",
-                      textAlign: "center",
-                      marginTop: 15
-                    }}
-                  >
-                    كلام ما يهمك
-                  </Text>
-                  <View style={styles.line} />
-                  <Text style={qotdContentStyle}>{this.state.qotd}</Text>
-                  <Text style={qotdWriterContentStyle}>{'"-' + this.state.qotdWriter + '"'}</Text>
-                </View>
-              </View>
-
-              <View style={[sectionStyle, { marginTop: 10, marginBottom: 10 }]}>
-                <View style={[qotdCardStyle, shadowStyle]}>
-                  <Text
-                    style={{
-                      fontSize: normalize(14),
-                      fontWeight: "bold",
-                      color: "#43484d",
-                      textAlign: "center",
-                      marginTop: 15
-                    }}
-                  >
-                    المشاريع الي سجلت فيها
-                  </Text>
-                  <View style={styles.line} />
-                  {this.renderUserEvents()}
-                </View>
-              </View>
-            </View>
-            <View style={[sectionStyle, { marginTop: 10, marginBottom: 10 }]}>
-              <View style={[qotdCardStyle, shadowStyle]}>
-                <Carousel
-                  data={[
-                    {
-                      pic: 'https://i.redd.it/nz8aqgez6vs01.jpg'
-                    },
-                    {
-                      pic: 'https://i.imgur.com/2nCt3Sbl.jpg'
-                    },
-                    {
-                      pic: 'https://i.imgur.com/lceHsT6l.jpg'
-                    },
-                    {
-                      pic: 'https://i.imgur.com/KZsmUi2l.jpg'
-                    },
-                    {
-                      pic: 'https://i.imgur.com/2nCt3Sbl.jpg'
-                    },
-                    {
-                      pic: 'https://i.imgur.com/lceHsT6l.jpg'
-                    }
-                  ]}
-                  renderItem={this._renderItem}
-                  sliderWidth={300}
-                  sliderHeight={300}
-                  itemWidth={300}
-                  itemHeight={300}
-                  layout={'tinder'}
-                  layoutCardOffset={0}
-                  useScrollView={true}
-                />
-              </View>
-            </View>
           </ScrollView>
-          <AwesomeAlert
-            show={this.state.showNoWhatsappAlert}
-            showProgress={false}
-            title="نعتذر منك"
-            message="رئيس مشروعك زبال ما سوى قروب واتساب"
-            closeOnTouchOutside={true}
-            closeOnHardwareBackPress={true}
-            showCancelButton={false}
-            showConfirmButton={true}
-            confirmText="طيب"
-            onConfirmPressed={() => {
-              this.hideAlert();
-            }}
-          />
+          {this.renderAwesomeAlert()}
+
+
         </ImageBackground>
       </View>
     );
   }
+
 }
 const styles = {
   pageStyle: {

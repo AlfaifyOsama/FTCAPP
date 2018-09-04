@@ -9,7 +9,7 @@ import { Spinner } from './common';
 
 class Points extends Component {
 
-  state = { data: [], stats: [], index: 0, refreshing: false, loading: true };
+  state = { data: [], weeklyLeaderBoard: [], index: 0, refreshing: false, loading: true };
 
 
   componentDidMount() {
@@ -27,10 +27,10 @@ class Points extends Component {
     });
     instance.get(BaseURL + '/points/getAllPoints')
       .then((response) => {
-        // console.log(response.data);
+         console.log(response.data);
         // console.log(response.data[0]);
         if (response.status == 200) {
-          this.setState({ data: response.data[0], stats: response.data[1] });
+          this.setState({ data: response.data[0], weeklyLeaderBoard: response.data[2] });
         }
 
       })
@@ -38,6 +38,7 @@ class Points extends Component {
         //console.log(error.response);
         alert('فيه مشكلة، حاول مرة ثانية');
       });
+      
       this.setState({ loading: false });
   }
 
@@ -74,24 +75,20 @@ class Points extends Component {
   }
 
 
-  displayStats = () => {
-    const { statsStyle } = styles;
-
-    return (<Card title='احصائيات'>
-            <Text style={statsStyle}> مجموع النقاط : {this.state.stats.pointsTotal}</Text>
-            <Text style={statsStyle}> عدد الاعضاء : {this.state.stats.numOfUsers}</Text>
-            <Text style={statsStyle}> المتوسط : {this.state.stats.avgOfPoints}</Text>
-            <Text style={statsStyle}> الوسيط : {this.state.stats.median}</Text>
-            <Text style={statsStyle}> مجموع النقاط آخر اسبوع : {this.state.stats.lastWeekPoints}</Text>
-            <Text style={statsStyle}> متوسط النقاط اخر اسبوع : {this.state.stats.lastWeekAvg}</Text>
-
-          </Card>);
+  displayWeeklyPoints = () => {
+    return (<Leaderboards
+      data={this.state.weeklyLeaderBoard}
+      sortBy='value'
+      labelBy='name'
+      icon='true'
+      onRowPress={(item, index) => this.onNamePress(item, index)}
+      />);
   }
   
 
   _onRefresh() {
     this.setState({ refreshing: true });
-    this.updateIndex(0);
+    this.updateIndex(this.state.index);
     this.getInfo();
     this.setState({ refreshing: false });
   }
@@ -100,7 +97,6 @@ class Points extends Component {
     if (this.state.loading){
       return (<Spinner />);
       }
-      const buttons = ['Hello', 'World'];
       const { selectedIndex } = this.state
     
  
@@ -115,15 +111,15 @@ class Points extends Component {
           />
         }
       >
-            <ButtonGroup
-      selectedBackgroundColor="pink"
-      onPress={this.updateIndex}
-      selectedIndex={this.state.index}
-      buttons={['قائمة النقاط', 'الاحصائيات']}
-      containerStyle={{height: 30 }}
-            />
+         <ButtonGroup
+            selectedBackgroundColor="pink"
+            onPress={this.updateIndex}
+            selectedIndex={this.state.index}
+            buttons={['قائمة النقاط', 'قائمة النقاط الاسبوعية']}
+            containerStyle={{height: 30 }}
+          />
       <View>
-        {this.state.index === 0 ? this.displayLeaderBoard() : this.displayStats()}
+        {this.state.index === 0 ? this.displayLeaderBoard() : this.displayWeeklyPoints()}
         </View>
       </ScrollView>
     );
@@ -157,12 +153,7 @@ let styles = StyleSheet.create({
     marginBottom: 3,
     height: 'auto',
     borderWidth: 0,
-  },
-  statsStyle: {
-    marginBottom: 10,
-    textAlign: 'center',
-    fontSize: 20
-  },
+  }
 });
 
 export default Points;
